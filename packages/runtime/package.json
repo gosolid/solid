@@ -1,0 +1,91 @@
+{
+  "name": "@grexie/workers",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c",
+    "build:webpack": "NODE_OPTIONS=\"--loader ts-node/esm/transpile-only --no-warnings ${NODE_OPTIONS}\" webpack",
+    "start": "npm run -s build -- -w"
+  },
+  "exports": {
+    "./console": {
+      "default": "./lib/console.js"
+    },
+    "./crypto/node": {
+      "default": "./lib/crypto.js"
+    },
+    "./events/node": {
+      "default": "./lib/events.js"
+    },
+    "./fs": {
+      "default": "./lib/fs/index.js",
+      "types": "./lib/fs/index.d.ts"
+    },
+    "./fs/node": {
+      "default": "./lib/fs/node.js",
+      "types": "./lib/fs/index.d.ts"
+    },
+    "./http": {
+      "default": "./lib/http/index.js"
+    },
+    "./http/node": {
+      "default": "./lib/http/node.js"
+    },
+    "./net/node": {
+      "default": "./lib/net.js"
+    },
+    "./os/node": {
+      "default": "./lib/os.js"
+    },
+    "./path/node": {
+      "default": "./lib/path.js"
+    },
+    "./stream": {
+      "default": "./lib/stream.js"
+    },
+    "./stream/node": {
+      "default": "./lib/node-stream.js"
+    },
+    "./task": {
+      "default": "./lib/task.js"
+    },
+    "./text": {
+      "default": "./lib/text.js"
+    },
+    "./timers": {
+      "default": "./lib/timers.js"
+    },
+    "./tty/node": {
+      "default": "./lib/tty.js"
+    },
+    "./zlib/node": {
+      "default": "./lib/zlib.js"
+    }
+  },
+  "devDependencies": {
+    "@rollup/plugin-alias": "^5.0.0",
+    "@rollup/plugin-commonjs": "^25.0.3",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "@types/readable-stream": "^2.3.15",
+    "add-module-exports-webpack-plugin": "^2.0.0",
+    "ansi-colors": "^4.1.3",
+    "asynclist": "^0.0.3",
+    "babel-plugin-add-module-exports": "^1.0.4",
+    "browserify-zlib": "^0.2.0",
+    "crypto-browserify": "^3.12.0",
+    "emitter": "^0.0.5",
+    "events": "^3.3.0",
+    "path": "^0.12.7",
+    "readable-stream": "^4.4.2",
+    "readable-web-to-node-stream": "^3.0.2",
+    "rollup": "^3.26.2",
+    "rollup-plugin-define": "^1.0.1",
+    "stream": "^0.0.2",
+    "text-decoding": "^1.0.0",
+    "tty-browserify": "^0.0.1",
+    "web-streams-polyfill": "^3.2.1"
+  }
+}

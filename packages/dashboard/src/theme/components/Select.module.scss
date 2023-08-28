@@ -1,0 +1,44 @@
+@import './Control.mixins.scss';
+
+.select {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  position: relative;
+
+  &.control {
+    @include control;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex: 1 1 auto;
+  }
+
+  select {
+    flex: 1 1 auto;
+    appearance: none;
+    border: none;
+    font: inherit;
+    padding: 1em;
+    font-weight: bold;
+    font-size: 0.8em;
+    background: transparent;
+    outline: none;
+  }
+
+  .chevron {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    top: 50%;
+    margin: -0.5em 0.5em 0 1em;
+    flex: 0 0 auto;
+    color: #aaa;
+    pointer-events: none;
+  }
+}

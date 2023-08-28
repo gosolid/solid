@@ -1,0 +1,9 @@
+{
+  "name": "@grexie/tsconfig",
+  "version": "0.1.0",
+  "exports": {
+    "./tsconfig.base": {
+      "default": "./tsconfig.base.json"
+    }
+  }
+}

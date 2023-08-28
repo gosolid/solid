@@ -1,0 +1,21 @@
+{
+  "extends": "@grexie/tsconfig/tsconfig.base",
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "composite": true,
+    "outDir": "./lib",
+    "rootDir": "./",
+    "paths": {
+      "@grexie/workers/http": ["../runtime/src/http/index.ts"],
+      "@grexie/workers/fs": ["../runtime/src/fs/index.ts"],
+      "@grexie/workers/console": ["../runtime/src/console.ts"]
+    }
+  },
+  "include": [
+    "webpack.config.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/stream/events.cts"
+  ],
+  "references": [{ "path": "../runtime" }]
+}

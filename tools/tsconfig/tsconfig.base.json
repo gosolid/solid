@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "strict": true,
+    "allowJs": false,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "node16",
+    "isolatedModules": false,
+    "resolveJsonModule": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["node"]
+  }
+}

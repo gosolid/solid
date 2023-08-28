@@ -1,0 +1,11 @@
+.DS_Store
+/.cache
+/.next
+/build
+node_modules/
+yarn-error.log
+tsconfig.tsbuildinfo
+/public/sw.js
+/public/assets/site-manifest.json
+/out
+/src/hooks/useApollo.tsx

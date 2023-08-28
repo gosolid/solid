@@ -1,0 +1,21 @@
+overwrite: true
+schema: ../../api/src/resolvers/**/*.graphql
+documents:
+  - '../../api/src/resolvers/**/*.graphql'
+generates:
+  src/hooks/useApollo.tsx:
+    plugins:
+      - typescript
+      - typescript-resolvers
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true
+      gqlImport: 'graphql-tag'
+      scalars:
+        Void: void
+        JSON: any
+        BigInt: string
+        Byte: string
+        Date: string
+ignoreNoDocuments: false

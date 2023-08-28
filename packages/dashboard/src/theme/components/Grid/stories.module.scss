@@ -1,0 +1,10 @@
+.grid {
+  transform: translateZ(0);
+  position: relative;
+  height: 100vh;
+}
+
+:global(.docs-story) .grid {
+  height: 300px;
+  max-height: 300px;
+}

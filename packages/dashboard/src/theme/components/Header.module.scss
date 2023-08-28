@@ -1,0 +1,33 @@
+.header {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  font-size: 0.9em;
+  position: sticky;
+  top: 0;
+  padding: calc(1em + env(safe-area-inset-top, 0))
+    calc(1em + env(safe-area-inset-right, 0)) 1em
+    calc(1em + env(safe-area-inset-left, 0));
+  padding-top: calc(1em + env(safe-area-inset-top, 0));
+  background: linear-gradient(
+    to bottom,
+    var(--color-secondary) calc(100% - 3em),
+    var(--color-secondary-transparent) 100%
+  );
+  padding-bottom: 4em;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.logo {
+  margin-right: 1em;
+}
+
+@media only print {
+  .header {
+    position: relative;
+  }
+}

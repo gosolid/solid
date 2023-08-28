@@ -1,0 +1,131 @@
+@import './Control.mixins.scss';
+
+.input {
+  &.control {
+    @include control;
+  }
+
+  font: inherit;
+  width: auto;
+  min-width: 0;
+  padding: 0 1em;
+  max-width: auto;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  background: var(--color-control);
+  position: relative;
+
+  &.focused {
+    outline: var(--color-primary);
+  }
+
+  > * + * {
+    margin-left: 1em;
+  }
+
+  label,
+  button,
+  input {
+    font-size: 0.8em;
+  }
+
+  > label:first-child {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    padding: 1em 0;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  > button:last-child {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+    margin-right: calc(-1rem + 0.2em);
+    border-radius: calc(0.5em + 1px - 0.2em);
+    padding: 1em;
+    white-space: nowrap;
+
+    &::after {
+      border-radius: calc(0.5em + 1px - 0.2em);
+    }
+  }
+
+  > .in-field-group {
+    border-top: 1px solid #eee;
+    border-radius: 0;
+  }
+
+  > .wrapper {
+    padding-left: 1em;
+    margin-left: 0;
+    position: relative;
+
+    &:last-child {
+      padding-right: 1em;
+      margin-right: 0;
+    }
+
+    width: 100%;
+    min-width: 0;
+    max-width: auto;
+    flex: 1 1 auto;
+    background: transparent;
+
+    > input {
+      width: 100%;
+      padding: 1em 0;
+      height: 100%;
+      border: none;
+      outline: none;
+      font-family: inherit;
+      background: transparent;
+
+      &[type='color'] {
+        padding: 0.5em 0;
+        width: 40px;
+      }
+
+      &[type='number'] {
+        appearance: none;
+      }
+
+      &[type='file'] {
+        appearance: none;
+      }
+
+      &[type='checkbox'] {
+        padding: 0;
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        top: 50%;
+        margin-top: -8px;
+        border: initial;
+        box-shadow: initial;
+        border-radius: initial;
+        appearance: checkbox;
+      }
+    }
+  }
+}
+
+.input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  padding: 0;
+  position: relative;
+
+  &:checked::after {
+    content: '\00a0';
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    position: absolute;
+    border-radius: 2px;
+    background-color: var(--color-primary);
+  }
+}

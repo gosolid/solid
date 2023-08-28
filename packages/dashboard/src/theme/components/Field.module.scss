@@ -1,0 +1,71 @@
+@import './Control.mixins.scss';
+
+.field {
+  @include control;
+
+  label.in-field-group {
+    border-top: 1px solid #eee;
+  }
+}
+
+.field-group {
+  @include control;
+
+  > .field {
+    @include control-child;
+    position: relative;
+
+    &:first-child > *:not(button) {
+      border-top: none;
+    }
+  }
+}
+
+.spinner {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+
+  &:last-child {
+    margin-right: calc(-1rem + 0.2em);
+  }
+
+  > * {
+    flex: 1 1 auto;
+    padding: 0 0.5em !important;
+    border-radius: calc(0.5em + 1px - 0.2em) !important;
+
+    &:first-child {
+      border-bottom-left-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+
+      &::after {
+        border-radius: calc(0.5em + 1px - 0.2em);
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+      }
+
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+
+    &:last-child {
+      padding-top: 1px;
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+
+      &::after {
+        border-radius: calc(0.5em + 1px - 0.2em);
+        border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+      }
+
+      &:not(:hover):not(:active) {
+        border-top: none !important;
+      }
+    }
+  }
+}

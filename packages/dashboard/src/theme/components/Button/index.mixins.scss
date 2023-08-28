@@ -1,0 +1,130 @@
+@mixin button {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  flex-flow: row nowrap;
+  align-items: center;
+  cursor: pointer;
+
+  p {
+    color: inherit;
+  }
+
+  svg {
+    vertical-align: middle;
+    font-size: 1em;
+    line-height: 1.5em;
+    transform: translateZ(0);
+  }
+
+  > * + * {
+    margin-left: 0.7em;
+  }
+}
+
+@mixin button-primary {
+  @include button;
+
+  text-decoration: none;
+  position: relative;
+  cursor: pointer;
+  border: none;
+  background: var(--color-button);
+  border-radius: 0.7em;
+  padding: 1em 1.4em;
+  font: inherit;
+  font-weight: bold;
+  font-size: 0.7em;
+  color: var(--color-button-text);
+  transition: all 100ms ease-in-out;
+  text-transform: uppercase;
+  box-sizing: border-box;
+
+  &:hover {
+    box-shadow: 0 5px 10px 0 var(--color-shadow);
+    text-decoration: none;
+  }
+
+  &:active,
+  &.value {
+    transform: translateY(1px);
+    box-shadow: none;
+  }
+
+  &::after {
+    content: '\00a0';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    border-radius: 0.7em;
+    background: var(--color-secondary);
+    opacity: 0;
+    transition: opacity 250ms ease-in-out;
+  }
+
+  &:hover::after {
+    opacity: 0.2;
+  }
+
+  &:active::after,
+  &.value::after {
+    opacity: 0;
+  }
+}
+
+@mixin button-secondary {
+  @include button;
+
+  text-decoration: none;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid var(--color-button);
+  background: var(--color-secondary);
+  border-radius: 0.7em;
+  padding: 1.4em 2.8em;
+  font: inherit;
+  font-weight: bold;
+  font-size: 0.7em;
+  color: var(--color-button);
+  transition: all 100ms ease-in-out;
+  text-transform: uppercase;
+  box-sizing: border-box;
+
+  &:hover,
+  &.value {
+    box-shadow: 0 5px 10px 0 var(--color-shadow);
+    background: var(--color-button);
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  &:active,
+  &.value {
+    transform: translateY(1px);
+    box-shadow: none;
+  }
+
+  &::after {
+    content: '\00a0';
+    position: absolute;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    top: -1px;
+    border-radius: calc(0.7em + 0.5px);
+    background: var(--color-secondary);
+    opacity: 0;
+    transition: opacity 250ms ease-in-out;
+  }
+
+  &:hover::after {
+    opacity: 0.2;
+  }
+
+  &:active::after,
+  &.value::after {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,26 @@
+@import './Button/index.mixins.scss';
+
+.link {
+  display: inline-block;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  > * + * {
+    margin-left: 0.7em;
+  }
+
+  svg {
+    vertical-align: middle;
+    font-size: 1em;
+    line-height: 1.7em;
+    overflow: visible;
+  }
+
+  &.primary {
+    @include button-primary;
+  }
+
+  &.secondary {
+    @include button-secondary;
+  }
+}

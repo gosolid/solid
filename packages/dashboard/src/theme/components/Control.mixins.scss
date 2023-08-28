@@ -1,0 +1,15 @@
+@mixin control {
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5em;
+  background: var(--color-dialog);
+  overflow: hidden;
+  --color-secondary: var(--color-dialog);
+}
+
+@mixin control-child {
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  background: var(--color-dialog);
+}

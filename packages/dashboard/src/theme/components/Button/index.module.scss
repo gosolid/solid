@@ -1,0 +1,13 @@
+@import './index.mixins.scss';
+
+.button {
+  @include button;
+
+  &.primary {
+    @include button-primary;
+  }
+
+  &.secondary {
+    @include button-secondary;
+  }
+}

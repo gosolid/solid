@@ -1,0 +1,8 @@
+@import './Control.mixins.scss';
+
+.control {
+  > .wrapper {
+    @include control;
+    max-height: max-content;
+  }
+}

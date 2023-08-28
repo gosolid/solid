@@ -1,0 +1,30 @@
+{
+  "extends": "@grexie/tsconfig/tsconfig.base",
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "composite": true,
+    "esModuleInterop": true,
+    "outDir": "./lib",
+    "rootDir": "./src",
+    "target": "ES2022",
+    "module": "ES2022",
+    "paths": {
+      "@grexie/workers/console": ["./src/console.ts"],
+      "@grexie/workers/crypto/node": ["./src/crypto.ts"],
+      "@grexie/workers/events/node": ["./src/events.ts"],
+      "@grexie/workers/fs": ["./src/stream/index.ts"],
+      "@grexie/workers/fs/node": ["./src/stream/node.ts"],
+      "@grexie/workers/http": ["./src/http/index.ts"],
+      "@grexie/workers/http/node": ["./src/http/node.ts"],
+      "@grexie/workers/net/node": ["./src/net.ts"],
+      "@grexie/workers/path/node": ["./src/path.ts"],
+      "@grexie/workers/stream": ["./src/stream/index.ts"],
+      "@grexie/workers/stream/node": ["./src/stream/node.ts"],
+      "@grexie/workers/task": ["./src/task.ts"],
+      "@grexie/workers/text": ["./src/text.ts"],
+      "@grexie/workers/tty/node": ["./src/tty.ts"],
+      "@grexie/workers/zlib/node": ["./src/zlib.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

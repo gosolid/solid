@@ -1,0 +1,143 @@
+@import './reset.global.scss';
+
+@mixin dark-mode {
+  --font-primary: 'Open Sans', sans-serif;
+  --font-logo: Domine;
+  --color-primary: white;
+  --color-secondary: rgb(32, 20, 45);
+  --color-tertiary: #ffd700;
+  --color-button: #9342ea;
+  --color-border: #3b1663;
+  --color-secondary-transparent: rgb(32, 20, 45, 0);
+  --color-dialog: #ffffff;
+
+  --color-shadow: rgba(147, 66, 234, 0.5);
+  --color-shadow-light: rgba(147, 66, 234, 0.5);
+  --color-text: #dcc9ef;
+  --color-dialog-text: #6b5484;
+}
+
+@mixin light-mode {
+  --font-primary: -apple-system, BlinkMacSystemFont, System, 'Open Sans',
+    sans-serif;
+  --font-logo: Domine;
+  --color-primary: #9342ea;
+  --color-secondary: #fdfbff;
+  --color-tertiary: #ffd700;
+  --color-button: #9342ea;
+  --color-button-text: white;
+  --color-border: #e3d5f2;
+  --color-secondary-transparent: rgb(32, 20, 45, 0);
+  --color-dialog: #ffffff;
+
+  --color-shadow: rgba(147, 66, 234, 0.5);
+  --color-shadow-light: rgba(147, 66, 234, 0.5);
+  --color-text: #21073f;
+  --color-dialog-text: #110222;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    @include dark-mode;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    @include light-mode;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  min-height: max-content;
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1 1 auto;
+  color: var(--color-text);
+  font-smooth: always;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: subpixel-antialiased;
+  overscroll-behavior: none;
+}
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+  background: transparent;
+  font-family: var(--font-primary);
+}
+
+@media only print {
+  :root {
+    @include light-mode;
+  }
+
+  body {
+    background: none;
+  }
+}
+
+#__next {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  flex: 1 1 auto;
+}
+
+.youtube {
+  border-radius: 1em;
+  overflow: hidden;
+  transform: translateY(0px);
+  box-shadow: 0 6px 12px var(--color-shadow);
+  background: var(--color-text);
+
+  > div {
+    position: relative;
+  }
+
+  margin: 0 auto;
+
+  & + * {
+    margin-top: 4em;
+  }
+
+  &.youtube-portrait {
+    max-width: 300px;
+
+    > div {
+      padding-bottom: 177.77%;
+    }
+  }
+
+  &.youtube-square {
+    > div {
+      padding-bottom: 100%;
+    }
+  }
+
+  &.youtube-landscape {
+    > div {
+      padding-bottom: 56.25%;
+    }
+  }
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@page {
+  size: auto;
+  margin: 1.4cm;
+}

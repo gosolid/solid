@@ -1,0 +1,33 @@
+@mixin dialog {
+  background: var(--color-dialog);
+  color: var(--color-text);
+  box-shadow: 0 0 1px var(--color-border), 0 2px 6px var(--color-shadow),
+    0 10px 40px var(--color-shadow-light);
+  max-width: max-content;
+  max-height: max-content;
+  padding: 1.4em;
+  border-radius: 0.5em;
+  font-size: 0.9em;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+
+  --color-secondary: var(--color-primary);
+  --color-primary: var(--color-dialog);
+
+  > * + * {
+    margin-top: 1em;
+  }
+
+  h1 {
+    font-weight: bold;
+    font-size: 1.4em;
+  }
+
+  h2 {
+    font-size: 1.2em;
+  }
+}
