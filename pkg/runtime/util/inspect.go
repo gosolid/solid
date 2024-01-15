@@ -2,6 +2,8 @@
 
 package util
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"context"
 	"fmt"
@@ -381,6 +383,8 @@ func serializeObject(ctx context.Context, object *isolates.Value, context serial
 		var err error
 		if o, err = o.GetPrototype(ctx); err != nil {
 			return "", err
+		} else if o.IsNil() {
+			break
 		} else if nextPrototype, err := o.GetPrototype(ctx); err != nil {
 			return "", err
 		} else if nextPrototype.IsNil() {

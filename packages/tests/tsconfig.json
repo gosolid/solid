@@ -1,0 +1,12 @@
+{
+  "extends": "@grexie/tsconfig/tsconfig.base",
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "composite": true,
+    "outDir": "./lib",
+    "rootDir": "./",
+    "module": "CommonJS",
+    "types": ["node", "mocha"]
+  },
+  "include": ["webpack.config.ts", "src/**/*.ts", "src/**/*.tsx"]
+}

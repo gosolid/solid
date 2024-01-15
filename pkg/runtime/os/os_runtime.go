@@ -6,7 +6,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("os", "/Users/tim/src/grexie/solid/pkg/runtime/os/os.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("os", "os.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   {
     fnName := "platform"
     if fn, err := in.Context.CreateFunction(in.ExecutionContext, &fnName, func (in isolates.FunctionArgs) (*isolates.Value, error) {

@@ -1,6 +1,8 @@
 //js:package net
 package net
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"context"
 	"fmt"

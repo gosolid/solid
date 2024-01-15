@@ -4,6 +4,8 @@ package path
 
 //go:generate go run github.com/grexie/isolates/codegen
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 type Import struct{}
 
 //js:method

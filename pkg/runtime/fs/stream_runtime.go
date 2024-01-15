@@ -6,7 +6,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("fs", "/Users/tim/src/grexie/solid/pkg/runtime/fs/stream.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("fs", "stream.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "ReadStream", func (in isolates.FunctionArgs) (*ReadStreamBase, error) {
     return NewReadStream(in)
   }); err != nil {

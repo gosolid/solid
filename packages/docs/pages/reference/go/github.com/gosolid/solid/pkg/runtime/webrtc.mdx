@@ -1,0 +1,907 @@
+---
+package: "github.com/gosolid/solid/pkg/runtime/webrtc"
+language: go
+---
+
+# webrtc
+
+```go
+import "github.com/gosolid/solid/pkg/runtime/webrtc"
+```
+
+## Index
+
+<ul>
+
+- [Variables](<#Variables>)
+
+<li parentName="ul"><a href="#AnswerMessage">
+
+```go
+type AnswerMessage
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#AnswerResponse">
+
+```go
+type AnswerResponse
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#DataChannel">
+
+```go
+type DataChannel
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewDataChannel">
+
+```go
+func NewDataChannel() *DataChannel
+```
+
+</a></li>
+<li parentName="ul"><a href="#DataChannel.Close">
+
+```go
+func (d *DataChannel) Close() error
+```
+
+</a></li>
+<li parentName="ul"><a href="#DataChannel.IsOpen">
+
+```go
+func (d *DataChannel) IsOpen() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#DataChannel.Label">
+
+```go
+func (d *DataChannel) Label() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#DataChannel.Read">
+
+```go
+func (d *DataChannel) Read(bytes []byte) (int, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#DataChannel.V8FuncClose">
+
+```go
+func (d *DataChannel) V8FuncClose(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#DataChannel.V8FuncRead">
+
+```go
+func (d *DataChannel) V8FuncRead(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#DataChannel.V8FuncWrite">
+
+```go
+func (d *DataChannel) V8FuncWrite(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#DataChannel.V8GetIsOpen">
+
+```go
+func (d *DataChannel) V8GetIsOpen(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#DataChannel.V8GetLabel">
+
+```go
+func (d *DataChannel) V8GetLabel(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#DataChannel.Write">
+
+```go
+func (d *DataChannel) Write(bytes []byte) (int, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#DataChannelOptions">
+
+```go
+type DataChannelOptions
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#ICECandidate">
+
+```go
+type ICECandidate
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#ID">
+
+```go
+type ID
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewID">
+
+```go
+func NewID() ID
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#OfferMessage">
+
+```go
+type OfferMessage
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#PeerConnection">
+
+```go
+type PeerConnection
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewPeerConnection">
+
+```go
+func NewPeerConnection(id ID, iceServers []string) (*PeerConnection, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.AddICECandidate">
+
+```go
+func (c *PeerConnection) AddICECandidate(candidate *ICECandidate) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.Close">
+
+```go
+func (c *PeerConnection) Close() error
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.CreateAnswer">
+
+```go
+func (c *PeerConnection) CreateAnswer(offer *SessionDescription) (*SessionDescription, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.CreateDataChannel">
+
+```go
+func (c *PeerConnection) CreateDataChannel(options *DataChannelOptions) (*DataChannel, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.CreateOffer">
+
+```go
+func (c *PeerConnection) CreateOffer() (*SessionDescription, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.DataChannels">
+
+```go
+func (c *PeerConnection) DataChannels() []*DataChannel
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.OnAnswer">
+
+```go
+func (c *PeerConnection) OnAnswer(answer *SessionDescription) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.OnClose">
+
+```go
+func (c *PeerConnection) OnClose(callback func() error) func()
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.OnConnected">
+
+```go
+func (c *PeerConnection) OnConnected(callback func() error) func()
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.OnConnecting">
+
+```go
+func (c *PeerConnection) OnConnecting(callback func() error) func()
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.OnConnectionStateChange">
+
+```go
+func (c *PeerConnection) OnConnectionStateChange(callback func(c PeerConnectionState) error) func()
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.OnICECandidate">
+
+```go
+func (c *PeerConnection) OnICECandidate(callback func(i *ICECandidate) error) func()
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.OnRemoteDataChannel">
+
+```go
+func (c *PeerConnection) OnRemoteDataChannel(callback func(*DataChannel) error) func()
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.State">
+
+```go
+func (c *PeerConnection) State() PeerConnectionState
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.V8FuncAddICECandidate">
+
+```go
+func (c *PeerConnection) V8FuncAddICECandidate(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.V8FuncClose">
+
+```go
+func (c *PeerConnection) V8FuncClose(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.V8FuncCreateAnswer">
+
+```go
+func (c *PeerConnection) V8FuncCreateAnswer(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.V8FuncCreateDataChannel">
+
+```go
+func (c *PeerConnection) V8FuncCreateDataChannel(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.V8FuncCreateOffer">
+
+```go
+func (c *PeerConnection) V8FuncCreateOffer(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.V8FuncWait">
+
+```go
+func (c *PeerConnection) V8FuncWait(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.V8GetChannels">
+
+```go
+func (c *PeerConnection) V8GetChannels(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.V8GetState">
+
+```go
+func (c *PeerConnection) V8GetState(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PeerConnection.Wait">
+
+```go
+func (c *PeerConnection) Wait() error
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#PeerConnectionState">
+
+```go
+type PeerConnectionState
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#SessionDescription">
+
+```go
+type SessionDescription
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#WebRTC">
+
+```go
+type WebRTC
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewWebRTC">
+
+```go
+func NewWebRTC() *WebRTC
+```
+
+</a></li>
+<li parentName="ul"><a href="#WebRTC.NewPeerConnection">
+
+```go
+func (rtc *WebRTC) NewPeerConnection(id ID, iceServers []string) (*PeerConnection, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WebRTC.V8FuncCreatePeerConnection">
+
+```go
+func (rtc *WebRTC) V8FuncCreatePeerConnection(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li>
+
+</ul>
+
+<a id="Variables" />
+
+## Variables
+
+<a name="PeerConnectionStateClosed"></a>
+
+```go
+var PeerConnectionStateClosed = "closed"
+```
+
+<a name="PeerConnectionStateConnecting"></a>
+
+```go
+var PeerConnectionStateConnecting = "connecting"
+```
+
+<a name="PeerConnectionStateOpen"></a>
+
+```go
+var PeerConnectionStateOpen = "open"
+```
+
+<a id="AnswerMessage"></a>
+
+## type AnswerMessage
+
+
+
+```go
+type AnswerMessage struct {
+    SessionDescription *SessionDescription `json:"sessionDescription"`
+}
+```
+
+<a id="AnswerResponse"></a>
+
+## type AnswerResponse
+
+
+
+```go
+type AnswerResponse struct {
+    ID ID
+}
+```
+
+<a id="DataChannel"></a>
+
+## type DataChannel
+
+
+
+```go
+type DataChannel struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewDataChannel" />
+
+### func NewDataChannel
+
+```go
+func NewDataChannel() *DataChannel
+```
+
+
+
+<a id="DataChannel.Close" />
+
+### func \(\*DataChannel\) Close
+
+```go
+func (d *DataChannel) Close() error
+```
+
+
+
+<a id="DataChannel.IsOpen" />
+
+### func \(\*DataChannel\) IsOpen
+
+```go
+func (d *DataChannel) IsOpen() bool
+```
+
+
+
+<a id="DataChannel.Label" />
+
+### func \(\*DataChannel\) Label
+
+```go
+func (d *DataChannel) Label() string
+```
+
+
+
+<a id="DataChannel.Read" />
+
+### func \(\*DataChannel\) Read
+
+```go
+func (d *DataChannel) Read(bytes []byte) (int, error)
+```
+
+
+
+<a id="DataChannel.V8FuncClose" />
+
+### func \(\*DataChannel\) V8FuncClose
+
+```go
+func (d *DataChannel) V8FuncClose(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="DataChannel.V8FuncRead" />
+
+### func \(\*DataChannel\) V8FuncRead
+
+```go
+func (d *DataChannel) V8FuncRead(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="DataChannel.V8FuncWrite" />
+
+### func \(\*DataChannel\) V8FuncWrite
+
+```go
+func (d *DataChannel) V8FuncWrite(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="DataChannel.V8GetIsOpen" />
+
+### func \(\*DataChannel\) V8GetIsOpen
+
+```go
+func (d *DataChannel) V8GetIsOpen(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="DataChannel.V8GetLabel" />
+
+### func \(\*DataChannel\) V8GetLabel
+
+```go
+func (d *DataChannel) V8GetLabel(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="DataChannel.Write" />
+
+### func \(\*DataChannel\) Write
+
+```go
+func (d *DataChannel) Write(bytes []byte) (int, error)
+```
+
+
+
+<a id="DataChannelOptions"></a>
+
+## type DataChannelOptions
+
+
+
+```go
+type DataChannelOptions = webrtc.DataChannelInit
+```
+
+<a id="ICECandidate"></a>
+
+## type ICECandidate
+
+
+
+```go
+type ICECandidate webrtc.ICECandidateInit
+```
+
+<a id="ID"></a>
+
+## type ID
+
+
+
+```go
+type ID string
+```
+
+<a id="NewID" />
+
+### func NewID
+
+```go
+func NewID() ID
+```
+
+
+
+<a id="OfferMessage"></a>
+
+## type OfferMessage
+
+
+
+```go
+type OfferMessage struct {
+    ID                 ID
+    SessionDescription *SessionDescription `json:"sessionDescription"`
+}
+```
+
+<a id="PeerConnection"></a>
+
+## type PeerConnection
+
+
+
+```go
+type PeerConnection struct {
+    ID ID
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewPeerConnection" />
+
+### func NewPeerConnection
+
+```go
+func NewPeerConnection(id ID, iceServers []string) (*PeerConnection, error)
+```
+
+
+
+<a id="PeerConnection.AddICECandidate" />
+
+### func \(\*PeerConnection\) AddICECandidate
+
+```go
+func (c *PeerConnection) AddICECandidate(candidate *ICECandidate) error
+```
+
+
+
+<a id="PeerConnection.Close" />
+
+### func \(\*PeerConnection\) Close
+
+```go
+func (c *PeerConnection) Close() error
+```
+
+
+
+<a id="PeerConnection.CreateAnswer" />
+
+### func \(\*PeerConnection\) CreateAnswer
+
+```go
+func (c *PeerConnection) CreateAnswer(offer *SessionDescription) (*SessionDescription, error)
+```
+
+
+
+<a id="PeerConnection.CreateDataChannel" />
+
+### func \(\*PeerConnection\) CreateDataChannel
+
+```go
+func (c *PeerConnection) CreateDataChannel(options *DataChannelOptions) (*DataChannel, error)
+```
+
+
+
+<a id="PeerConnection.CreateOffer" />
+
+### func \(\*PeerConnection\) CreateOffer
+
+```go
+func (c *PeerConnection) CreateOffer() (*SessionDescription, error)
+```
+
+
+
+<a id="PeerConnection.DataChannels" />
+
+### func \(\*PeerConnection\) DataChannels
+
+```go
+func (c *PeerConnection) DataChannels() []*DataChannel
+```
+
+
+
+<a id="PeerConnection.OnAnswer" />
+
+### func \(\*PeerConnection\) OnAnswer
+
+```go
+func (c *PeerConnection) OnAnswer(answer *SessionDescription) error
+```
+
+
+
+<a id="PeerConnection.OnClose" />
+
+### func \(\*PeerConnection\) OnClose
+
+```go
+func (c *PeerConnection) OnClose(callback func() error) func()
+```
+
+
+
+<a id="PeerConnection.OnConnected" />
+
+### func \(\*PeerConnection\) OnConnected
+
+```go
+func (c *PeerConnection) OnConnected(callback func() error) func()
+```
+
+
+
+<a id="PeerConnection.OnConnecting" />
+
+### func \(\*PeerConnection\) OnConnecting
+
+```go
+func (c *PeerConnection) OnConnecting(callback func() error) func()
+```
+
+
+
+<a id="PeerConnection.OnConnectionStateChange" />
+
+### func \(\*PeerConnection\) OnConnectionStateChange
+
+```go
+func (c *PeerConnection) OnConnectionStateChange(callback func(c PeerConnectionState) error) func()
+```
+
+
+
+<a id="PeerConnection.OnICECandidate" />
+
+### func \(\*PeerConnection\) OnICECandidate
+
+```go
+func (c *PeerConnection) OnICECandidate(callback func(i *ICECandidate) error) func()
+```
+
+
+
+<a id="PeerConnection.OnRemoteDataChannel" />
+
+### func \(\*PeerConnection\) OnRemoteDataChannel
+
+```go
+func (c *PeerConnection) OnRemoteDataChannel(callback func(*DataChannel) error) func()
+```
+
+
+
+<a id="PeerConnection.State" />
+
+### func \(\*PeerConnection\) State
+
+```go
+func (c *PeerConnection) State() PeerConnectionState
+```
+
+
+
+<a id="PeerConnection.V8FuncAddICECandidate" />
+
+### func \(\*PeerConnection\) V8FuncAddICECandidate
+
+```go
+func (c *PeerConnection) V8FuncAddICECandidate(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="PeerConnection.V8FuncClose" />
+
+### func \(\*PeerConnection\) V8FuncClose
+
+```go
+func (c *PeerConnection) V8FuncClose(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="PeerConnection.V8FuncCreateAnswer" />
+
+### func \(\*PeerConnection\) V8FuncCreateAnswer
+
+```go
+func (c *PeerConnection) V8FuncCreateAnswer(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="PeerConnection.V8FuncCreateDataChannel" />
+
+### func \(\*PeerConnection\) V8FuncCreateDataChannel
+
+```go
+func (c *PeerConnection) V8FuncCreateDataChannel(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="PeerConnection.V8FuncCreateOffer" />
+
+### func \(\*PeerConnection\) V8FuncCreateOffer
+
+```go
+func (c *PeerConnection) V8FuncCreateOffer(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="PeerConnection.V8FuncWait" />
+
+### func \(\*PeerConnection\) V8FuncWait
+
+```go
+func (c *PeerConnection) V8FuncWait(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="PeerConnection.V8GetChannels" />
+
+### func \(\*PeerConnection\) V8GetChannels
+
+```go
+func (c *PeerConnection) V8GetChannels(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="PeerConnection.V8GetState" />
+
+### func \(\*PeerConnection\) V8GetState
+
+```go
+func (c *PeerConnection) V8GetState(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="PeerConnection.Wait" />
+
+### func \(\*PeerConnection\) Wait
+
+```go
+func (c *PeerConnection) Wait() error
+```
+
+
+
+<a id="PeerConnectionState"></a>
+
+## type PeerConnectionState
+
+
+
+```go
+type PeerConnectionState = string
+```
+
+<a id="SessionDescription"></a>
+
+## type SessionDescription
+
+
+
+```go
+type SessionDescription webrtc.SessionDescription
+```
+
+<a id="WebRTC"></a>
+
+## type WebRTC
+
+
+
+```go
+type WebRTC struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewWebRTC" />
+
+### func NewWebRTC
+
+```go
+func NewWebRTC() *WebRTC
+```
+
+
+
+<a id="WebRTC.NewPeerConnection" />
+
+### func \(\*WebRTC\) NewPeerConnection
+
+```go
+func (rtc *WebRTC) NewPeerConnection(id ID, iceServers []string) (*PeerConnection, error)
+```
+
+
+
+<a id="WebRTC.V8FuncCreatePeerConnection" />
+
+### func \(\*WebRTC\) V8FuncCreatePeerConnection
+
+```go
+func (rtc *WebRTC) V8FuncCreatePeerConnection(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+

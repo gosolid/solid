@@ -7,7 +7,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("stream", "/Users/tim/src/grexie/solid/pkg/runtime/stream/duplex.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("stream", "duplex.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "Duplex", func (in isolates.FunctionArgs) (*DuplexBase, error) {
     return NewDuplex(in)
   }); err != nil {

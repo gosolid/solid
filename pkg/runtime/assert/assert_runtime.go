@@ -6,7 +6,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("assert", "/Users/tim/src/grexie/solid/pkg/runtime/assert/assert.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("assert", "assert.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   {
     fnName := "notStrictEqual"
     if fn, err := in.Context.CreateFunction(in.ExecutionContext, &fnName, func (in isolates.FunctionArgs) (*isolates.Value, error) {

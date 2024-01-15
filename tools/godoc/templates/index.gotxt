@@ -1,0 +1,44 @@
+<ul>{{- "\n\n" -}}
+
+{{- if len .Consts -}}
+
+	{{- (link "Constants" (rawLocalHref "Constants")) | listEntry 0 -}}
+	{{- spacer -}}
+	
+{{- end -}}
+
+{{- if len .Vars -}}
+
+	{{- (link "Variables" (rawLocalHref "Variables")) | listEntry 0 -}}
+	{{- spacer -}}
+
+{{- end -}}
+
+{{- range .Funcs -}}
+
+  {{- spacer -}}
+  {{- printf "<li parentName=\"ul\"><a href=\"#%s\">\n\n```go\n%s\n```\n\n</a></li>" .Anchor .Signature -}}
+	{{- spacer -}}
+
+{{- end -}}
+
+{{- range .Types -}}
+
+	{{- printf "<li parentName=\"ul\"><a href=\"#%s\">\n\n```go\n%s\n```\n\n</a><ul>" .Anchor .Title -}}
+	{{- inlineSpacer -}}
+
+	{{- range .Funcs -}}
+		{{- printf "<li parentName=\"ul\"><a href=\"#%s\">\n\n```go\n%s\n```\n\n</a></li>" .Anchor .Signature -}}
+		{{- inlineSpacer -}}
+	{{- end -}}
+
+	{{- range .Methods -}}
+		{{- printf "<li parentName=\"ul\"><a href=\"#%s\">\n\n```go\n%s\n```\n\n</a></li>" .Anchor .Signature -}}
+		{{- inlineSpacer -}}
+	{{- end -}}
+
+  </ul></li>
+
+{{- end -}}
+
+{{- "\n\n" -}}</ul>

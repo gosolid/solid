@@ -7,7 +7,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("fs", "/Users/tim/src/grexie/solid/pkg/runtime/fs/local.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("fs", "local.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "LocalFileSystem", func (in isolates.FunctionArgs) (*localfs, error) {
     var _path string
     if v, err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&_path).Elem()); err != nil {
@@ -433,14 +433,6 @@ func (f *localfile) V8FuncClose(in isolates.FunctionArgs) (*isolates.Value, erro
       }
     }
     return nil, nil
-  }
-}
-
-func (f *localfile) V8FuncCreateReadStream(in isolates.FunctionArgs) (*isolates.Value, error) {
-  if result, err := f.ReadStream(in.ExecutionContext); err != nil {
-    return nil, err
-  } else {
-    return in.Context.Create(in.ExecutionContext, result)
   }
 }
 

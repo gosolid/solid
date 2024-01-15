@@ -1,0 +1,100 @@
+---
+package: "github.com/gosolid/solid/pkg/client"
+language: go
+---
+
+# client
+
+```go
+import "github.com/gosolid/solid/pkg/client"
+```
+
+## Index
+
+<ul>
+
+
+
+<li parentName="ul"><a href="#NewFlagSet">
+
+```go
+func NewFlagSet() *flag.FlagSet
+```
+
+</a></li>
+
+
+
+<li parentName="ul"><a href="#Run">
+
+```go
+func Run(flagSet *flag.FlagSet) error
+```
+
+</a></li>
+
+<li parentName="ul"><a href="#QuietFlagSet">
+
+```go
+type QuietFlagSet
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#TaskOptions">
+
+```go
+type TaskOptions
+```
+
+</a><ul>
+</ul></li>
+
+</ul>
+
+<a id="NewFlagSet" />
+
+## func NewFlagSet
+
+```go
+func NewFlagSet() *flag.FlagSet
+```
+
+
+
+<a id="Run" />
+
+## func Run
+
+```go
+func Run(flagSet *flag.FlagSet) error
+```
+
+
+
+<a id="QuietFlagSet"></a>
+
+## type QuietFlagSet
+
+
+
+```go
+type QuietFlagSet struct {
+    *flag.FlagSet
+}
+```
+
+<a id="TaskOptions"></a>
+
+## type TaskOptions
+
+
+
+```go
+type TaskOptions struct {
+    WorkingDirectory string            `v8:"cwd"`
+    Requires         []string          `v8:"requires"`
+    Script           string            `v8:"script"`
+    Env              map[string]string `v8:"env"`
+}
+```
+

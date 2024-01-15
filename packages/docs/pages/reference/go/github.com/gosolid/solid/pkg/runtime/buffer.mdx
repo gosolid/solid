@@ -1,0 +1,174 @@
+---
+package: "github.com/gosolid/solid/pkg/runtime/buffer"
+language: go
+---
+
+# buffer
+
+```go
+import "github.com/gosolid/solid/pkg/runtime/buffer"
+```
+
+## Index
+
+<ul>
+
+<li parentName="ul"><a href="#Buffer">
+
+```go
+type Buffer
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewBuffer">
+
+```go
+func NewBuffer(in isolates.FunctionArgs) *Buffer
+```
+
+</a></li>
+<li parentName="ul"><a href="#Buffer.Buffer">
+
+```go
+func (b *Buffer) Buffer() *isolates.Value
+```
+
+</a></li>
+<li parentName="ul"><a href="#Buffer.Length">
+
+```go
+func (b *Buffer) Length(ctx context.Context) (int, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Buffer.ToString">
+
+```go
+func (b *Buffer) ToString(ctx context.Context) (string, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Buffer.V8Construct">
+
+```go
+func (b Buffer) V8Construct(in isolates.FunctionArgs) (Buffer, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Buffer.V8FuncToString">
+
+```go
+func (b *Buffer) V8FuncToString(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Buffer.V8GetBuffer">
+
+```go
+func (b *Buffer) V8GetBuffer(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Buffer.V8GetLength">
+
+```go
+func (b *Buffer) V8GetLength(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li>
+
+</ul>
+
+<a id="Buffer"></a>
+
+## type Buffer
+
+
+
+```go
+type Buffer struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewBuffer" />
+
+### func NewBuffer
+
+```go
+func NewBuffer(in isolates.FunctionArgs) *Buffer
+```
+
+
+
+<a id="Buffer.Buffer" />
+
+### func \(\*Buffer\) Buffer
+
+```go
+func (b *Buffer) Buffer() *isolates.Value
+```
+
+
+
+<a id="Buffer.Length" />
+
+### func \(\*Buffer\) Length
+
+```go
+func (b *Buffer) Length(ctx context.Context) (int, error)
+```
+
+
+
+<a id="Buffer.ToString" />
+
+### func \(\*Buffer\) ToString
+
+```go
+func (b *Buffer) ToString(ctx context.Context) (string, error)
+```
+
+
+
+<a id="Buffer.V8Construct" />
+
+### func \(Buffer\) V8Construct
+
+```go
+func (b Buffer) V8Construct(in isolates.FunctionArgs) (Buffer, error)
+```
+
+
+
+<a id="Buffer.V8FuncToString" />
+
+### func \(\*Buffer\) V8FuncToString
+
+```go
+func (b *Buffer) V8FuncToString(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Buffer.V8GetBuffer" />
+
+### func \(\*Buffer\) V8GetBuffer
+
+```go
+func (b *Buffer) V8GetBuffer(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Buffer.V8GetLength" />
+
+### func \(\*Buffer\) V8GetLength
+
+```go
+func (b *Buffer) V8GetLength(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+

@@ -1,0 +1,8 @@
+{
+  "json": "../docs/js.json",
+  "name": "Sølid",
+  "githubPages": false,
+  "commentStyle": "all",
+  "tsconfig": "tsconfig.docs.json",
+  "readme": "none"
+}

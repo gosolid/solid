@@ -7,7 +7,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("http", "/Users/tim/src/grexie/solid/pkg/runtime/http/library.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("http", "library.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "Http", func (in isolates.FunctionArgs) (*HttpBase, error) {
     return NewHttp(in)
   }); err != nil {

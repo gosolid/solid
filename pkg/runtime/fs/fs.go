@@ -2,20 +2,30 @@
 
 package fs
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"context"
 	"fmt"
 	gofs "io/fs"
 	"os"
 
+	"github.com/gosolid/solid/pkg/runtime/buffer"
 	isolates "github.com/grexie/isolates"
 )
+
+var _ buffer.Buffer
 
 var _ FS = &fs{}
 var _ fsv8 = &fs{}
 
 type fs struct {
 	mounts mounts
+}
+
+//js:class File
+//js:export File
+type filebase struct {
 }
 
 //js:constructor FileSystem
@@ -80,6 +90,7 @@ func (f *fs) RealPath(ctx context.Context, p string) (string, error) {
 
 //js:method readFileSync
 //js:callback-method readFile
+//js:return buffer.Buffer
 func (fs *fs) ReadFile(ctx context.Context, path string) ([]byte, error) {
 	if mount, _, err := fs.mounts.Resolve(ctx, path); err != nil && !IsNotExists(err) {
 		return nil, err
@@ -210,4 +221,17 @@ func (fs *fs) Access(ctx context.Context, p string, args ...any) error {
 
 		return nil
 	}
+}
+
+//js:callback-method close
+//js:method closeSync
+func (f *filebase) Close(ctx context.Context) error {
+	return fmt.Errorf("not implemented")
+}
+
+//js:method readAllSync
+//js:callback-method readAll
+//js:return buffer.Buffer
+func (f *filebase) ReadAll(ctx context.Context) ([]byte, error) {
+	return nil, fmt.Errorf("not implemented")
 }

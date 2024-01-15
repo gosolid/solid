@@ -14,6 +14,7 @@ import (
 	"github.com/gosolid/solid/pkg/runtime/repl"
 	"github.com/gosolid/solid/pkg/runtime/stream"
 	"github.com/gosolid/solid/pkg/runtime/tty"
+	"github.com/gosolid/solid/pkg/runtime/url"
 	"github.com/gosolid/solid/pkg/runtime/util"
 	"github.com/gosolid/solid/pkg/runtime/webrtc"
 	"github.com/gosolid/solid/pkg/runtime/worker_threads"
@@ -39,6 +40,7 @@ var _ repl.Import
 var _ os.Import
 var _ worker_threads.Import
 var _ webrtc.PeerConnection
+var _ url.Import
 
 func AddRuntime() error {
 	f := fs.NewFS()

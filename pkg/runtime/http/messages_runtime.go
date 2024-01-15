@@ -9,7 +9,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("http", "/Users/tim/src/grexie/solid/pkg/runtime/http/messages.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("http", "messages.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "IncomingMessage", func (in isolates.FunctionArgs) (*IncomingMessageBase, error) {
     return NewIncomingMessage(in)
   }); err != nil {

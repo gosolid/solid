@@ -7,7 +7,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("events", "/Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("events", "emitter.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "EventEmitter", func (in isolates.FunctionArgs) (*EventEmitterBase, error) {
     return NewEventEmitter(in), nil
   }); err != nil {

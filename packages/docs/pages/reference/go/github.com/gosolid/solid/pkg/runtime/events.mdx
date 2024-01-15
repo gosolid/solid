@@ -1,0 +1,650 @@
+---
+package: "github.com/gosolid/solid/pkg/runtime/events"
+language: go
+---
+
+# events
+
+```go
+import "github.com/gosolid/solid/pkg/runtime/events"
+```
+
+## Index
+
+<ul>
+
+<li parentName="ul"><a href="#EventEmitter">
+
+```go
+type EventEmitter
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#EventEmitterBase">
+
+```go
+type EventEmitterBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewEventEmitter">
+
+```go
+func NewEventEmitter(in isolates.FunctionArgs) *EventEmitterBase
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.AddListener">
+
+```go
+func (e *EventEmitterBase) AddListener(ctx context.Context, eventName string, listener *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.AddListenerOnce">
+
+```go
+func (e *EventEmitterBase) AddListenerOnce(ctx context.Context, eventName string, listener *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.Emit">
+
+```go
+func (e *EventEmitterBase) Emit(ctx context.Context, eventName string, args ...any) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.EmitError">
+
+```go
+func (e *EventEmitterBase) EmitError(ctx context.Context, err error) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.EmitErrorValue">
+
+```go
+func (e *EventEmitterBase) EmitErrorValue(ctx context.Context, err *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.EventNames">
+
+```go
+func (e *EventEmitterBase) EventNames() []string
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.GetMaxListeners">
+
+```go
+func (e *EventEmitterBase) GetMaxListeners() int
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.ListenerCount">
+
+```go
+func (e *EventEmitterBase) ListenerCount(ctx context.Context, eventName string, listener *isolates.Value) (int, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.Listeners">
+
+```go
+func (e *EventEmitterBase) Listeners(eventName string) []*isolates.Value
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.PrependListener">
+
+```go
+func (e *EventEmitterBase) PrependListener(ctx context.Context, eventName string, listener *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.PrependListenerOnce">
+
+```go
+func (e *EventEmitterBase) PrependListenerOnce(ctx context.Context, eventName string, listener *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.RemoveAllListeners">
+
+```go
+func (e *EventEmitterBase) RemoveAllListeners(in isolates.FunctionArgs) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.RemoveListener">
+
+```go
+func (e *EventEmitterBase) RemoveListener(ctx context.Context, eventName string, listener *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.SetMaxListeners">
+
+```go
+func (e *EventEmitterBase) SetMaxListeners(maxListeners int)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8Construct">
+
+```go
+func (e *EventEmitterBase) V8Construct(in isolates.FunctionArgs) (*EventEmitterBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncAddListener">
+
+```go
+func (e *EventEmitterBase) V8FuncAddListener(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncEmit">
+
+```go
+func (e *EventEmitterBase) V8FuncEmit(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncEventNames">
+
+```go
+func (e *EventEmitterBase) V8FuncEventNames(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncGetMaxListeners">
+
+```go
+func (e *EventEmitterBase) V8FuncGetMaxListeners(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncListenerCount">
+
+```go
+func (e *EventEmitterBase) V8FuncListenerCount(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncListeners">
+
+```go
+func (e *EventEmitterBase) V8FuncListeners(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncOff">
+
+```go
+func (e *EventEmitterBase) V8FuncOff(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncOn">
+
+```go
+func (e *EventEmitterBase) V8FuncOn(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncOnce">
+
+```go
+func (e *EventEmitterBase) V8FuncOnce(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncPrependListener">
+
+```go
+func (e *EventEmitterBase) V8FuncPrependListener(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncPrependListenerOnce">
+
+```go
+func (e *EventEmitterBase) V8FuncPrependListenerOnce(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncRawListeners">
+
+```go
+func (e *EventEmitterBase) V8FuncRawListeners(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncRemoveAllListeners">
+
+```go
+func (e *EventEmitterBase) V8FuncRemoveAllListeners(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncRemoveListener">
+
+```go
+func (e *EventEmitterBase) V8FuncRemoveListener(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventEmitterBase.V8FuncSetMaxListeners">
+
+```go
+func (e *EventEmitterBase) V8FuncSetMaxListeners(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#EventHandler">
+
+```go
+type EventHandler
+```
+
+</a><ul>
+<li parentName="ul"><a href="#EventHandler.Add">
+
+```go
+func (h *EventHandler) Add(callback func(...any) error) func()
+```
+
+</a></li>
+<li parentName="ul"><a href="#EventHandler.Emit">
+
+```go
+func (h *EventHandler) Emit(args ...any) error
+```
+
+</a></li>
+</ul></li>
+
+</ul>
+
+<a id="EventEmitter"></a>
+
+## type EventEmitter
+
+
+
+```go
+type EventEmitter interface {
+    AddListener(ctx context.Context, eventName string, listener *isolates.Value) error
+    AddListenerOnce(ctx context.Context, eventName string, listener *isolates.Value) error
+    Emit(ctx context.Context, eventName string, args ...any) error
+    EmitError(ctx context.Context, err error) error
+    EmitErrorValue(ctx context.Context, err *isolates.Value) error
+    EventNames() []string
+    GetMaxListeners() int
+    SetMaxListeners(maxListeners int)
+    ListenerCount(ctx context.Context, eventName string, listener *isolates.Value) (int, error)
+    Listeners(eventName string) []*isolates.Value
+    RemoveListener(ctx context.Context, eventName string, listener *isolates.Value) error
+    RemoveAllListeners(in isolates.FunctionArgs) error
+    PrependListener(ctx context.Context, eventName string, listener *isolates.Value) error
+    PrependListenerOnce(ctx context.Context, eventName string, listener *isolates.Value) error
+}
+```
+
+<a id="EventEmitterBase"></a>
+
+## type EventEmitterBase
+
+
+
+```go
+type EventEmitterBase struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewEventEmitter" />
+
+### func NewEventEmitter
+
+```go
+func NewEventEmitter(in isolates.FunctionArgs) *EventEmitterBase
+```
+
+
+
+<a id="EventEmitterBase.AddListener" />
+
+### func \(\*EventEmitterBase\) AddListener
+
+```go
+func (e *EventEmitterBase) AddListener(ctx context.Context, eventName string, listener *isolates.Value) error
+```
+
+
+
+<a id="EventEmitterBase.AddListenerOnce" />
+
+### func \(\*EventEmitterBase\) AddListenerOnce
+
+```go
+func (e *EventEmitterBase) AddListenerOnce(ctx context.Context, eventName string, listener *isolates.Value) error
+```
+
+
+
+<a id="EventEmitterBase.Emit" />
+
+### func \(\*EventEmitterBase\) Emit
+
+```go
+func (e *EventEmitterBase) Emit(ctx context.Context, eventName string, args ...any) error
+```
+
+
+
+<a id="EventEmitterBase.EmitError" />
+
+### func \(\*EventEmitterBase\) EmitError
+
+```go
+func (e *EventEmitterBase) EmitError(ctx context.Context, err error) error
+```
+
+
+
+<a id="EventEmitterBase.EmitErrorValue" />
+
+### func \(\*EventEmitterBase\) EmitErrorValue
+
+```go
+func (e *EventEmitterBase) EmitErrorValue(ctx context.Context, err *isolates.Value) error
+```
+
+
+
+<a id="EventEmitterBase.EventNames" />
+
+### func \(\*EventEmitterBase\) EventNames
+
+```go
+func (e *EventEmitterBase) EventNames() []string
+```
+
+
+
+<a id="EventEmitterBase.GetMaxListeners" />
+
+### func \(\*EventEmitterBase\) GetMaxListeners
+
+```go
+func (e *EventEmitterBase) GetMaxListeners() int
+```
+
+
+
+<a id="EventEmitterBase.ListenerCount" />
+
+### func \(\*EventEmitterBase\) ListenerCount
+
+```go
+func (e *EventEmitterBase) ListenerCount(ctx context.Context, eventName string, listener *isolates.Value) (int, error)
+```
+
+
+
+<a id="EventEmitterBase.Listeners" />
+
+### func \(\*EventEmitterBase\) Listeners
+
+```go
+func (e *EventEmitterBase) Listeners(eventName string) []*isolates.Value
+```
+
+
+
+<a id="EventEmitterBase.PrependListener" />
+
+### func \(\*EventEmitterBase\) PrependListener
+
+```go
+func (e *EventEmitterBase) PrependListener(ctx context.Context, eventName string, listener *isolates.Value) error
+```
+
+
+
+<a id="EventEmitterBase.PrependListenerOnce" />
+
+### func \(\*EventEmitterBase\) PrependListenerOnce
+
+```go
+func (e *EventEmitterBase) PrependListenerOnce(ctx context.Context, eventName string, listener *isolates.Value) error
+```
+
+
+
+<a id="EventEmitterBase.RemoveAllListeners" />
+
+### func \(\*EventEmitterBase\) RemoveAllListeners
+
+```go
+func (e *EventEmitterBase) RemoveAllListeners(in isolates.FunctionArgs) error
+```
+
+
+
+<a id="EventEmitterBase.RemoveListener" />
+
+### func \(\*EventEmitterBase\) RemoveListener
+
+```go
+func (e *EventEmitterBase) RemoveListener(ctx context.Context, eventName string, listener *isolates.Value) error
+```
+
+
+
+<a id="EventEmitterBase.SetMaxListeners" />
+
+### func \(\*EventEmitterBase\) SetMaxListeners
+
+```go
+func (e *EventEmitterBase) SetMaxListeners(maxListeners int)
+```
+
+
+
+<a id="EventEmitterBase.V8Construct" />
+
+### func \(\*EventEmitterBase\) V8Construct
+
+```go
+func (e *EventEmitterBase) V8Construct(in isolates.FunctionArgs) (*EventEmitterBase, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncAddListener" />
+
+### func \(\*EventEmitterBase\) V8FuncAddListener
+
+```go
+func (e *EventEmitterBase) V8FuncAddListener(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncEmit" />
+
+### func \(\*EventEmitterBase\) V8FuncEmit
+
+```go
+func (e *EventEmitterBase) V8FuncEmit(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncEventNames" />
+
+### func \(\*EventEmitterBase\) V8FuncEventNames
+
+```go
+func (e *EventEmitterBase) V8FuncEventNames(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncGetMaxListeners" />
+
+### func \(\*EventEmitterBase\) V8FuncGetMaxListeners
+
+```go
+func (e *EventEmitterBase) V8FuncGetMaxListeners(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncListenerCount" />
+
+### func \(\*EventEmitterBase\) V8FuncListenerCount
+
+```go
+func (e *EventEmitterBase) V8FuncListenerCount(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncListeners" />
+
+### func \(\*EventEmitterBase\) V8FuncListeners
+
+```go
+func (e *EventEmitterBase) V8FuncListeners(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncOff" />
+
+### func \(\*EventEmitterBase\) V8FuncOff
+
+```go
+func (e *EventEmitterBase) V8FuncOff(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncOn" />
+
+### func \(\*EventEmitterBase\) V8FuncOn
+
+```go
+func (e *EventEmitterBase) V8FuncOn(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncOnce" />
+
+### func \(\*EventEmitterBase\) V8FuncOnce
+
+```go
+func (e *EventEmitterBase) V8FuncOnce(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncPrependListener" />
+
+### func \(\*EventEmitterBase\) V8FuncPrependListener
+
+```go
+func (e *EventEmitterBase) V8FuncPrependListener(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncPrependListenerOnce" />
+
+### func \(\*EventEmitterBase\) V8FuncPrependListenerOnce
+
+```go
+func (e *EventEmitterBase) V8FuncPrependListenerOnce(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncRawListeners" />
+
+### func \(\*EventEmitterBase\) V8FuncRawListeners
+
+```go
+func (e *EventEmitterBase) V8FuncRawListeners(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncRemoveAllListeners" />
+
+### func \(\*EventEmitterBase\) V8FuncRemoveAllListeners
+
+```go
+func (e *EventEmitterBase) V8FuncRemoveAllListeners(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncRemoveListener" />
+
+### func \(\*EventEmitterBase\) V8FuncRemoveListener
+
+```go
+func (e *EventEmitterBase) V8FuncRemoveListener(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventEmitterBase.V8FuncSetMaxListeners" />
+
+### func \(\*EventEmitterBase\) V8FuncSetMaxListeners
+
+```go
+func (e *EventEmitterBase) V8FuncSetMaxListeners(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="EventHandler"></a>
+
+## type EventHandler
+
+
+
+```go
+type EventHandler struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="EventHandler.Add" />
+
+### func \(\*EventHandler\) Add
+
+```go
+func (h *EventHandler) Add(callback func(...any) error) func()
+```
+
+
+
+<a id="EventHandler.Emit" />
+
+### func \(\*EventHandler\) Emit
+
+```go
+func (h *EventHandler) Emit(args ...any) error
+```
+
+
+

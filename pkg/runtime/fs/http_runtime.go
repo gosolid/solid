@@ -3,12 +3,12 @@
 package fs
 
 import (
+  reflect "reflect"
   url "net/url"
   isolates "github.com/grexie/isolates"
-  reflect "reflect"
 )
 
-var _ = isolates.RegisterRuntime("fs", "/Users/tim/src/grexie/solid/pkg/runtime/fs/http.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("fs", "http.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "HttpFileSystem", func (in isolates.FunctionArgs) (*httpfs, error) {
     var _url url.URL
     if v, err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&_url).Elem()); err != nil {
@@ -467,14 +467,6 @@ func (f *httpfile) V8FuncClose(in isolates.FunctionArgs) (*isolates.Value, error
       }
     }
     return nil, nil
-  }
-}
-
-func (f *httpfile) V8FuncCreateReadStream(in isolates.FunctionArgs) (*isolates.Value, error) {
-  if result, err := f.ReadStream(in.ExecutionContext); err != nil {
-    return nil, err
-  } else {
-    return in.Context.Create(in.ExecutionContext, result)
   }
 }
 

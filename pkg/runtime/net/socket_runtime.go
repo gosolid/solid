@@ -6,7 +6,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("net", "/Users/tim/src/grexie/solid/pkg/runtime/net/socket.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("net", "socket.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   return nil, nil
 })
 

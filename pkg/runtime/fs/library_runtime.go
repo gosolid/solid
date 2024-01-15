@@ -7,7 +7,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("fs", "/Users/tim/src/grexie/solid/pkg/runtime/fs/library.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("fs", "library.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
 var Module *isolates.Module
 Exports := in.Args[1]
 Require := in.Args[2]

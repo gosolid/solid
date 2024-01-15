@@ -2,6 +2,8 @@
 
 package fs
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"time"
 )
@@ -9,6 +11,8 @@ import (
 var _ Stats = &stats{}
 var _ statsv8 = &stats{}
 
+//js:class Stats
+//js:export Stats
 type stats struct {
 	isFile         bool
 	isDirectory    bool

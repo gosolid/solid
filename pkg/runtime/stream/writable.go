@@ -2,6 +2,8 @@
 
 package stream
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"context"
 	"errors"
@@ -15,13 +17,16 @@ import (
 
 var _ Writable = &WritableBase{}
 
+//js:alias string
 type BufferEncoding string
 
 var (
-	BufferEncodingUTF8 BufferEncoding = "utf8"
-	BufferEncodingHex  BufferEncoding = "hex"
+	BufferEncodingUTF8   BufferEncoding = "utf8"
+	BufferEncodingHex    BufferEncoding = "hex"
+	BufferEncodingBase64 BufferEncoding = "base64"
 )
 
+//js:alias WritableBase
 type Writable interface {
 	Stream
 	io.Writer

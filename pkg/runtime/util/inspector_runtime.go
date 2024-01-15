@@ -6,7 +6,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("util", "/Users/tim/src/grexie/solid/pkg/runtime/util/inspector.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("util", "inspector.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "Inspector", func (in isolates.FunctionArgs) (*Inspector, error) {
     return NewInspector(in)
   }); err != nil {

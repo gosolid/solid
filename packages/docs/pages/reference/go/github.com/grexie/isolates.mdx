@@ -1,0 +1,3749 @@
+---
+package: "github.com/grexie/isolates"
+language: go
+---
+
+# isolates
+
+```go
+import "github.com/grexie/isolates"
+```
+
+## Index
+
+<ul>
+
+- [Variables](<#Variables>)
+
+
+
+<li parentName="ul"><a href="#AddMarshaller">
+
+```go
+func AddMarshaller(t reflect.Type, marshaller any) error
+```
+
+</a></li>
+
+
+
+<li parentName="ul"><a href="#AddUnmarshaller">
+
+```go
+func AddUnmarshaller(t reflect.Type, unmarshaller any) error
+```
+
+</a></li>
+
+
+
+<li parentName="ul"><a href="#Initialize">
+
+```go
+func Initialize()
+```
+
+</a></li>
+
+
+
+<li parentName="ul"><a href="#WithContext">
+
+```go
+func WithContext(ctx context.Context) context.Context
+```
+
+</a></li>
+
+<li parentName="ul"><a href="#CallerInfo">
+
+```go
+type CallerInfo
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Console">
+
+```go
+type Console
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Context">
+
+```go
+type Context
+```
+
+</a><ul>
+<li parentName="ul"><a href="#Context.AddMicrotask">
+
+```go
+func (c *Context) AddMicrotask(ctx context.Context, fn func(in FunctionArgs) error) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.Assign">
+
+```go
+func (c *Context) Assign(ctx context.Context, objects ...any) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.AssignAll">
+
+```go
+func (c *Context) AssignAll(ctx context.Context, objects ...any) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.Create">
+
+```go
+func (c *Context) Create(ctx context.Context, v interface{}) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.CreateAll">
+
+```go
+func (c *Context) CreateAll(ctx context.Context, objects ...any) ([]*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.CreateConstructor">
+
+```go
+func (c *Context) CreateConstructor(ctx context.Context, cons interface{}) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.CreateConstructorWithName">
+
+```go
+func (c *Context) CreateConstructorWithName(ctx context.Context, name string, cons interface{}) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.CreateFunction">
+
+```go
+func (c *Context) CreateFunction(ctx context.Context, name *string, function Function) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.CreateRequire">
+
+```go
+func (c *Context) CreateRequire(ctx context.Context, fs any, path string, extensions *Value, modules map[string]*Module, runtimes map[string]bool) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.CreateWithName">
+
+```go
+func (c *Context) CreateWithName(ctx context.Context, name string, v interface{}) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.CreateWithoutMarshallers">
+
+```go
+func (c *Context) CreateWithoutMarshallers(ctx context.Context, v interface{}) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.Data">
+
+```go
+func (c *Context) Data(key any) (any, bool)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.ErrorConstructor">
+
+```go
+func (c *Context) ErrorConstructor(ctx context.Context) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.False">
+
+```go
+func (c *Context) False(ctx context.Context) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.GetIsolate">
+
+```go
+func (c *Context) GetIsolate() *Isolate
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.Global">
+
+```go
+func (c *Context) Global(ctx context.Context) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.New">
+
+```go
+func (c *Context) New(ctx context.Context, cons any, args ...any) (any, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.NewFunctionTemplate">
+
+```go
+func (c *Context) NewFunctionTemplate(ctx context.Context, cb Function) (*FunctionTemplate, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.NewObject">
+
+```go
+func (c *Context) NewObject(ctx context.Context) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.NewResolver">
+
+```go
+func (c *Context) NewResolver(ctx context.Context) (*Resolver, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.Null">
+
+```go
+func (c *Context) Null(ctx context.Context) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.ObjectCreate">
+
+```go
+func (c *Context) ObjectCreate(ctx context.Context, args ...any) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.ParseJSON">
+
+```go
+func (c *Context) ParseJSON(ctx context.Context, json string) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.Receiver">
+
+```go
+func (c *Context) Receiver(ctx context.Context, self *Value, t reflect.Type) (reflect.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.Receivers">
+
+```go
+func (c *Context) Receivers() int
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.Run">
+
+```go
+func (c *Context) Run(ctx context.Context, code string, filename string, module *Module) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.RunWithRuntime">
+
+```go
+func (c *Context) RunWithRuntime(ctx context.Context, fs any, path string, env func(RuntimeFunctionArgs) error, security map[string]bool) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.SetData">
+
+```go
+func (c *Context) SetData(key any, value any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.True">
+
+```go
+func (c *Context) True(ctx context.Context) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.Undefined">
+
+```go
+func (c *Context) Undefined(ctx context.Context) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Context.Values">
+
+```go
+func (c *Context) Values() int
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Error">
+
+```go
+type Error
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#ExecutionContext">
+
+```go
+type ExecutionContext
+```
+
+</a><ul>
+<li parentName="ul"><a href="#For">
+
+```go
+func For(ctx context.Context) *ExecutionContext
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.AddExecutionEnterCallback">
+
+```go
+func (ec *ExecutionContext) AddExecutionEnterCallback(callback func())
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.AddExecutionExitCallback">
+
+```go
+func (ec *ExecutionContext) AddExecutionExitCallback(callback func())
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.AddReleaser">
+
+```go
+func (ec *ExecutionContext) AddReleaser(releaser ...Releaser)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Assert">
+
+```go
+func (c *ExecutionContext) Assert(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Background">
+
+```go
+func (c *ExecutionContext) Background(callback func(context.Context))
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Clear">
+
+```go
+func (c *ExecutionContext) Clear()
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Context">
+
+```go
+func (ec *ExecutionContext) Context() *Context
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Count">
+
+```go
+func (c *ExecutionContext) Count(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.CountReset">
+
+```go
+func (c *ExecutionContext) CountReset(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Data">
+
+```go
+func (c *ExecutionContext) Data(key any) (any, bool)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Debug">
+
+```go
+func (c *ExecutionContext) Debug(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Dir">
+
+```go
+func (c *ExecutionContext) Dir(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.DirXML">
+
+```go
+func (c *ExecutionContext) DirXML(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Error">
+
+```go
+func (c *ExecutionContext) Error(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Group">
+
+```go
+func (c *ExecutionContext) Group(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.GroupCollapsed">
+
+```go
+func (c *ExecutionContext) GroupCollapsed(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.GroupEnd">
+
+```go
+func (c *ExecutionContext) GroupEnd(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Info">
+
+```go
+func (c *ExecutionContext) Info(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Isolate">
+
+```go
+func (ec *ExecutionContext) Isolate() *Isolate
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Log">
+
+```go
+func (c *ExecutionContext) Log(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.New">
+
+```go
+func (c *ExecutionContext) New(constructor any, args ...any) (any, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Profile">
+
+```go
+func (c *ExecutionContext) Profile(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.ProfileEnd">
+
+```go
+func (c *ExecutionContext) ProfileEnd(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.SetContext">
+
+```go
+func (ec *ExecutionContext) SetContext(c *Context)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.SetData">
+
+```go
+func (c *ExecutionContext) SetData(key any, value any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Sync">
+
+```go
+func (c *ExecutionContext) Sync(callback func(context.Context) (any, error)) (any, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Table">
+
+```go
+func (c *ExecutionContext) Table(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Time">
+
+```go
+func (c *ExecutionContext) Time(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.TimeEnd">
+
+```go
+func (c *ExecutionContext) TimeEnd(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.TimeLog">
+
+```go
+func (c *ExecutionContext) TimeLog(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.TimeStamp">
+
+```go
+func (c *ExecutionContext) TimeStamp(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Trace">
+
+```go
+func (c *ExecutionContext) Trace(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ExecutionContext.Warn">
+
+```go
+func (c *ExecutionContext) Warn(args ...any)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Function">
+
+```go
+type Function
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#FunctionArgs">
+
+```go
+type FunctionArgs
+```
+
+</a><ul>
+<li parentName="ul"><a href="#FunctionArgs.Arg">
+
+```go
+func (c *FunctionArgs) Arg(ctx context.Context, n int) *Value
+```
+
+</a></li>
+<li parentName="ul"><a href="#FunctionArgs.Background">
+
+```go
+func (c *FunctionArgs) Background(callback func(in FunctionArgs))
+```
+
+</a></li>
+<li parentName="ul"><a href="#FunctionArgs.Sync">
+
+```go
+func (c *FunctionArgs) Sync(callback func(in FunctionArgs) (any, error)) (any, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#FunctionArgs.WithArgs">
+
+```go
+func (c *FunctionArgs) WithArgs(args ...any) (FunctionArgs, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#FunctionTemplate">
+
+```go
+type FunctionTemplate
+```
+
+</a><ul>
+<li parentName="ul"><a href="#FunctionTemplate.GetFunction">
+
+```go
+func (f *FunctionTemplate) GetFunction(ctx context.Context) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#FunctionTemplate.GetInstanceTemplate">
+
+```go
+func (f *FunctionTemplate) GetInstanceTemplate(ctx context.Context) (*ObjectTemplate, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#FunctionTemplate.GetPrototypeTemplate">
+
+```go
+func (f *FunctionTemplate) GetPrototypeTemplate(ctx context.Context) (*ObjectTemplate, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#FunctionTemplate.Inherit">
+
+```go
+func (f *FunctionTemplate) Inherit(ctx context.Context, parent *FunctionTemplate) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#FunctionTemplate.SetName">
+
+```go
+func (f *FunctionTemplate) SetName(ctx context.Context, name string) error
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Getter">
+
+```go
+type Getter
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#GetterArgs">
+
+```go
+type GetterArgs
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#HeapStatistics">
+
+```go
+type HeapStatistics
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Inspector">
+
+```go
+type Inspector
+```
+
+</a><ul>
+<li parentName="ul"><a href="#Inspector.AddContext">
+
+```go
+func (i *Inspector) AddContext(context *Context, name string)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Inspector.DispatchMessage">
+
+```go
+func (i *Inspector) DispatchMessage(message string)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Inspector.RemoveContext">
+
+```go
+func (i *Inspector) RemoveContext(context *Context)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#InspectorCallbacks">
+
+```go
+type InspectorCallbacks
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Isolate">
+
+```go
+type Isolate
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewIsolate">
+
+```go
+func NewIsolate() *Isolate
+```
+
+</a></li>
+<li parentName="ul"><a href="#NewIsolateWithSnapshot">
+
+```go
+func NewIsolateWithSnapshot(snapshot *Snapshot) *Isolate
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.AddExecutionEnterCallback">
+
+```go
+func (i *Isolate) AddExecutionEnterCallback(callback func())
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.AddExecutionExitCallback">
+
+```go
+func (i *Isolate) AddExecutionExitCallback(callback func())
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.AddExecutionExitCallbackOnce">
+
+```go
+func (i *Isolate) AddExecutionExitCallbackOnce(callback func())
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.AddShutdownHook">
+
+```go
+func (i *Isolate) AddShutdownHook(ctx context.Context, shutdownHook interface{})
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.Background">
+
+```go
+func (i *Isolate) Background(ctx context.Context, callback func(ctx context.Context))
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.Contexts">
+
+```go
+func (i *Isolate) Contexts(ctx context.Context) ([]*Context, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.EnqueueMicrotaskWithValue">
+
+```go
+func (i *Isolate) EnqueueMicrotaskWithValue(ctx context.Context, fn *Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.GetData">
+
+```go
+func (i *Isolate) GetData(key string) interface{}
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.GetExecutionContext">
+
+```go
+func (i *Isolate) GetExecutionContext() context.Context
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.GetHeapStatistics">
+
+```go
+func (i *Isolate) GetHeapStatistics(ctx context.Context) (HeapStatistics, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.IsRunning">
+
+```go
+func (i *Isolate) IsRunning(ctx context.Context) (bool, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.NewContext">
+
+```go
+func (i *Isolate) NewContext(ctx context.Context) (*Context, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.NewInspector">
+
+```go
+func (i *Isolate) NewInspector(callbacks InspectorCallbacks) *Inspector
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.PerformMicrotaskCheckpointInBackground">
+
+```go
+func (i *Isolate) PerformMicrotaskCheckpointInBackground(ctx context.Context)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.PerformMicrotaskCheckpointSync">
+
+```go
+func (i *Isolate) PerformMicrotaskCheckpointSync(ctx context.Context) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.RequestGarbageCollectionForTesting">
+
+```go
+func (i *Isolate) RequestGarbageCollectionForTesting(ctx context.Context)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.SendLowMemoryNotification">
+
+```go
+func (i *Isolate) SendLowMemoryNotification(ctx context.Context)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.SetData">
+
+```go
+func (i *Isolate) SetData(key string, value interface{})
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.Sync">
+
+```go
+func (i *Isolate) Sync(ctx context.Context, fn func(context.Context) (interface{}, error)) (result interface{}, err error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.Terminate">
+
+```go
+func (i *Isolate) Terminate()
+```
+
+</a></li>
+<li parentName="ul"><a href="#Isolate.Wait">
+
+```go
+func (i *Isolate) Wait(ctx context.Context) error
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Kind">
+
+```go
+type Kind
+```
+
+</a><ul>
+<li parentName="ul"><a href="#Kind.String">
+
+```go
+func (k Kind) String() string
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Marshaler">
+
+```go
+type Marshaler
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Module">
+
+```go
+type Module
+```
+
+</a><ul>
+<li parentName="ul"><a href="#Module.ImportModuleDynamically">
+
+```go
+func (m *Module) ImportModuleDynamically(ctx context.Context, specifier string, resourceName string, importAssertions []*Value) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Module.V8Func_compile">
+
+```go
+func (m *Module) V8Func_compile(in FunctionArgs) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Module.V8GetDirname">
+
+```go
+func (m *Module) V8GetDirname(in GetterArgs) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Module.V8GetFilename">
+
+```go
+func (m *Module) V8GetFilename(in GetterArgs) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Module.V8GetFs">
+
+```go
+func (m *Module) V8GetFs(in GetterArgs) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Module.V8GetId">
+
+```go
+func (m *Module) V8GetId(in GetterArgs) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Module.V8GetRequire">
+
+```go
+func (m *Module) V8GetRequire(in GetterArgs) (*Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#ObjectTemplate">
+
+```go
+type ObjectTemplate
+```
+
+</a><ul>
+<li parentName="ul"><a href="#ObjectTemplate.Copy">
+
+```go
+func (o *ObjectTemplate) Copy(ctx context.Context, other *ObjectTemplate) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#ObjectTemplate.SetAccessor">
+
+```go
+func (o *ObjectTemplate) SetAccessor(ctx context.Context, name string, getter Getter, setter Setter) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#ObjectTemplate.SetInternalFieldCount">
+
+```go
+func (o *ObjectTemplate) SetInternalFieldCount(ctx context.Context, count int) error
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#PromiseState">
+
+```go
+type PromiseState
+```
+
+</a><ul>
+<li parentName="ul"><a href="#PromiseState.String">
+
+```go
+func (s PromiseState) String() string
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#PropertyDescriptor">
+
+```go
+type PropertyDescriptor
+```
+
+</a><ul>
+<li parentName="ul"><a href="#PropertyDescriptor.MarshalV8">
+
+```go
+func (d *PropertyDescriptor) MarshalV8(ctx context.Context) any
+```
+
+</a></li>
+<li parentName="ul"><a href="#PropertyDescriptor.V8Construct">
+
+```go
+func (d *PropertyDescriptor) V8Construct(in FunctionArgs) error
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Releaser">
+
+```go
+type Releaser
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#ResolveResult">
+
+```go
+type ResolveResult
+```
+
+</a><ul>
+<li parentName="ul"><a href="#RegisterRuntime">
+
+```go
+func RegisterRuntime(name string, path string, factory func(in FunctionArgs) (*Value, error)) *ResolveResult
+```
+
+</a></li>
+<li parentName="ul"><a href="#RegisterRuntimeLibrary">
+
+```go
+func RegisterRuntimeLibrary(name string, fs any, path string) *ResolveResult
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Resolver">
+
+```go
+type Resolver
+```
+
+</a><ul>
+<li parentName="ul"><a href="#Resolver.Promise">
+
+```go
+func (r *Resolver) Promise(ctx context.Context) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Resolver.Reject">
+
+```go
+func (r *Resolver) Reject(ctx context.Context, value interface{}) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Resolver.RejectWithValue">
+
+```go
+func (r *Resolver) RejectWithValue(ctx context.Context, v *Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Resolver.Resolve">
+
+```go
+func (r *Resolver) Resolve(ctx context.Context, value interface{}) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Resolver.ResolveWithValue">
+
+```go
+func (r *Resolver) ResolveWithValue(ctx context.Context, v *Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Resolver.ToCallback">
+
+```go
+func (r *Resolver) ToCallback(ctx context.Context, callback *Value) error
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#RuntimeFunctionArgs">
+
+```go
+type RuntimeFunctionArgs
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Setter">
+
+```go
+type Setter
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#SetterArgs">
+
+```go
+type SetterArgs
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Snapshot">
+
+```go
+type Snapshot
+```
+
+</a><ul>
+<li parentName="ul"><a href="#Snapshot.Export">
+
+```go
+func (s *Snapshot) Export() []byte
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Value">
+
+```go
+type Value
+```
+
+</a><ul>
+<li parentName="ul"><a href="#Value.Await">
+
+```go
+func (v *Value) Await(ctx context.Context) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Bind">
+
+```go
+func (v *Value) Bind(ctx context.Context, argv ...any) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.BindMethod">
+
+```go
+func (v *Value) BindMethod(ctx context.Context, method string, argv ...any) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Bool">
+
+```go
+func (v *Value) Bool(ctx context.Context) (bool, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Bytes">
+
+```go
+func (v *Value) Bytes(ctx context.Context) ([]byte, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Call">
+
+```go
+func (v *Value) Call(ctx context.Context, self any, args ...any) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.CallMethod">
+
+```go
+func (v *Value) CallMethod(ctx context.Context, name string, argv ...any) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.CallValue">
+
+```go
+func (v *Value) CallValue(ctx context.Context, self *Value, argv ...*Value) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Constructor">
+
+```go
+func (v *Value) Constructor(t reflect.Type) *FunctionTemplate
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Date">
+
+```go
+func (v *Value) Date(ctx context.Context) (time.Time, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.DefineProperty">
+
+```go
+func (v *Value) DefineProperty(ctx context.Context, key string, descriptor *PropertyDescriptor) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Equals">
+
+```go
+func (v *Value) Equals(ctx context.Context, other *Value) (bool, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Error">
+
+```go
+func (v *Value) Error() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Float64">
+
+```go
+func (v *Value) Float64(ctx context.Context) (float64, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Get">
+
+```go
+func (v *Value) Get(ctx context.Context, key string) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.GetByteLength">
+
+```go
+func (v *Value) GetByteLength(ctx context.Context) (int, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.GetContext">
+
+```go
+func (v *Value) GetContext() *Context
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.GetIndex">
+
+```go
+func (v *Value) GetIndex(ctx context.Context, i int) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.GetInternalField">
+
+```go
+func (v *Value) GetInternalField(ctx context.Context, i int) (int64, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.GetInternalFieldCount">
+
+```go
+func (v *Value) GetInternalFieldCount(ctx context.Context) (int, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.GetLength">
+
+```go
+func (v *Value) GetLength(ctx context.Context) (int64, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.GetOwnPropertyDescriptors">
+
+```go
+func (v *Value) GetOwnPropertyDescriptors(ctx context.Context) (map[string]PropertyDescriptor, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.GetPrototype">
+
+```go
+func (v *Value) GetPrototype(ctx context.Context) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.InstanceOf">
+
+```go
+func (v *Value) InstanceOf(ctx context.Context, object *Value) bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Int64">
+
+```go
+func (v *Value) Int64(ctx context.Context) (int64, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.IsKind">
+
+```go
+func (v *Value) IsKind(k Kind) bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.IsNil">
+
+```go
+func (v *Value) IsNil() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Keys">
+
+```go
+func (v *Value) Keys(ctx context.Context) ([]string, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.MarshalJSON">
+
+```go
+func (v *Value) MarshalJSON(ctx context.Context) ([]byte, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.New">
+
+```go
+func (v *Value) New(ctx context.Context, args ...any) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.NewValue">
+
+```go
+func (v *Value) NewValue(ctx context.Context, argv ...*Value) (*Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.PromiseInfo">
+
+```go
+func (v *Value) PromiseInfo(ctx context.Context) (PromiseState, *Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.RebindAll">
+
+```go
+func (v *Value) RebindAll(ctx context.Context) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.RebindMethod">
+
+```go
+func (v *Value) RebindMethod(ctx context.Context, method string, args ...any) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Receiver">
+
+```go
+func (v *Value) Receiver(ctx context.Context) reflect.Value
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Ref">
+
+```go
+func (v *Value) Ref() refutils.ID
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Set">
+
+```go
+func (v *Value) Set(ctx context.Context, key string, value any) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.SetBytes">
+
+```go
+func (v *Value) SetBytes(ctx context.Context, bytes []byte) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.SetIndex">
+
+```go
+func (v *Value) SetIndex(ctx context.Context, i int, value *Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.SetInternalField">
+
+```go
+func (v *Value) SetInternalField(ctx context.Context, i int, value uint32) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.SetReceiver">
+
+```go
+func (v *Value) SetReceiver(ctx context.Context, value reflect.Value)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.SetValue">
+
+```go
+func (v *Value) SetValue(ctx context.Context, key string, value *Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.StrictEquals">
+
+```go
+func (v *Value) StrictEquals(ctx context.Context, other *Value) (bool, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.String">
+
+```go
+func (v *Value) String() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.StringValue">
+
+```go
+func (v *Value) StringValue(ctx context.Context) (string, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.ToError">
+
+```go
+func (v *Value) ToError(ctx context.Context) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Unmarshal">
+
+```go
+func (v *Value) Unmarshal(ctx context.Context, t reflect.Type) (*reflect.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Value.Unref">
+
+```go
+func (v *Value) Unref()
+```
+
+</a></li>
+</ul></li>
+
+</ul>
+
+<a id="Variables" />
+
+## Variables
+
+<a name="ErrNoContext"></a>
+
+```go
+var ErrNoContext = errors.New("isolates.ExecutionContext: no context available")
+```
+
+<a name="ErrNotResolved"></a>
+
+```go
+var ErrNotResolved = errors.New("unable to resolve")
+```
+
+<a name="Version"></a>
+
+Version exposes the compiled-in version of the linked V8 library. This can be used to test for specific javascript functionality support (e.g. ES6 destructuring isn't supported before major version 5.).
+
+```go
+var Version = struct{ Major, Minor, Build, Patch int }{
+    Major: int(C.version.major),
+    Minor: int(C.version.minor),
+    Build: int(C.version.build),
+    Patch: int(C.version.patch),
+}
+```
+
+<a id="AddMarshaller" />
+
+## func AddMarshaller
+
+```go
+func AddMarshaller(t reflect.Type, marshaller any) error
+```
+
+
+
+<a id="AddUnmarshaller" />
+
+## func AddUnmarshaller
+
+```go
+func AddUnmarshaller(t reflect.Type, unmarshaller any) error
+```
+
+
+
+<a id="Initialize" />
+
+## func Initialize
+
+```go
+func Initialize()
+```
+
+
+
+<a id="WithContext" />
+
+## func WithContext
+
+```go
+func WithContext(ctx context.Context) context.Context
+```
+
+
+
+<a id="CallerInfo"></a>
+
+## type CallerInfo
+
+
+
+```go
+type CallerInfo struct {
+    Name     string
+    Filename string
+    Line     int
+    Column   int
+}
+```
+
+<a id="Console"></a>
+
+## type Console
+
+
+
+```go
+type Console interface {
+    Assert(args ...any)
+    Clear()
+    Count(args ...any)
+    CountReset(args ...any)
+    Debug(args ...any)
+    Dir(args ...any)
+    DirXML(args ...any)
+    Error(args ...any)
+    Group(args ...any)
+    GroupCollapsed(args ...any)
+    GroupEnd(args ...any)
+    Info(args ...any)
+    Log(args ...any)
+    Table(args ...any)
+    Time(args ...any)
+    TimeEnd(args ...any)
+    TimeLog(args ...any)
+    Trace(args ...any)
+    Warn(args ...any)
+    Profile(args ...any)
+    ProfileEnd(args ...any)
+    TimeStamp(args ...any)
+}
+```
+
+<a id="Context"></a>
+
+## type Context
+
+
+
+```go
+type Context struct {
+    refutils.RefHolder
+    // contains filtered or unexported fields
+}
+```
+
+<a id="Context.AddMicrotask" />
+
+### func \(\*Context\) AddMicrotask
+
+```go
+func (c *Context) AddMicrotask(ctx context.Context, fn func(in FunctionArgs) error) error
+```
+
+
+
+<a id="Context.Assign" />
+
+### func \(\*Context\) Assign
+
+```go
+func (c *Context) Assign(ctx context.Context, objects ...any) (*Value, error)
+```
+
+
+
+<a id="Context.AssignAll" />
+
+### func \(\*Context\) AssignAll
+
+```go
+func (c *Context) AssignAll(ctx context.Context, objects ...any) (*Value, error)
+```
+
+
+
+<a id="Context.Create" />
+
+### func \(\*Context\) Create
+
+```go
+func (c *Context) Create(ctx context.Context, v interface{}) (*Value, error)
+```
+
+
+
+<a id="Context.CreateAll" />
+
+### func \(\*Context\) CreateAll
+
+```go
+func (c *Context) CreateAll(ctx context.Context, objects ...any) ([]*Value, error)
+```
+
+
+
+<a id="Context.CreateConstructor" />
+
+### func \(\*Context\) CreateConstructor
+
+```go
+func (c *Context) CreateConstructor(ctx context.Context, cons interface{}) (*Value, error)
+```
+
+
+
+<a id="Context.CreateConstructorWithName" />
+
+### func \(\*Context\) CreateConstructorWithName
+
+```go
+func (c *Context) CreateConstructorWithName(ctx context.Context, name string, cons interface{}) (*Value, error)
+```
+
+
+
+<a id="Context.CreateFunction" />
+
+### func \(\*Context\) CreateFunction
+
+```go
+func (c *Context) CreateFunction(ctx context.Context, name *string, function Function) (*Value, error)
+```
+
+
+
+<a id="Context.CreateRequire" />
+
+### func \(\*Context\) CreateRequire
+
+```go
+func (c *Context) CreateRequire(ctx context.Context, fs any, path string, extensions *Value, modules map[string]*Module, runtimes map[string]bool) (*Value, error)
+```
+
+
+
+<a id="Context.CreateWithName" />
+
+### func \(\*Context\) CreateWithName
+
+```go
+func (c *Context) CreateWithName(ctx context.Context, name string, v interface{}) (*Value, error)
+```
+
+
+
+<a id="Context.CreateWithoutMarshallers" />
+
+### func \(\*Context\) CreateWithoutMarshallers
+
+```go
+func (c *Context) CreateWithoutMarshallers(ctx context.Context, v interface{}) (*Value, error)
+```
+
+
+
+<a id="Context.Data" />
+
+### func \(\*Context\) Data
+
+```go
+func (c *Context) Data(key any) (any, bool)
+```
+
+
+
+<a id="Context.ErrorConstructor" />
+
+### func \(\*Context\) ErrorConstructor
+
+```go
+func (c *Context) ErrorConstructor(ctx context.Context) (*Value, error)
+```
+
+
+
+<a id="Context.False" />
+
+### func \(\*Context\) False
+
+```go
+func (c *Context) False(ctx context.Context) (*Value, error)
+```
+
+
+
+<a id="Context.GetIsolate" />
+
+### func \(\*Context\) GetIsolate
+
+```go
+func (c *Context) GetIsolate() *Isolate
+```
+
+
+
+<a id="Context.Global" />
+
+### func \(\*Context\) Global
+
+```go
+func (c *Context) Global(ctx context.Context) (*Value, error)
+```
+
+
+
+<a id="Context.New" />
+
+### func \(\*Context\) New
+
+```go
+func (c *Context) New(ctx context.Context, cons any, args ...any) (any, error)
+```
+
+
+
+<a id="Context.NewFunctionTemplate" />
+
+### func \(\*Context\) NewFunctionTemplate
+
+```go
+func (c *Context) NewFunctionTemplate(ctx context.Context, cb Function) (*FunctionTemplate, error)
+```
+
+
+
+<a id="Context.NewObject" />
+
+### func \(\*Context\) NewObject
+
+```go
+func (c *Context) NewObject(ctx context.Context) (*Value, error)
+```
+
+
+
+<a id="Context.NewResolver" />
+
+### func \(\*Context\) NewResolver
+
+```go
+func (c *Context) NewResolver(ctx context.Context) (*Resolver, error)
+```
+
+
+
+<a id="Context.Null" />
+
+### func \(\*Context\) Null
+
+```go
+func (c *Context) Null(ctx context.Context) (*Value, error)
+```
+
+
+
+<a id="Context.ObjectCreate" />
+
+### func \(\*Context\) ObjectCreate
+
+```go
+func (c *Context) ObjectCreate(ctx context.Context, args ...any) (*Value, error)
+```
+
+
+
+<a id="Context.ParseJSON" />
+
+### func \(\*Context\) ParseJSON
+
+```go
+func (c *Context) ParseJSON(ctx context.Context, json string) (*Value, error)
+```
+
+
+
+<a id="Context.Receiver" />
+
+### func \(\*Context\) Receiver
+
+```go
+func (c *Context) Receiver(ctx context.Context, self *Value, t reflect.Type) (reflect.Value, error)
+```
+
+
+
+<a id="Context.Receivers" />
+
+### func \(\*Context\) Receivers
+
+```go
+func (c *Context) Receivers() int
+```
+
+
+
+<a id="Context.Run" />
+
+### func \(\*Context\) Run
+
+```go
+func (c *Context) Run(ctx context.Context, code string, filename string, module *Module) (*Value, error)
+```
+
+
+
+<a id="Context.RunWithRuntime" />
+
+### func \(\*Context\) RunWithRuntime
+
+```go
+func (c *Context) RunWithRuntime(ctx context.Context, fs any, path string, env func(RuntimeFunctionArgs) error, security map[string]bool) (*Value, error)
+```
+
+
+
+<a id="Context.SetData" />
+
+### func \(\*Context\) SetData
+
+```go
+func (c *Context) SetData(key any, value any)
+```
+
+
+
+<a id="Context.True" />
+
+### func \(\*Context\) True
+
+```go
+func (c *Context) True(ctx context.Context) (*Value, error)
+```
+
+
+
+<a id="Context.Undefined" />
+
+### func \(\*Context\) Undefined
+
+```go
+func (c *Context) Undefined(ctx context.Context) (*Value, error)
+```
+
+
+
+<a id="Context.Values" />
+
+### func \(\*Context\) Values
+
+```go
+func (c *Context) Values() int
+```
+
+
+
+<a id="Error"></a>
+
+## type Error
+
+
+
+```go
+type Error interface {
+    Message() string
+    // contains filtered or unexported methods
+}
+```
+
+<a id="ExecutionContext"></a>
+
+## type ExecutionContext
+
+
+
+```go
+type ExecutionContext struct {
+    refutils.RefHolder
+    // contains filtered or unexported fields
+}
+```
+
+<a id="For" />
+
+### func For
+
+```go
+func For(ctx context.Context) *ExecutionContext
+```
+
+
+
+<a id="ExecutionContext.AddExecutionEnterCallback" />
+
+### func \(\*ExecutionContext\) AddExecutionEnterCallback
+
+```go
+func (ec *ExecutionContext) AddExecutionEnterCallback(callback func())
+```
+
+
+
+<a id="ExecutionContext.AddExecutionExitCallback" />
+
+### func \(\*ExecutionContext\) AddExecutionExitCallback
+
+```go
+func (ec *ExecutionContext) AddExecutionExitCallback(callback func())
+```
+
+
+
+<a id="ExecutionContext.AddReleaser" />
+
+### func \(\*ExecutionContext\) AddReleaser
+
+```go
+func (ec *ExecutionContext) AddReleaser(releaser ...Releaser)
+```
+
+
+
+<a id="ExecutionContext.Assert" />
+
+### func \(\*ExecutionContext\) Assert
+
+```go
+func (c *ExecutionContext) Assert(args ...any)
+```
+
+
+
+Assert implements Console.
+
+<a id="ExecutionContext.Background" />
+
+### func \(\*ExecutionContext\) Background
+
+```go
+func (c *ExecutionContext) Background(callback func(context.Context))
+```
+
+
+
+<a id="ExecutionContext.Clear" />
+
+### func \(\*ExecutionContext\) Clear
+
+```go
+func (c *ExecutionContext) Clear()
+```
+
+
+
+Clear implements Console.
+
+<a id="ExecutionContext.Context" />
+
+### func \(\*ExecutionContext\) Context
+
+```go
+func (ec *ExecutionContext) Context() *Context
+```
+
+
+
+<a id="ExecutionContext.Count" />
+
+### func \(\*ExecutionContext\) Count
+
+```go
+func (c *ExecutionContext) Count(args ...any)
+```
+
+
+
+Count implements Console.
+
+<a id="ExecutionContext.CountReset" />
+
+### func \(\*ExecutionContext\) CountReset
+
+```go
+func (c *ExecutionContext) CountReset(args ...any)
+```
+
+
+
+CountReset implements Console.
+
+<a id="ExecutionContext.Data" />
+
+### func \(\*ExecutionContext\) Data
+
+```go
+func (c *ExecutionContext) Data(key any) (any, bool)
+```
+
+
+
+<a id="ExecutionContext.Debug" />
+
+### func \(\*ExecutionContext\) Debug
+
+```go
+func (c *ExecutionContext) Debug(args ...any)
+```
+
+
+
+Debug implements Console.
+
+<a id="ExecutionContext.Dir" />
+
+### func \(\*ExecutionContext\) Dir
+
+```go
+func (c *ExecutionContext) Dir(args ...any)
+```
+
+
+
+Dir implements Console.
+
+<a id="ExecutionContext.DirXML" />
+
+### func \(\*ExecutionContext\) DirXML
+
+```go
+func (c *ExecutionContext) DirXML(args ...any)
+```
+
+
+
+DirXML implements Console.
+
+<a id="ExecutionContext.Error" />
+
+### func \(\*ExecutionContext\) Error
+
+```go
+func (c *ExecutionContext) Error(args ...any)
+```
+
+
+
+Error implements Console.
+
+<a id="ExecutionContext.Group" />
+
+### func \(\*ExecutionContext\) Group
+
+```go
+func (c *ExecutionContext) Group(args ...any)
+```
+
+
+
+Group implements Console.
+
+<a id="ExecutionContext.GroupCollapsed" />
+
+### func \(\*ExecutionContext\) GroupCollapsed
+
+```go
+func (c *ExecutionContext) GroupCollapsed(args ...any)
+```
+
+
+
+GroupCollapsed implements Console.
+
+<a id="ExecutionContext.GroupEnd" />
+
+### func \(\*ExecutionContext\) GroupEnd
+
+```go
+func (c *ExecutionContext) GroupEnd(args ...any)
+```
+
+
+
+GroupEnd implements Console.
+
+<a id="ExecutionContext.Info" />
+
+### func \(\*ExecutionContext\) Info
+
+```go
+func (c *ExecutionContext) Info(args ...any)
+```
+
+
+
+Info implements Console.
+
+<a id="ExecutionContext.Isolate" />
+
+### func \(\*ExecutionContext\) Isolate
+
+```go
+func (ec *ExecutionContext) Isolate() *Isolate
+```
+
+
+
+<a id="ExecutionContext.Log" />
+
+### func \(\*ExecutionContext\) Log
+
+```go
+func (c *ExecutionContext) Log(args ...any)
+```
+
+
+
+Log implements Console.
+
+<a id="ExecutionContext.New" />
+
+### func \(\*ExecutionContext\) New
+
+```go
+func (c *ExecutionContext) New(constructor any, args ...any) (any, error)
+```
+
+
+
+<a id="ExecutionContext.Profile" />
+
+### func \(\*ExecutionContext\) Profile
+
+```go
+func (c *ExecutionContext) Profile(args ...any)
+```
+
+
+
+Profile implements Console.
+
+<a id="ExecutionContext.ProfileEnd" />
+
+### func \(\*ExecutionContext\) ProfileEnd
+
+```go
+func (c *ExecutionContext) ProfileEnd(args ...any)
+```
+
+
+
+ProfileEnd implements Console.
+
+<a id="ExecutionContext.SetContext" />
+
+### func \(\*ExecutionContext\) SetContext
+
+```go
+func (ec *ExecutionContext) SetContext(c *Context)
+```
+
+
+
+<a id="ExecutionContext.SetData" />
+
+### func \(\*ExecutionContext\) SetData
+
+```go
+func (c *ExecutionContext) SetData(key any, value any)
+```
+
+
+
+<a id="ExecutionContext.Sync" />
+
+### func \(\*ExecutionContext\) Sync
+
+```go
+func (c *ExecutionContext) Sync(callback func(context.Context) (any, error)) (any, error)
+```
+
+
+
+<a id="ExecutionContext.Table" />
+
+### func \(\*ExecutionContext\) Table
+
+```go
+func (c *ExecutionContext) Table(args ...any)
+```
+
+
+
+Table implements Console.
+
+<a id="ExecutionContext.Time" />
+
+### func \(\*ExecutionContext\) Time
+
+```go
+func (c *ExecutionContext) Time(args ...any)
+```
+
+
+
+Time implements Console.
+
+<a id="ExecutionContext.TimeEnd" />
+
+### func \(\*ExecutionContext\) TimeEnd
+
+```go
+func (c *ExecutionContext) TimeEnd(args ...any)
+```
+
+
+
+TimeEnd implements Console.
+
+<a id="ExecutionContext.TimeLog" />
+
+### func \(\*ExecutionContext\) TimeLog
+
+```go
+func (c *ExecutionContext) TimeLog(args ...any)
+```
+
+
+
+TimeLog implements Console.
+
+<a id="ExecutionContext.TimeStamp" />
+
+### func \(\*ExecutionContext\) TimeStamp
+
+```go
+func (c *ExecutionContext) TimeStamp(args ...any)
+```
+
+
+
+TimeStamp implements Console.
+
+<a id="ExecutionContext.Trace" />
+
+### func \(\*ExecutionContext\) Trace
+
+```go
+func (c *ExecutionContext) Trace(args ...any)
+```
+
+
+
+Trace implements Console.
+
+<a id="ExecutionContext.Warn" />
+
+### func \(\*ExecutionContext\) Warn
+
+```go
+func (c *ExecutionContext) Warn(args ...any)
+```
+
+
+
+Warn implements Console.
+
+<a id="Function"></a>
+
+## type Function
+
+
+
+```go
+type Function func(FunctionArgs) (*Value, error)
+```
+
+<a id="FunctionArgs"></a>
+
+## type FunctionArgs
+
+
+
+```go
+type FunctionArgs struct {
+    ExecutionContext context.Context
+    Context          *Context
+    This             *Value
+    IsConstructCall  bool
+    Args             []*Value
+    Caller           CallerInfo
+    Holder           *Value
+}
+```
+
+<a id="FunctionArgs.Arg" />
+
+### func \(\*FunctionArgs\) Arg
+
+```go
+func (c *FunctionArgs) Arg(ctx context.Context, n int) *Value
+```
+
+
+
+<a id="FunctionArgs.Background" />
+
+### func \(\*FunctionArgs\) Background
+
+```go
+func (c *FunctionArgs) Background(callback func(in FunctionArgs))
+```
+
+
+
+<a id="FunctionArgs.Sync" />
+
+### func \(\*FunctionArgs\) Sync
+
+```go
+func (c *FunctionArgs) Sync(callback func(in FunctionArgs) (any, error)) (any, error)
+```
+
+
+
+<a id="FunctionArgs.WithArgs" />
+
+### func \(\*FunctionArgs\) WithArgs
+
+```go
+func (c *FunctionArgs) WithArgs(args ...any) (FunctionArgs, error)
+```
+
+
+
+<a id="FunctionTemplate"></a>
+
+## type FunctionTemplate
+
+
+
+```go
+type FunctionTemplate struct {
+    refutils.RefHolder
+    // contains filtered or unexported fields
+}
+```
+
+<a id="FunctionTemplate.GetFunction" />
+
+### func \(\*FunctionTemplate\) GetFunction
+
+```go
+func (f *FunctionTemplate) GetFunction(ctx context.Context) (*Value, error)
+```
+
+
+
+<a id="FunctionTemplate.GetInstanceTemplate" />
+
+### func \(\*FunctionTemplate\) GetInstanceTemplate
+
+```go
+func (f *FunctionTemplate) GetInstanceTemplate(ctx context.Context) (*ObjectTemplate, error)
+```
+
+
+
+<a id="FunctionTemplate.GetPrototypeTemplate" />
+
+### func \(\*FunctionTemplate\) GetPrototypeTemplate
+
+```go
+func (f *FunctionTemplate) GetPrototypeTemplate(ctx context.Context) (*ObjectTemplate, error)
+```
+
+
+
+<a id="FunctionTemplate.Inherit" />
+
+### func \(\*FunctionTemplate\) Inherit
+
+```go
+func (f *FunctionTemplate) Inherit(ctx context.Context, parent *FunctionTemplate) error
+```
+
+
+
+<a id="FunctionTemplate.SetName" />
+
+### func \(\*FunctionTemplate\) SetName
+
+```go
+func (f *FunctionTemplate) SetName(ctx context.Context, name string) error
+```
+
+
+
+<a id="Getter"></a>
+
+## type Getter
+
+
+
+```go
+type Getter func(GetterArgs) (*Value, error)
+```
+
+<a id="GetterArgs"></a>
+
+## type GetterArgs
+
+
+
+```go
+type GetterArgs struct {
+    ExecutionContext context.Context
+    Context          *Context
+    Caller           CallerInfo
+    This             *Value
+    Holder           *Value
+    Key              string
+}
+```
+
+<a id="HeapStatistics"></a>
+
+## type HeapStatistics
+
+
+
+```go
+type HeapStatistics struct {
+    TotalHeapSize           uint64
+    TotalHeapSizeExecutable uint64
+    TotalPhysicalSize       uint64
+    TotalAvailableSize      uint64
+    UsedHeapSize            uint64
+    HeapSizeLimit           uint64
+    MallocedMemory          uint64
+    PeakMallocedMemory      uint64
+    DoesZapGarbage          bool
+}
+```
+
+<a id="Inspector"></a>
+
+## type Inspector
+
+
+
+```go
+type Inspector struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="Inspector.AddContext" />
+
+### func \(\*Inspector\) AddContext
+
+```go
+func (i *Inspector) AddContext(context *Context, name string)
+```
+
+
+
+<a id="Inspector.DispatchMessage" />
+
+### func \(\*Inspector\) DispatchMessage
+
+```go
+func (i *Inspector) DispatchMessage(message string)
+```
+
+
+
+<a id="Inspector.RemoveContext" />
+
+### func \(\*Inspector\) RemoveContext
+
+```go
+func (i *Inspector) RemoveContext(context *Context)
+```
+
+
+
+<a id="InspectorCallbacks"></a>
+
+## type InspectorCallbacks
+
+
+
+```go
+type InspectorCallbacks interface {
+    V8InspectorSendResponse(callId int, message string)
+    V8InspectorSendNotification(message string)
+    V8InspectorFlushProtocolNotifications()
+}
+```
+
+<a id="Isolate"></a>
+
+## type Isolate
+
+
+
+```go
+type Isolate struct {
+    refutils.RefHolder
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewIsolate" />
+
+### func NewIsolate
+
+```go
+func NewIsolate() *Isolate
+```
+
+
+
+<a id="NewIsolateWithSnapshot" />
+
+### func NewIsolateWithSnapshot
+
+```go
+func NewIsolateWithSnapshot(snapshot *Snapshot) *Isolate
+```
+
+
+
+<a id="Isolate.AddExecutionEnterCallback" />
+
+### func \(\*Isolate\) AddExecutionEnterCallback
+
+```go
+func (i *Isolate) AddExecutionEnterCallback(callback func())
+```
+
+
+
+<a id="Isolate.AddExecutionExitCallback" />
+
+### func \(\*Isolate\) AddExecutionExitCallback
+
+```go
+func (i *Isolate) AddExecutionExitCallback(callback func())
+```
+
+
+
+<a id="Isolate.AddExecutionExitCallbackOnce" />
+
+### func \(\*Isolate\) AddExecutionExitCallbackOnce
+
+```go
+func (i *Isolate) AddExecutionExitCallbackOnce(callback func())
+```
+
+
+
+<a id="Isolate.AddShutdownHook" />
+
+### func \(\*Isolate\) AddShutdownHook
+
+```go
+func (i *Isolate) AddShutdownHook(ctx context.Context, shutdownHook interface{})
+```
+
+
+
+<a id="Isolate.Background" />
+
+### func \(\*Isolate\) Background
+
+```go
+func (i *Isolate) Background(ctx context.Context, callback func(ctx context.Context))
+```
+
+
+
+<a id="Isolate.Contexts" />
+
+### func \(\*Isolate\) Contexts
+
+```go
+func (i *Isolate) Contexts(ctx context.Context) ([]*Context, error)
+```
+
+
+
+<a id="Isolate.EnqueueMicrotaskWithValue" />
+
+### func \(\*Isolate\) EnqueueMicrotaskWithValue
+
+```go
+func (i *Isolate) EnqueueMicrotaskWithValue(ctx context.Context, fn *Value) error
+```
+
+
+
+<a id="Isolate.GetData" />
+
+### func \(\*Isolate\) GetData
+
+```go
+func (i *Isolate) GetData(key string) interface{}
+```
+
+
+
+<a id="Isolate.GetExecutionContext" />
+
+### func \(\*Isolate\) GetExecutionContext
+
+```go
+func (i *Isolate) GetExecutionContext() context.Context
+```
+
+
+
+<a id="Isolate.GetHeapStatistics" />
+
+### func \(\*Isolate\) GetHeapStatistics
+
+```go
+func (i *Isolate) GetHeapStatistics(ctx context.Context) (HeapStatistics, error)
+```
+
+
+
+<a id="Isolate.IsRunning" />
+
+### func \(\*Isolate\) IsRunning
+
+```go
+func (i *Isolate) IsRunning(ctx context.Context) (bool, error)
+```
+
+
+
+<a id="Isolate.NewContext" />
+
+### func \(\*Isolate\) NewContext
+
+```go
+func (i *Isolate) NewContext(ctx context.Context) (*Context, error)
+```
+
+
+
+<a id="Isolate.NewInspector" />
+
+### func \(\*Isolate\) NewInspector
+
+```go
+func (i *Isolate) NewInspector(callbacks InspectorCallbacks) *Inspector
+```
+
+
+
+<a id="Isolate.PerformMicrotaskCheckpointInBackground" />
+
+### func \(\*Isolate\) PerformMicrotaskCheckpointInBackground
+
+```go
+func (i *Isolate) PerformMicrotaskCheckpointInBackground(ctx context.Context)
+```
+
+
+
+<a id="Isolate.PerformMicrotaskCheckpointSync" />
+
+### func \(\*Isolate\) PerformMicrotaskCheckpointSync
+
+```go
+func (i *Isolate) PerformMicrotaskCheckpointSync(ctx context.Context) error
+```
+
+
+
+<a id="Isolate.RequestGarbageCollectionForTesting" />
+
+### func \(\*Isolate\) RequestGarbageCollectionForTesting
+
+```go
+func (i *Isolate) RequestGarbageCollectionForTesting(ctx context.Context)
+```
+
+
+
+<a id="Isolate.SendLowMemoryNotification" />
+
+### func \(\*Isolate\) SendLowMemoryNotification
+
+```go
+func (i *Isolate) SendLowMemoryNotification(ctx context.Context)
+```
+
+
+
+<a id="Isolate.SetData" />
+
+### func \(\*Isolate\) SetData
+
+```go
+func (i *Isolate) SetData(key string, value interface{})
+```
+
+
+
+<a id="Isolate.Sync" />
+
+### func \(\*Isolate\) Sync
+
+```go
+func (i *Isolate) Sync(ctx context.Context, fn func(context.Context) (interface{}, error)) (result interface{}, err error)
+```
+
+
+
+<a id="Isolate.Terminate" />
+
+### func \(\*Isolate\) Terminate
+
+```go
+func (i *Isolate) Terminate()
+```
+
+
+
+<a id="Isolate.Wait" />
+
+### func \(\*Isolate\) Wait
+
+```go
+func (i *Isolate) Wait(ctx context.Context) error
+```
+
+
+
+<a id="Kind"></a>
+
+## type Kind
+
+
+
+Kind is an underlying V8 representation of a *Value. Javascript values may have multiple underyling kinds. For example, a function will be both KindObject and KindFunction.
+
+```go
+type Kind uint8
+```
+
+<a name="KindUndefined"></a>
+
+```go
+const (
+    KindUndefined Kind = iota
+    KindNull
+    KindName
+    KindString
+    KindSymbol
+    KindFunction
+    KindArray
+    KindObject
+    KindBoolean
+    KindNumber
+    KindExternal
+    KindInt32
+    KindUint32
+    KindDate
+    KindArgumentsObject
+    KindBooleanObject
+    KindNumberObject
+    KindStringObject
+    KindSymbolObject
+    KindNativeError
+    KindRegExp
+    KindAsyncFunction
+    KindGeneratorFunction
+    KindGeneratorObject
+    KindPromise
+    KindMap
+    KindSet
+    KindMapIterator
+    KindSetIterator
+    KindWeakMap
+    KindWeakSet
+    KindArrayBuffer
+    KindArrayBufferView
+    KindTypedArray
+    KindUint8Array
+    KindUint8ClampedArray
+    KindInt8Array
+    KindUint16Array
+    KindInt16Array
+    KindUint32Array
+    KindInt32Array
+    KindFloat32Array
+    KindFloat64Array
+    KindDataView
+    KindSharedArrayBuffer
+    KindProxy
+    KindWebAssemblyCompiledModule
+)
+```
+
+<a id="Kind.String" />
+
+### func \(Kind\) String
+
+```go
+func (k Kind) String() string
+```
+
+
+
+<a id="Marshaler"></a>
+
+## type Marshaler
+
+
+
+```go
+type Marshaler interface {
+    MarshalV8(ctx context.Context) any
+}
+```
+
+<a id="Module"></a>
+
+## type Module
+
+
+
+```go
+type Module struct {
+    refutils.RefHolder
+    sync.Mutex
+
+    Context  *Context
+    ID       string
+    FS       any
+    Filename string
+    Dirname  string
+    Main     bool
+
+    Require *Value
+    Error   error
+}
+```
+
+<a id="Module.ImportModuleDynamically" />
+
+### func \(\*Module\) ImportModuleDynamically
+
+```go
+func (m *Module) ImportModuleDynamically(ctx context.Context, specifier string, resourceName string, importAssertions []*Value) (*Value, error)
+```
+
+
+
+<a id="Module.V8Func_compile" />
+
+### func \(\*Module\) V8Func\\\_compile
+
+```go
+func (m *Module) V8Func_compile(in FunctionArgs) (*Value, error)
+```
+
+
+
+<a id="Module.V8GetDirname" />
+
+### func \(\*Module\) V8GetDirname
+
+```go
+func (m *Module) V8GetDirname(in GetterArgs) (*Value, error)
+```
+
+
+
+<a id="Module.V8GetFilename" />
+
+### func \(\*Module\) V8GetFilename
+
+```go
+func (m *Module) V8GetFilename(in GetterArgs) (*Value, error)
+```
+
+
+
+<a id="Module.V8GetFs" />
+
+### func \(\*Module\) V8GetFs
+
+```go
+func (m *Module) V8GetFs(in GetterArgs) (*Value, error)
+```
+
+
+
+<a id="Module.V8GetId" />
+
+### func \(\*Module\) V8GetId
+
+```go
+func (m *Module) V8GetId(in GetterArgs) (*Value, error)
+```
+
+
+
+<a id="Module.V8GetRequire" />
+
+### func \(\*Module\) V8GetRequire
+
+```go
+func (m *Module) V8GetRequire(in GetterArgs) (*Value, error)
+```
+
+
+
+<a id="ObjectTemplate"></a>
+
+## type ObjectTemplate
+
+
+
+```go
+type ObjectTemplate struct {
+    refutils.RefHolder
+    // contains filtered or unexported fields
+}
+```
+
+<a id="ObjectTemplate.Copy" />
+
+### func \(\*ObjectTemplate\) Copy
+
+```go
+func (o *ObjectTemplate) Copy(ctx context.Context, other *ObjectTemplate) error
+```
+
+
+
+<a id="ObjectTemplate.SetAccessor" />
+
+### func \(\*ObjectTemplate\) SetAccessor
+
+```go
+func (o *ObjectTemplate) SetAccessor(ctx context.Context, name string, getter Getter, setter Setter) error
+```
+
+
+
+<a id="ObjectTemplate.SetInternalFieldCount" />
+
+### func \(\*ObjectTemplate\) SetInternalFieldCount
+
+```go
+func (o *ObjectTemplate) SetInternalFieldCount(ctx context.Context, count int) error
+```
+
+
+
+<a id="PromiseState"></a>
+
+## type PromiseState
+
+
+
+PromiseState defines the state of a promise: either pending, resolved, or rejected. Promises that are pending have no result value yet. A promise that is resolved has a result value, and a promise that is rejected has a result value that is usually the error.
+
+```go
+type PromiseState uint8
+```
+
+<a name="PromiseStatePending"></a>
+
+```go
+const (
+    PromiseStatePending PromiseState = iota
+    PromiseStateResolved
+    PromiseStateRejected
+)
+```
+
+<a id="PromiseState.String" />
+
+### func \(PromiseState\) String
+
+```go
+func (s PromiseState) String() string
+```
+
+
+
+<a id="PropertyDescriptor"></a>
+
+## type PropertyDescriptor
+
+
+
+```go
+type PropertyDescriptor struct {
+    Get          *Value `v8:"get"`
+    Set          *Value `v8:"set"`
+    Value        *Value `v8:"value"`
+    Enumerable   bool   `v8:"enumerable"`
+    Configurable bool   `v8:"configurable"`
+    Writable     bool   `v8:"writable"`
+}
+```
+
+<a id="PropertyDescriptor.MarshalV8" />
+
+### func \(\*PropertyDescriptor\) MarshalV8
+
+```go
+func (d *PropertyDescriptor) MarshalV8(ctx context.Context) any
+```
+
+
+
+<a id="PropertyDescriptor.V8Construct" />
+
+### func \(\*PropertyDescriptor\) V8Construct
+
+```go
+func (d *PropertyDescriptor) V8Construct(in FunctionArgs) error
+```
+
+
+
+<a id="Releaser"></a>
+
+## type Releaser
+
+
+
+```go
+type Releaser interface {
+    Release()
+}
+```
+
+<a id="ResolveResult"></a>
+
+## type ResolveResult
+
+
+
+```go
+type ResolveResult struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="RegisterRuntime" />
+
+### func RegisterRuntime
+
+```go
+func RegisterRuntime(name string, path string, factory func(in FunctionArgs) (*Value, error)) *ResolveResult
+```
+
+
+
+<a id="RegisterRuntimeLibrary" />
+
+### func RegisterRuntimeLibrary
+
+```go
+func RegisterRuntimeLibrary(name string, fs any, path string) *ResolveResult
+```
+
+
+
+<a id="Resolver"></a>
+
+## type Resolver
+
+
+
+```go
+type Resolver struct {
+    refutils.RefHolder
+    // contains filtered or unexported fields
+}
+```
+
+<a id="Resolver.Promise" />
+
+### func \(\*Resolver\) Promise
+
+```go
+func (r *Resolver) Promise(ctx context.Context) (*Value, error)
+```
+
+
+
+<a id="Resolver.Reject" />
+
+### func \(\*Resolver\) Reject
+
+```go
+func (r *Resolver) Reject(ctx context.Context, value interface{}) error
+```
+
+
+
+<a id="Resolver.RejectWithValue" />
+
+### func \(\*Resolver\) RejectWithValue
+
+```go
+func (r *Resolver) RejectWithValue(ctx context.Context, v *Value) error
+```
+
+
+
+<a id="Resolver.Resolve" />
+
+### func \(\*Resolver\) Resolve
+
+```go
+func (r *Resolver) Resolve(ctx context.Context, value interface{}) error
+```
+
+
+
+<a id="Resolver.ResolveWithValue" />
+
+### func \(\*Resolver\) ResolveWithValue
+
+```go
+func (r *Resolver) ResolveWithValue(ctx context.Context, v *Value) error
+```
+
+
+
+<a id="Resolver.ToCallback" />
+
+### func \(\*Resolver\) ToCallback
+
+```go
+func (r *Resolver) ToCallback(ctx context.Context, callback *Value) error
+```
+
+
+
+<a id="RuntimeFunctionArgs"></a>
+
+## type RuntimeFunctionArgs
+
+
+
+```go
+type RuntimeFunctionArgs struct {
+    FunctionArgs
+    Module  *Module
+    Require *Value
+    Exports *Value
+}
+```
+
+<a id="Setter"></a>
+
+## type Setter
+
+
+
+```go
+type Setter func(SetterArgs) error
+```
+
+<a id="SetterArgs"></a>
+
+## type SetterArgs
+
+
+
+```go
+type SetterArgs struct {
+    ExecutionContext context.Context
+    Context          *Context
+    Caller           CallerInfo
+    This             *Value
+    Holder           *Value
+    Key              string
+    Value            *Value
+}
+```
+
+<a id="Snapshot"></a>
+
+## type Snapshot
+
+
+
+```go
+type Snapshot struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="Snapshot.Export" />
+
+### func \(\*Snapshot\) Export
+
+```go
+func (s *Snapshot) Export() []byte
+```
+
+
+
+<a id="Value"></a>
+
+## type Value
+
+
+
+```go
+type Value struct {
+    refutils.RefHolder
+    // contains filtered or unexported fields
+}
+```
+
+<a id="Value.Await" />
+
+### func \(\*Value\) Await
+
+```go
+func (v *Value) Await(ctx context.Context) (*Value, error)
+```
+
+
+
+<a id="Value.Bind" />
+
+### func \(\*Value\) Bind
+
+```go
+func (v *Value) Bind(ctx context.Context, argv ...any) (*Value, error)
+```
+
+
+
+<a id="Value.BindMethod" />
+
+### func \(\*Value\) BindMethod
+
+```go
+func (v *Value) BindMethod(ctx context.Context, method string, argv ...any) (*Value, error)
+```
+
+
+
+<a id="Value.Bool" />
+
+### func \(\*Value\) Bool
+
+```go
+func (v *Value) Bool(ctx context.Context) (bool, error)
+```
+
+
+
+<a id="Value.Bytes" />
+
+### func \(\*Value\) Bytes
+
+```go
+func (v *Value) Bytes(ctx context.Context) ([]byte, error)
+```
+
+
+
+<a id="Value.Call" />
+
+### func \(\*Value\) Call
+
+```go
+func (v *Value) Call(ctx context.Context, self any, args ...any) (*Value, error)
+```
+
+
+
+<a id="Value.CallMethod" />
+
+### func \(\*Value\) CallMethod
+
+```go
+func (v *Value) CallMethod(ctx context.Context, name string, argv ...any) (*Value, error)
+```
+
+
+
+<a id="Value.CallValue" />
+
+### func \(\*Value\) CallValue
+
+```go
+func (v *Value) CallValue(ctx context.Context, self *Value, argv ...*Value) (*Value, error)
+```
+
+
+
+<a id="Value.Constructor" />
+
+### func \(\*Value\) Constructor
+
+```go
+func (v *Value) Constructor(t reflect.Type) *FunctionTemplate
+```
+
+
+
+<a id="Value.Date" />
+
+### func \(\*Value\) Date
+
+```go
+func (v *Value) Date(ctx context.Context) (time.Time, error)
+```
+
+
+
+<a id="Value.DefineProperty" />
+
+### func \(\*Value\) DefineProperty
+
+```go
+func (v *Value) DefineProperty(ctx context.Context, key string, descriptor *PropertyDescriptor) error
+```
+
+
+
+<a id="Value.Equals" />
+
+### func \(\*Value\) Equals
+
+```go
+func (v *Value) Equals(ctx context.Context, other *Value) (bool, error)
+```
+
+
+
+<a id="Value.Error" />
+
+### func \(\*Value\) Error
+
+```go
+func (v *Value) Error() string
+```
+
+
+
+<a id="Value.Float64" />
+
+### func \(\*Value\) Float64
+
+```go
+func (v *Value) Float64(ctx context.Context) (float64, error)
+```
+
+
+
+<a id="Value.Get" />
+
+### func \(\*Value\) Get
+
+```go
+func (v *Value) Get(ctx context.Context, key string) (*Value, error)
+```
+
+
+
+<a id="Value.GetByteLength" />
+
+### func \(\*Value\) GetByteLength
+
+```go
+func (v *Value) GetByteLength(ctx context.Context) (int, error)
+```
+
+
+
+<a id="Value.GetContext" />
+
+### func \(\*Value\) GetContext
+
+```go
+func (v *Value) GetContext() *Context
+```
+
+
+
+<a id="Value.GetIndex" />
+
+### func \(\*Value\) GetIndex
+
+```go
+func (v *Value) GetIndex(ctx context.Context, i int) (*Value, error)
+```
+
+
+
+<a id="Value.GetInternalField" />
+
+### func \(\*Value\) GetInternalField
+
+```go
+func (v *Value) GetInternalField(ctx context.Context, i int) (int64, error)
+```
+
+
+
+<a id="Value.GetInternalFieldCount" />
+
+### func \(\*Value\) GetInternalFieldCount
+
+```go
+func (v *Value) GetInternalFieldCount(ctx context.Context) (int, error)
+```
+
+
+
+<a id="Value.GetLength" />
+
+### func \(\*Value\) GetLength
+
+```go
+func (v *Value) GetLength(ctx context.Context) (int64, error)
+```
+
+
+
+<a id="Value.GetOwnPropertyDescriptors" />
+
+### func \(\*Value\) GetOwnPropertyDescriptors
+
+```go
+func (v *Value) GetOwnPropertyDescriptors(ctx context.Context) (map[string]PropertyDescriptor, error)
+```
+
+
+
+<a id="Value.GetPrototype" />
+
+### func \(\*Value\) GetPrototype
+
+```go
+func (v *Value) GetPrototype(ctx context.Context) (*Value, error)
+```
+
+
+
+<a id="Value.InstanceOf" />
+
+### func \(\*Value\) InstanceOf
+
+```go
+func (v *Value) InstanceOf(ctx context.Context, object *Value) bool
+```
+
+
+
+<a id="Value.Int64" />
+
+### func \(\*Value\) Int64
+
+```go
+func (v *Value) Int64(ctx context.Context) (int64, error)
+```
+
+
+
+<a id="Value.IsKind" />
+
+### func \(\*Value\) IsKind
+
+```go
+func (v *Value) IsKind(k Kind) bool
+```
+
+
+
+<a id="Value.IsNil" />
+
+### func \(\*Value\) IsNil
+
+```go
+func (v *Value) IsNil() bool
+```
+
+
+
+<a id="Value.Keys" />
+
+### func \(\*Value\) Keys
+
+```go
+func (v *Value) Keys(ctx context.Context) ([]string, error)
+```
+
+
+
+<a id="Value.MarshalJSON" />
+
+### func \(\*Value\) MarshalJSON
+
+```go
+func (v *Value) MarshalJSON(ctx context.Context) ([]byte, error)
+```
+
+
+
+<a id="Value.New" />
+
+### func \(\*Value\) New
+
+```go
+func (v *Value) New(ctx context.Context, args ...any) (*Value, error)
+```
+
+
+
+<a id="Value.NewValue" />
+
+### func \(\*Value\) NewValue
+
+```go
+func (v *Value) NewValue(ctx context.Context, argv ...*Value) (*Value, error)
+```
+
+
+
+<a id="Value.PromiseInfo" />
+
+### func \(\*Value\) PromiseInfo
+
+```go
+func (v *Value) PromiseInfo(ctx context.Context) (PromiseState, *Value, error)
+```
+
+
+
+<a id="Value.RebindAll" />
+
+### func \(\*Value\) RebindAll
+
+```go
+func (v *Value) RebindAll(ctx context.Context) error
+```
+
+
+
+<a id="Value.RebindMethod" />
+
+### func \(\*Value\) RebindMethod
+
+```go
+func (v *Value) RebindMethod(ctx context.Context, method string, args ...any) error
+```
+
+
+
+<a id="Value.Receiver" />
+
+### func \(\*Value\) Receiver
+
+```go
+func (v *Value) Receiver(ctx context.Context) reflect.Value
+```
+
+
+
+<a id="Value.Ref" />
+
+### func \(\*Value\) Ref
+
+```go
+func (v *Value) Ref() refutils.ID
+```
+
+
+
+<a id="Value.Set" />
+
+### func \(\*Value\) Set
+
+```go
+func (v *Value) Set(ctx context.Context, key string, value any) error
+```
+
+
+
+<a id="Value.SetBytes" />
+
+### func \(\*Value\) SetBytes
+
+```go
+func (v *Value) SetBytes(ctx context.Context, bytes []byte) error
+```
+
+
+
+<a id="Value.SetIndex" />
+
+### func \(\*Value\) SetIndex
+
+```go
+func (v *Value) SetIndex(ctx context.Context, i int, value *Value) error
+```
+
+
+
+<a id="Value.SetInternalField" />
+
+### func \(\*Value\) SetInternalField
+
+```go
+func (v *Value) SetInternalField(ctx context.Context, i int, value uint32) error
+```
+
+
+
+<a id="Value.SetReceiver" />
+
+### func \(\*Value\) SetReceiver
+
+```go
+func (v *Value) SetReceiver(ctx context.Context, value reflect.Value)
+```
+
+
+
+<a id="Value.SetValue" />
+
+### func \(\*Value\) SetValue
+
+```go
+func (v *Value) SetValue(ctx context.Context, key string, value *Value) error
+```
+
+
+
+<a id="Value.StrictEquals" />
+
+### func \(\*Value\) StrictEquals
+
+```go
+func (v *Value) StrictEquals(ctx context.Context, other *Value) (bool, error)
+```
+
+
+
+<a id="Value.String" />
+
+### func \(\*Value\) String
+
+```go
+func (v *Value) String() string
+```
+
+
+
+<a id="Value.StringValue" />
+
+### func \(\*Value\) StringValue
+
+```go
+func (v *Value) StringValue(ctx context.Context) (string, error)
+```
+
+
+
+<a id="Value.ToError" />
+
+### func \(\*Value\) ToError
+
+```go
+func (v *Value) ToError(ctx context.Context) error
+```
+
+
+
+<a id="Value.Unmarshal" />
+
+### func \(\*Value\) Unmarshal
+
+```go
+func (v *Value) Unmarshal(ctx context.Context, t reflect.Type) (*reflect.Value, error)
+```
+
+
+
+<a id="Value.Unref" />
+
+### func \(\*Value\) Unref
+
+```go
+func (v *Value) Unref()
+```
+
+
+

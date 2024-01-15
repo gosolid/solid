@@ -28,6 +28,7 @@ type TaskOptions struct {
 	Requires         []string          `v8:"requires"`
 	Script           string            `v8:"script"`
 	Env              map[string]string `v8:"env"`
+	Arguments        []string          `v8:"args"`
 }
 
 var modulePath *string
@@ -84,6 +85,7 @@ func Run(flagSet *flag.FlagSet) error {
 		WorkingDirectory: wd,
 		Requires:         requires,
 		Script:           flagSet.Arg(0),
+		Arguments:        append([]string{"solid"}, flagSet.Args()...),
 	}
 
 	getenvironment := func(data []string, getkeyval func(item string) (key, val string)) map[string]string {
@@ -106,13 +108,14 @@ func Run(flagSet *flag.FlagSet) error {
 			log.Println(err)
 			return err
 		} else if task, err := solid.NewTask(solid.TaskOptions{
-			FS:       fs,
-			Requires: options.Requires,
-			Env:      options.Env,
-			Script:   script,
-			Stdin:    os.Stdin,
-			Stdout:   os.Stdout,
-			Stderr:   os.Stderr,
+			FS:        fs,
+			Requires:  options.Requires,
+			Env:       options.Env,
+			Arguments: options.Arguments,
+			Script:    script,
+			Stdin:     os.Stdin,
+			Stdout:    os.Stdout,
+			Stderr:    os.Stderr,
 		}); err != nil {
 			isolates.For(task.GetExecutionContext()).Error(err)
 			return nil

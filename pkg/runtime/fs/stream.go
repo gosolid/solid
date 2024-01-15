@@ -2,11 +2,14 @@
 
 package fs
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"github.com/gosolid/solid/pkg/runtime/stream"
 	"github.com/grexie/isolates"
 )
 
+//js:alias ReadStreamBase
 type ReadStream interface {
 	stream.Readable
 }

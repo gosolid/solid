@@ -1,0 +1,6 @@
+./build.mjs
+./lib/docs.d.ts
+./.gitignore
+./tsconfig*.json
+./typedoc.json
+__DOCS__.d.ts

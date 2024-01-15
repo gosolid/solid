@@ -2,6 +2,8 @@
 
 package fs
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"context"
 	"fmt"
@@ -21,6 +23,7 @@ var _ FS = &localfs{}
 var _ fsv8 = &localfs{}
 
 type localfile struct {
+	*filebase
 	fs   *localfs
 	file *os.File
 }
@@ -83,6 +86,7 @@ func (fs *localfs) ReadDir(ctx context.Context, path string) ([]string, error) {
 
 //js:method readFileSync
 //js:callback-method readFile
+//js:return buffer.Buffer
 func (fs *localfs) ReadFile(ctx context.Context, path string) ([]byte, error) {
 	if mount, _, err := fs.mounts.Resolve(ctx, path); err != nil && !IsNotExists(err) {
 		return nil, err
@@ -136,7 +140,7 @@ func (fs *localfs) Open(ctx context.Context, path string) (FileDescriptor, error
 			return 0, err
 		}
 	} else {
-		return NewFileDescriptor(ctx, &localfile{fs, file})
+		return NewFileDescriptor(ctx, &localfile{&filebase{}, fs, file})
 	}
 }
 
@@ -246,7 +250,6 @@ func (f *localfile) Close(ctx context.Context) error {
 	return f.file.Close()
 }
 
-//js:method createReadStream
 func (f *localfile) ReadStream(ctx context.Context) (ReadStream, error) {
 	if stream, err := isolates.For(ctx).New(NewReadStream, f.file); err != nil {
 		return nil, err
@@ -257,6 +260,7 @@ func (f *localfile) ReadStream(ctx context.Context) (ReadStream, error) {
 
 //js:method readAllSync
 //js:callback-method readAll
+//js:return buffer.Buffer
 func (f *localfile) ReadAll(ctx context.Context) ([]byte, error) {
 	if reader, err := f.ReadStream(ctx); err != nil {
 		return nil, err

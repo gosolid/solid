@@ -1,0 +1,529 @@
+---
+package: "github.com/gosolid/solid/pkg/runtime/fs"
+language: go
+---
+
+# fs
+
+```go
+import "github.com/gosolid/solid/pkg/runtime/fs"
+```
+
+## Index
+
+<ul>
+
+- [Constants](<#Constants>)
+
+- [Variables](<#Variables>)
+
+
+
+<li parentName="ul"><a href="#IsNotExists">
+
+```go
+func IsNotExists(err error) bool
+```
+
+</a></li>
+
+<li parentName="ul"><a href="#DirEntry">
+
+```go
+type DirEntry
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#FS">
+
+```go
+type FS
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#FSError">
+
+```go
+type FSError
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#FSErrorBase">
+
+```go
+type FSErrorBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewFSError">
+
+```go
+func NewFSError(ctx context.Context, code string, message string) *FSErrorBase
+```
+
+</a></li>
+<li parentName="ul"><a href="#NewFSError2">
+
+```go
+func NewFSError2(in isolates.FunctionArgs) (*FSErrorBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#FSErrorBase.Code">
+
+```go
+func (e *FSErrorBase) Code() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#FSErrorBase.Error">
+
+```go
+func (e *FSErrorBase) Error() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#FSErrorBase.Message">
+
+```go
+func (e *FSErrorBase) Message() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#FSErrorBase.V8GetCode">
+
+```go
+func (e *FSErrorBase) V8GetCode(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#FSErrorBase.V8GetMessage">
+
+```go
+func (e *FSErrorBase) V8GetMessage(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#File">
+
+```go
+type File
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#FileDescriptor">
+
+```go
+type FileDescriptor
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewFileDescriptor">
+
+```go
+func NewFileDescriptor(ctx context.Context, file File) (FileDescriptor, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#FileDescriptor.Close">
+
+```go
+func (f FileDescriptor) Close(ctx context.Context) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#FileDescriptor.File">
+
+```go
+func (f FileDescriptor) File(ctx context.Context) (File, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#FileDescriptor.ReadAll">
+
+```go
+func (f FileDescriptor) ReadAll(ctx context.Context) ([]byte, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#FileDescriptor.ReadStream">
+
+```go
+func (f FileDescriptor) ReadStream(ctx context.Context) (ReadStream, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#FileMode">
+
+```go
+type FileMode
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#ReadStream">
+
+```go
+type ReadStream
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#ReadStreamBase">
+
+```go
+type ReadStreamBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewReadStream">
+
+```go
+func NewReadStream(in isolates.FunctionArgs) (*ReadStreamBase, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Stats">
+
+```go
+type Stats
+```
+
+</a><ul>
+</ul></li>
+
+</ul>
+
+<a id="Constants" />
+
+## Constants
+
+<a name="ENOENT"></a>
+
+```go
+const (
+    ENOENT    = "ENOENT"
+    ENOACCESS = "ENOACCESS"
+)
+```
+
+<a name="F_OK"></a>
+
+```go
+const (
+    F_OK = 1
+    R_OK = 2
+    W_OK = 4
+    X_OK = 8
+)
+```
+
+<a id="Variables" />
+
+## Variables
+
+<a name="ErrFileDescriptorNotFound"></a>
+
+```go
+var ErrFileDescriptorNotFound = func(ctx context.Context) error { return NewFSError(ctx, "ENOFD", "file descriptor not found") }
+```
+
+<a name="ErrInvalid"></a>
+
+```go
+var ErrInvalid = func(ctx context.Context) error { return NewFSError(ctx, "EINVAL", "received invalid argument") }
+```
+
+<a name="ErrNoFileDescriptorTable"></a>
+
+```go
+var ErrNoFileDescriptorTable = func(ctx context.Context) error {
+    return NewFSError(ctx, "ENOCTX", "file descriptor table not found in context")
+}
+```
+
+<a id="IsNotExists" />
+
+## func IsNotExists
+
+```go
+func IsNotExists(err error) bool
+```
+
+
+
+<a id="DirEntry"></a>
+
+## type DirEntry
+
+
+
+```go
+type DirEntry interface {
+    IsFile() bool
+    IsDirectory() bool
+    Name() string
+}
+```
+
+<a id="FS"></a>
+
+## type FS
+
+
+
+```go
+type FS interface {
+    ReadDir(ctx context.Context, path string) ([]string, error)
+    ReadFile(ctx context.Context, path string) ([]byte, error)
+    ReadStream(ctx context.Context, path string) (ReadStream, error)
+    Open(ctx context.Context, path string) (FileDescriptor, error)
+    Close(ctx context.Context, fd FileDescriptor) error
+    Exists(ctx context.Context, path string) (bool, error)
+    Stat(ctx context.Context, path string) (Stats, error)
+    LStat(ctx context.Context, path string) (Stats, error)
+    Access(ctx context.Context, path string, args ...any) error
+    Mount(mountPoint string, mount FS, path string) error
+    RealPath(ctx context.Context, path string) (string, error)
+    File(ctx context.Context, fd FileDescriptor) (File, error)
+}
+```
+
+<a id="FSError"></a>
+
+## type FSError
+
+
+
+```go
+type FSError interface {
+    isolates.Error
+    Code() string
+}
+```
+
+<a id="FSErrorBase"></a>
+
+## type FSErrorBase
+
+
+
+```go
+type FSErrorBase struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewFSError" />
+
+### func NewFSError
+
+```go
+func NewFSError(ctx context.Context, code string, message string) *FSErrorBase
+```
+
+
+
+<a id="NewFSError2" />
+
+### func NewFSError2
+
+```go
+func NewFSError2(in isolates.FunctionArgs) (*FSErrorBase, error)
+```
+
+
+
+<a id="FSErrorBase.Code" />
+
+### func \(\*FSErrorBase\) Code
+
+```go
+func (e *FSErrorBase) Code() string
+```
+
+
+
+<a id="FSErrorBase.Error" />
+
+### func \(\*FSErrorBase\) Error
+
+```go
+func (e *FSErrorBase) Error() string
+```
+
+
+
+<a id="FSErrorBase.Message" />
+
+### func \(\*FSErrorBase\) Message
+
+```go
+func (e *FSErrorBase) Message() string
+```
+
+
+
+<a id="FSErrorBase.V8GetCode" />
+
+### func \(\*FSErrorBase\) V8GetCode
+
+```go
+func (e *FSErrorBase) V8GetCode(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="FSErrorBase.V8GetMessage" />
+
+### func \(\*FSErrorBase\) V8GetMessage
+
+```go
+func (e *FSErrorBase) V8GetMessage(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="File"></a>
+
+## type File
+
+
+
+```go
+type File interface {
+    Close(ctx context.Context) error
+    ReadStream(ctx context.Context) (ReadStream, error)
+    ReadAll(ctx context.Context) ([]byte, error)
+}
+```
+
+<a id="FileDescriptor"></a>
+
+## type FileDescriptor
+
+
+
+```go
+type FileDescriptor uintptr
+```
+
+<a id="NewFileDescriptor" />
+
+### func NewFileDescriptor
+
+```go
+func NewFileDescriptor(ctx context.Context, file File) (FileDescriptor, error)
+```
+
+
+
+<a id="FileDescriptor.Close" />
+
+### func \(FileDescriptor\) Close
+
+```go
+func (f FileDescriptor) Close(ctx context.Context) error
+```
+
+
+
+<a id="FileDescriptor.File" />
+
+### func \(FileDescriptor\) File
+
+```go
+func (f FileDescriptor) File(ctx context.Context) (File, error)
+```
+
+
+
+<a id="FileDescriptor.ReadAll" />
+
+### func \(FileDescriptor\) ReadAll
+
+```go
+func (f FileDescriptor) ReadAll(ctx context.Context) ([]byte, error)
+```
+
+
+
+<a id="FileDescriptor.ReadStream" />
+
+### func \(FileDescriptor\) ReadStream
+
+```go
+func (f FileDescriptor) ReadStream(ctx context.Context) (ReadStream, error)
+```
+
+
+
+<a id="FileMode"></a>
+
+## type FileMode
+
+
+
+```go
+type FileMode gofs.FileMode
+```
+
+<a id="ReadStream"></a>
+
+## type ReadStream
+
+
+
+```go
+type ReadStream interface {
+    stream.Readable
+}
+```
+
+<a id="ReadStreamBase"></a>
+
+## type ReadStreamBase
+
+
+
+```go
+type ReadStreamBase struct {
+    *stream.ReadableBase
+}
+```
+
+<a id="NewReadStream" />
+
+### func NewReadStream
+
+```go
+func NewReadStream(in isolates.FunctionArgs) (*ReadStreamBase, error)
+```
+
+
+
+<a id="Stats"></a>
+
+## type Stats
+
+
+
+```go
+type Stats interface {
+    IsFile() bool
+    IsDirectory() bool
+    IsSymbolicLink() bool
+    AccessedMilli() int64
+    Accessed() time.Time
+    ModifiedMilli() int64
+    Modified() time.Time
+    ChangedMilli() int64
+    Changed() time.Time
+    CreatedMilli() int64
+    Created() time.Time
+    Size() int64
+    ContentType() string
+    Uid() int
+    Gid() int
+    Mode() FileMode
+}
+```
+

@@ -1,0 +1,3074 @@
+---
+package: "github.com/gosolid/solid/pkg/runtime/stream"
+language: go
+---
+
+# stream
+
+```go
+import "github.com/gosolid/solid/pkg/runtime/stream"
+```
+
+## Index
+
+<ul>
+
+
+
+<li parentName="ul"><a href="#Pipeline">
+
+```go
+func Pipeline(ctx context.Context, args ...*isolates.Value) *isolates.Value
+```
+
+</a></li>
+
+<li parentName="ul"><a href="#BufferEncoding">
+
+```go
+type BufferEncoding
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Closer">
+
+```go
+type Closer
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewCloser">
+
+```go
+func NewCloser(in isolates.FunctionArgs) (*Closer, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Closer.Destroy">
+
+```go
+func (c *Closer) Destroy(in isolates.FunctionArgs, this Stream, err *isolates.Value, callback *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Closer.V8FuncDestroy">
+
+```go
+func (c *Closer) V8FuncDestroy(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Duplex">
+
+```go
+type Duplex
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#DuplexBase">
+
+```go
+type DuplexBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewDuplex">
+
+```go
+func NewDuplex(in isolates.FunctionArgs) (*DuplexBase, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Pipe">
+
+```go
+type Pipe
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#PipeBase">
+
+```go
+type PipeBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#PipeBase.Destination">
+
+```go
+func (p *PipeBase) Destination() *isolates.Value
+```
+
+</a></li>
+<li parentName="ul"><a href="#PipeBase.OnData">
+
+```go
+func (p *PipeBase) OnData() *isolates.Value
+```
+
+</a></li>
+<li parentName="ul"><a href="#PipeBase.OnEnd">
+
+```go
+func (p *PipeBase) OnEnd() *isolates.Value
+```
+
+</a></li>
+<li parentName="ul"><a href="#PipeBase.OnError">
+
+```go
+func (p *PipeBase) OnError() *isolates.Value
+```
+
+</a></li>
+<li parentName="ul"><a href="#PipeBase.Remove">
+
+```go
+func (p *PipeBase) Remove(ctx context.Context) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#PipeBase.Source">
+
+```go
+func (p *PipeBase) Source() *isolates.Value
+```
+
+</a></li>
+<li parentName="ul"><a href="#PipeBase.V8FuncRemove">
+
+```go
+func (p *PipeBase) V8FuncRemove(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PipeBase.V8GetDestination">
+
+```go
+func (p *PipeBase) V8GetDestination(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PipeBase.V8GetOnData">
+
+```go
+func (p *PipeBase) V8GetOnData(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PipeBase.V8GetOnEnd">
+
+```go
+func (p *PipeBase) V8GetOnEnd(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PipeBase.V8GetOnError">
+
+```go
+func (p *PipeBase) V8GetOnError(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#PipeBase.V8GetSource">
+
+```go
+func (p *PipeBase) V8GetSource(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#ReadCloser">
+
+```go
+type ReadCloser
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewReadCloser">
+
+```go
+func NewReadCloser(in isolates.FunctionArgs) (*ReadCloser, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#ReadWriteCloser">
+
+```go
+type ReadWriteCloser
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewReadWriteCloser">
+
+```go
+func NewReadWriteCloser(in isolates.FunctionArgs) (*ReadWriteCloser, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadWriteCloser.Final">
+
+```go
+func (c *ReadWriteCloser) Final(in isolates.FunctionArgs, this Writable, callback *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadWriteCloser.V8FuncFinal">
+
+```go
+func (c *ReadWriteCloser) V8FuncFinal(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Readable">
+
+```go
+type Readable
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#ReadableBase">
+
+```go
+type ReadableBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewReadable">
+
+```go
+func NewReadable(in isolates.FunctionArgs) (*ReadableBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#NewReadableWithStream">
+
+```go
+func NewReadableWithStream(in isolates.FunctionArgs, StreamBase *StreamBase) (*ReadableBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.AsIndexedPairs">
+
+```go
+func (r *ReadableBase) AsIndexedPairs(context.Context, *isolates.Value) (Readable, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Compose">
+
+```go
+func (r *ReadableBase) Compose(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Drop">
+
+```go
+func (r *ReadableBase) Drop(context.Context, int, *isolates.Value) (Readable, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Every">
+
+```go
+func (r *ReadableBase) Every(context.Context, *isolates.Value, *isolates.Value) (bool, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Filter">
+
+```go
+func (r *ReadableBase) Filter(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Find">
+
+```go
+func (r *ReadableBase) Find(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.FlatMap">
+
+```go
+func (r *ReadableBase) FlatMap(context.Context, *isolates.Value, *isolates.Value) (Readable, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.ForEach">
+
+```go
+func (r *ReadableBase) ForEach(context.Context, *isolates.Value, *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.IsPaused">
+
+```go
+func (r *ReadableBase) IsPaused() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Iterator">
+
+```go
+func (r *ReadableBase) Iterator(context.Context, *isolates.Value) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Map">
+
+```go
+func (r *ReadableBase) Map(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Pause">
+
+```go
+func (r *ReadableBase) Pause(context.Context)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Pipe">
+
+```go
+func (r *ReadableBase) Pipe(ctx context.Context, destination *isolates.Value, options *isolates.Value) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Push">
+
+```go
+func (r *ReadableBase) Push(ctx context.Context, chunk *isolates.Value, encoding *BufferEncoding) (bool, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Read">
+
+```go
+func (s *ReadableBase) Read(b []byte) (int, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.ReadV8">
+
+```go
+func (r *ReadableBase) ReadV8(ctx context.Context, size int) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Readable">
+
+```go
+func (r *ReadableBase) Readable() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.ReadableAborted">
+
+```go
+func (r *ReadableBase) ReadableAborted() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.ReadableDidRead">
+
+```go
+func (r *ReadableBase) ReadableDidRead() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.ReadableEncoding">
+
+```go
+func (r *ReadableBase) ReadableEncoding() *BufferEncoding
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.ReadableEnded">
+
+```go
+func (r *ReadableBase) ReadableEnded() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.ReadableFlowing">
+
+```go
+func (r *ReadableBase) ReadableFlowing() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.ReadableHighWaterMark">
+
+```go
+func (r *ReadableBase) ReadableHighWaterMark() int
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.ReadableLength">
+
+```go
+func (r *ReadableBase) ReadableLength() int
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.ReadableObjectMode">
+
+```go
+func (r *ReadableBase) ReadableObjectMode() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Reduce">
+
+```go
+func (r *ReadableBase) Reduce(context.Context, *isolates.Value, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Resume">
+
+```go
+func (r *ReadableBase) Resume(ctx context.Context)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.SetEncoding">
+
+```go
+func (r *ReadableBase) SetEncoding(BufferEncoding) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.SetReadableState">
+
+```go
+func (s *ReadableBase) SetReadableState(state ReadableStreamState) bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.SetReadableStateConditional">
+
+```go
+func (s *ReadableBase) SetReadableStateConditional(fromState ReadableStreamState, toState ReadableStreamState) bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Some">
+
+```go
+func (r *ReadableBase) Some(context.Context, *isolates.Value, *isolates.Value) (bool, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Take">
+
+```go
+func (r *ReadableBase) Take(context.Context, int, *isolates.Value) (Readable, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.ToArray">
+
+```go
+func (r *ReadableBase) ToArray(context.Context, *isolates.Value) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Unpipe">
+
+```go
+func (r *ReadableBase) Unpipe(ctx context.Context, destination *isolates.Value) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Unshift">
+
+```go
+func (r *ReadableBase) Unshift(context.Context, *isolates.Value, *BufferEncoding) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncAsIndexedPairs">
+
+```go
+func (r *ReadableBase) V8FuncAsIndexedPairs(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncCompose">
+
+```go
+func (r *ReadableBase) V8FuncCompose(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncDrop">
+
+```go
+func (r *ReadableBase) V8FuncDrop(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncEvery">
+
+```go
+func (r *ReadableBase) V8FuncEvery(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncFilter">
+
+```go
+func (r *ReadableBase) V8FuncFilter(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncFind">
+
+```go
+func (r *ReadableBase) V8FuncFind(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncFlatMap">
+
+```go
+func (r *ReadableBase) V8FuncFlatMap(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncForEach">
+
+```go
+func (r *ReadableBase) V8FuncForEach(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncIterator">
+
+```go
+func (r *ReadableBase) V8FuncIterator(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncMap">
+
+```go
+func (r *ReadableBase) V8FuncMap(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncPause">
+
+```go
+func (r *ReadableBase) V8FuncPause(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncPipe">
+
+```go
+func (r *ReadableBase) V8FuncPipe(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncPush">
+
+```go
+func (r *ReadableBase) V8FuncPush(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncReadV8">
+
+```go
+func (r *ReadableBase) V8FuncReadV8(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncReduce">
+
+```go
+func (r *ReadableBase) V8FuncReduce(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncResume">
+
+```go
+func (r *ReadableBase) V8FuncResume(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncSetEncoding">
+
+```go
+func (r *ReadableBase) V8FuncSetEncoding(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncSome">
+
+```go
+func (r *ReadableBase) V8FuncSome(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncTake">
+
+```go
+func (r *ReadableBase) V8FuncTake(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncToArray">
+
+```go
+func (r *ReadableBase) V8FuncToArray(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncUnpipe">
+
+```go
+func (r *ReadableBase) V8FuncUnpipe(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncUnshift">
+
+```go
+func (r *ReadableBase) V8FuncUnshift(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8FuncWrap">
+
+```go
+func (r *ReadableBase) V8FuncWrap(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8GetIsPaused">
+
+```go
+func (r *ReadableBase) V8GetIsPaused(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8GetReadable">
+
+```go
+func (r *ReadableBase) V8GetReadable(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8GetReadableAborted">
+
+```go
+func (r *ReadableBase) V8GetReadableAborted(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8GetReadableDidRead">
+
+```go
+func (r *ReadableBase) V8GetReadableDidRead(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8GetReadableEncoding">
+
+```go
+func (r *ReadableBase) V8GetReadableEncoding(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8GetReadableEnded">
+
+```go
+func (r *ReadableBase) V8GetReadableEnded(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8GetReadableFlowing">
+
+```go
+func (r *ReadableBase) V8GetReadableFlowing(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8GetReadableHighWaterMark">
+
+```go
+func (r *ReadableBase) V8GetReadableHighWaterMark(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8GetReadableLength">
+
+```go
+func (r *ReadableBase) V8GetReadableLength(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.V8GetReadableObjectMode">
+
+```go
+func (r *ReadableBase) V8GetReadableObjectMode(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadableBase.Wrap">
+
+```go
+func (r *ReadableBase) Wrap(context.Context, *isolates.Value) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#ReadableStreamState">
+
+```go
+type ReadableStreamState
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Reader">
+
+```go
+type Reader
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewReader">
+
+```go
+func NewReader(in isolates.FunctionArgs) (*Reader, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Reader.Construct">
+
+```go
+func (c *Reader) Construct(in isolates.FunctionArgs, this Stream, callback *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Reader.Read">
+
+```go
+func (c *Reader) Read(in isolates.FunctionArgs, this Readable) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Reader.V8FuncConstruct">
+
+```go
+func (c *Reader) V8FuncConstruct(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Reader.V8FuncRead">
+
+```go
+func (c *Reader) V8FuncRead(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Stream">
+
+```go
+type Stream
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#StreamBase">
+
+```go
+type StreamBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewStream">
+
+```go
+func NewStream(in isolates.FunctionArgs) (*StreamBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#StreamBase.Close">
+
+```go
+func (s *StreamBase) Close() error
+```
+
+</a></li>
+<li parentName="ul"><a href="#StreamBase.Closed">
+
+```go
+func (s *StreamBase) Closed() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#StreamBase.Destroy">
+
+```go
+func (s *StreamBase) Destroy(ctx context.Context, err *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#StreamBase.Destroyed">
+
+```go
+func (s *StreamBase) Destroyed() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#StreamBase.EmitError">
+
+```go
+func (s *StreamBase) EmitError(ctx context.Context, err error) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#StreamBase.EmitErrorValue">
+
+```go
+func (s *StreamBase) EmitErrorValue(ctx context.Context, error *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#StreamBase.Errored">
+
+```go
+func (s *StreamBase) Errored() *isolates.Value
+```
+
+</a></li>
+<li parentName="ul"><a href="#StreamBase.OnStateChange">
+
+```go
+func (s *StreamBase) OnStateChange(callback func(s StreamState) error) func()
+```
+
+</a></li>
+<li parentName="ul"><a href="#StreamBase.SetState">
+
+```go
+func (s *StreamBase) SetState(state StreamState) bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#StreamBase.SetStateConditional">
+
+```go
+func (s *StreamBase) SetStateConditional(fromState StreamState, toState StreamState) bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#StreamBase.V8FuncDestroy">
+
+```go
+func (s *StreamBase) V8FuncDestroy(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#StreamBase.V8GetClosed">
+
+```go
+func (s *StreamBase) V8GetClosed(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#StreamBase.V8GetDestroyed">
+
+```go
+func (s *StreamBase) V8GetDestroyed(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#StreamBase.V8GetErrored">
+
+```go
+func (s *StreamBase) V8GetErrored(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#StreamState">
+
+```go
+type StreamState
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Transform">
+
+```go
+type Transform
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#TransformBase">
+
+```go
+type TransformBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewTransform">
+
+```go
+func NewTransform(in isolates.FunctionArgs) (*TransformBase, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Writable">
+
+```go
+type Writable
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#WritableBase">
+
+```go
+type WritableBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewWritable">
+
+```go
+func NewWritable(in isolates.FunctionArgs) (*WritableBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#NewWritableWithStream">
+
+```go
+func NewWritableWithStream(in isolates.FunctionArgs, StreamBase *StreamBase) (*WritableBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.Cork">
+
+```go
+func (w *WritableBase) Cork(context.Context) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.End">
+
+```go
+func (w *WritableBase) End(ctx context.Context, args ...any) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.SetDefaultEncoding">
+
+```go
+func (w *WritableBase) SetDefaultEncoding(encoding BufferEncoding)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.Uncork">
+
+```go
+func (w *WritableBase) Uncork(context.Context) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.V8FuncCork">
+
+```go
+func (w *WritableBase) V8FuncCork(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.V8FuncEnd">
+
+```go
+func (w *WritableBase) V8FuncEnd(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.V8FuncSetDefaultEncoding">
+
+```go
+func (w *WritableBase) V8FuncSetDefaultEncoding(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.V8FuncUncork">
+
+```go
+func (w *WritableBase) V8FuncUncork(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.V8FuncWrite">
+
+```go
+func (w *WritableBase) V8FuncWrite(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.V8GetWritable">
+
+```go
+func (w *WritableBase) V8GetWritable(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.V8GetWritableAborted">
+
+```go
+func (w *WritableBase) V8GetWritableAborted(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.V8GetWritableCorked">
+
+```go
+func (w *WritableBase) V8GetWritableCorked(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.V8GetWritableEnded">
+
+```go
+func (w *WritableBase) V8GetWritableEnded(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.V8GetWritableFinished">
+
+```go
+func (w *WritableBase) V8GetWritableFinished(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.V8GetWritableHighWaterMark">
+
+```go
+func (w *WritableBase) V8GetWritableHighWaterMark(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.V8GetWritableLength">
+
+```go
+func (w *WritableBase) V8GetWritableLength(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.V8GetWritableNeedDrain">
+
+```go
+func (w *WritableBase) V8GetWritableNeedDrain(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.V8GetWritableObjectMode">
+
+```go
+func (w *WritableBase) V8GetWritableObjectMode(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.Writable">
+
+```go
+func (w *WritableBase) Writable() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.WritableAborted">
+
+```go
+func (w *WritableBase) WritableAborted() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.WritableCorked">
+
+```go
+func (w *WritableBase) WritableCorked() int
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.WritableEnded">
+
+```go
+func (w *WritableBase) WritableEnded() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.WritableFinished">
+
+```go
+func (w *WritableBase) WritableFinished() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.WritableHighWaterMark">
+
+```go
+func (w *WritableBase) WritableHighWaterMark() int
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.WritableLength">
+
+```go
+func (w *WritableBase) WritableLength() int
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.WritableNeedDrain">
+
+```go
+func (w *WritableBase) WritableNeedDrain() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.WritableObjectMode">
+
+```go
+func (w *WritableBase) WritableObjectMode() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.WritableWrite">
+
+```go
+func (w *WritableBase) WritableWrite(ctx context.Context, args ...any) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#WritableBase.Write">
+
+```go
+func (c *WritableBase) Write(b []byte) (int, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#WriteCloser">
+
+```go
+type WriteCloser
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewWriteCloser">
+
+```go
+func NewWriteCloser(in isolates.FunctionArgs) (*WriteCloser, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WriteCloser.Final">
+
+```go
+func (c *WriteCloser) Final(in isolates.FunctionArgs, this Writable, callback *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#WriteCloser.V8FuncFinal">
+
+```go
+func (c *WriteCloser) V8FuncFinal(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Writer">
+
+```go
+type Writer
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewWriter">
+
+```go
+func NewWriter(in isolates.FunctionArgs) (*Writer, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Writer.V8FuncWrite">
+
+```go
+func (c *Writer) V8FuncWrite(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Writer.Write">
+
+```go
+func (c *Writer) Write(in isolates.FunctionArgs, this Writable, chunk *isolates.Value, encoding string, callback *isolates.Value) error
+```
+
+</a></li>
+</ul></li>
+
+</ul>
+
+<a id="Pipeline" />
+
+## func Pipeline
+
+```go
+func Pipeline(ctx context.Context, args ...*isolates.Value) *isolates.Value
+```
+
+
+
+<a id="BufferEncoding"></a>
+
+## type BufferEncoding
+
+
+
+```go
+type BufferEncoding string
+```
+
+<a name="BufferEncodingUTF8"></a>
+
+```go
+var (
+    BufferEncodingUTF8   BufferEncoding = "utf8"
+    BufferEncodingHex    BufferEncoding = "hex"
+    BufferEncodingBase64 BufferEncoding = "base64"
+)
+```
+
+<a id="Closer"></a>
+
+## type Closer
+
+
+
+```go
+type Closer struct {
+    io.Closer
+}
+```
+
+<a id="NewCloser" />
+
+### func NewCloser
+
+```go
+func NewCloser(in isolates.FunctionArgs) (*Closer, error)
+```
+
+
+
+<a id="Closer.Destroy" />
+
+### func \(\*Closer\) Destroy
+
+```go
+func (c *Closer) Destroy(in isolates.FunctionArgs, this Stream, err *isolates.Value, callback *isolates.Value) error
+```
+
+
+
+<a id="Closer.V8FuncDestroy" />
+
+### func \(\*Closer\) V8FuncDestroy
+
+```go
+func (c *Closer) V8FuncDestroy(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Duplex"></a>
+
+## type Duplex
+
+
+
+```go
+type Duplex interface {
+    Readable
+    Writable
+}
+```
+
+<a id="DuplexBase"></a>
+
+## type DuplexBase
+
+
+
+```go
+type DuplexBase struct {
+    *StreamBase
+    *WritableBase
+    *ReadableBase
+}
+```
+
+<a id="NewDuplex" />
+
+### func NewDuplex
+
+```go
+func NewDuplex(in isolates.FunctionArgs) (*DuplexBase, error)
+```
+
+
+
+<a id="Pipe"></a>
+
+## type Pipe
+
+
+
+```go
+type Pipe interface {
+    Destination() *isolates.Value
+    Remove(ctx context.Context) error
+    OnData() *isolates.Value
+    OnError() *isolates.Value
+    OnEnd() *isolates.Value
+}
+```
+
+<a id="PipeBase"></a>
+
+## type PipeBase
+
+
+
+```go
+type PipeBase struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="PipeBase.Destination" />
+
+### func \(\*PipeBase\) Destination
+
+```go
+func (p *PipeBase) Destination() *isolates.Value
+```
+
+
+
+<a id="PipeBase.OnData" />
+
+### func \(\*PipeBase\) OnData
+
+```go
+func (p *PipeBase) OnData() *isolates.Value
+```
+
+
+
+<a id="PipeBase.OnEnd" />
+
+### func \(\*PipeBase\) OnEnd
+
+```go
+func (p *PipeBase) OnEnd() *isolates.Value
+```
+
+
+
+<a id="PipeBase.OnError" />
+
+### func \(\*PipeBase\) OnError
+
+```go
+func (p *PipeBase) OnError() *isolates.Value
+```
+
+
+
+<a id="PipeBase.Remove" />
+
+### func \(\*PipeBase\) Remove
+
+```go
+func (p *PipeBase) Remove(ctx context.Context) error
+```
+
+
+
+<a id="PipeBase.Source" />
+
+### func \(\*PipeBase\) Source
+
+```go
+func (p *PipeBase) Source() *isolates.Value
+```
+
+
+
+<a id="PipeBase.V8FuncRemove" />
+
+### func \(\*PipeBase\) V8FuncRemove
+
+```go
+func (p *PipeBase) V8FuncRemove(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="PipeBase.V8GetDestination" />
+
+### func \(\*PipeBase\) V8GetDestination
+
+```go
+func (p *PipeBase) V8GetDestination(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="PipeBase.V8GetOnData" />
+
+### func \(\*PipeBase\) V8GetOnData
+
+```go
+func (p *PipeBase) V8GetOnData(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="PipeBase.V8GetOnEnd" />
+
+### func \(\*PipeBase\) V8GetOnEnd
+
+```go
+func (p *PipeBase) V8GetOnEnd(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="PipeBase.V8GetOnError" />
+
+### func \(\*PipeBase\) V8GetOnError
+
+```go
+func (p *PipeBase) V8GetOnError(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="PipeBase.V8GetSource" />
+
+### func \(\*PipeBase\) V8GetSource
+
+```go
+func (p *PipeBase) V8GetSource(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadCloser"></a>
+
+## type ReadCloser
+
+
+
+```go
+type ReadCloser struct {
+    *Closer
+    *Reader
+}
+```
+
+<a id="NewReadCloser" />
+
+### func NewReadCloser
+
+```go
+func NewReadCloser(in isolates.FunctionArgs) (*ReadCloser, error)
+```
+
+
+
+<a id="ReadWriteCloser"></a>
+
+## type ReadWriteCloser
+
+
+
+```go
+type ReadWriteCloser struct {
+    *Closer
+    *Reader
+    *Writer
+}
+```
+
+<a id="NewReadWriteCloser" />
+
+### func NewReadWriteCloser
+
+```go
+func NewReadWriteCloser(in isolates.FunctionArgs) (*ReadWriteCloser, error)
+```
+
+
+
+<a id="ReadWriteCloser.Final" />
+
+### func \(\*ReadWriteCloser\) Final
+
+```go
+func (c *ReadWriteCloser) Final(in isolates.FunctionArgs, this Writable, callback *isolates.Value) error
+```
+
+
+
+<a id="ReadWriteCloser.V8FuncFinal" />
+
+### func \(\*ReadWriteCloser\) V8FuncFinal
+
+```go
+func (c *ReadWriteCloser) V8FuncFinal(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Readable"></a>
+
+## type Readable
+
+
+
+```go
+type Readable interface {
+    Stream
+    io.Reader
+
+    IsPaused() bool
+    Pause(context.Context)
+    Pipe(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+    ReadV8(ctx context.Context, size int) error
+    Readable() bool
+    ReadableAborted() bool
+    ReadableDidRead() bool
+    ReadableEncoding() *BufferEncoding
+    ReadableEnded() bool
+    ReadableFlowing() bool
+    ReadableHighWaterMark() int
+    ReadableLength() int
+    ReadableObjectMode() bool
+    Resume(context.Context)
+    SetEncoding(BufferEncoding) (*isolates.Value, error)
+    Unpipe(context.Context, *isolates.Value) (*isolates.Value, error)
+    Unshift(context.Context, *isolates.Value, *BufferEncoding) error
+    Wrap(context.Context, *isolates.Value) (*isolates.Value, error)
+    Compose(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+    Iterator(context.Context, *isolates.Value) (*isolates.Value, error)
+    Map(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+    Filter(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+    ForEach(context.Context, *isolates.Value, *isolates.Value) error
+    ToArray(context.Context, *isolates.Value) (*isolates.Value, error)
+    Some(context.Context, *isolates.Value, *isolates.Value) (bool, error)
+    Find(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+    Every(context.Context, *isolates.Value, *isolates.Value) (bool, error)
+    FlatMap(context.Context, *isolates.Value, *isolates.Value) (Readable, error)
+    Drop(context.Context, int, *isolates.Value) (Readable, error)
+    Take(context.Context, int, *isolates.Value) (Readable, error)
+    AsIndexedPairs(context.Context, *isolates.Value) (Readable, error)
+    Reduce(context.Context, *isolates.Value, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+    Push(ctx context.Context, chunk *isolates.Value, encoding *BufferEncoding) (bool, error)
+}
+```
+
+<a id="ReadableBase"></a>
+
+## type ReadableBase
+
+
+
+```go
+type ReadableBase struct {
+    *StreamBase
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewReadable" />
+
+### func NewReadable
+
+```go
+func NewReadable(in isolates.FunctionArgs) (*ReadableBase, error)
+```
+
+
+
+<a id="NewReadableWithStream" />
+
+### func NewReadableWithStream
+
+```go
+func NewReadableWithStream(in isolates.FunctionArgs, StreamBase *StreamBase) (*ReadableBase, error)
+```
+
+
+
+<a id="ReadableBase.AsIndexedPairs" />
+
+### func \(\*ReadableBase\) AsIndexedPairs
+
+```go
+func (r *ReadableBase) AsIndexedPairs(context.Context, *isolates.Value) (Readable, error)
+```
+
+
+
+<a id="ReadableBase.Compose" />
+
+### func \(\*ReadableBase\) Compose
+
+```go
+func (r *ReadableBase) Compose(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.Drop" />
+
+### func \(\*ReadableBase\) Drop
+
+```go
+func (r *ReadableBase) Drop(context.Context, int, *isolates.Value) (Readable, error)
+```
+
+
+
+<a id="ReadableBase.Every" />
+
+### func \(\*ReadableBase\) Every
+
+```go
+func (r *ReadableBase) Every(context.Context, *isolates.Value, *isolates.Value) (bool, error)
+```
+
+
+
+<a id="ReadableBase.Filter" />
+
+### func \(\*ReadableBase\) Filter
+
+```go
+func (r *ReadableBase) Filter(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.Find" />
+
+### func \(\*ReadableBase\) Find
+
+```go
+func (r *ReadableBase) Find(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.FlatMap" />
+
+### func \(\*ReadableBase\) FlatMap
+
+```go
+func (r *ReadableBase) FlatMap(context.Context, *isolates.Value, *isolates.Value) (Readable, error)
+```
+
+
+
+<a id="ReadableBase.ForEach" />
+
+### func \(\*ReadableBase\) ForEach
+
+```go
+func (r *ReadableBase) ForEach(context.Context, *isolates.Value, *isolates.Value) error
+```
+
+
+
+<a id="ReadableBase.IsPaused" />
+
+### func \(\*ReadableBase\) IsPaused
+
+```go
+func (r *ReadableBase) IsPaused() bool
+```
+
+
+
+<a id="ReadableBase.Iterator" />
+
+### func \(\*ReadableBase\) Iterator
+
+```go
+func (r *ReadableBase) Iterator(context.Context, *isolates.Value) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.Map" />
+
+### func \(\*ReadableBase\) Map
+
+```go
+func (r *ReadableBase) Map(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.Pause" />
+
+### func \(\*ReadableBase\) Pause
+
+```go
+func (r *ReadableBase) Pause(context.Context)
+```
+
+
+
+<a id="ReadableBase.Pipe" />
+
+### func \(\*ReadableBase\) Pipe
+
+```go
+func (r *ReadableBase) Pipe(ctx context.Context, destination *isolates.Value, options *isolates.Value) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.Push" />
+
+### func \(\*ReadableBase\) Push
+
+```go
+func (r *ReadableBase) Push(ctx context.Context, chunk *isolates.Value, encoding *BufferEncoding) (bool, error)
+```
+
+
+
+<a id="ReadableBase.Read" />
+
+### func \(\*ReadableBase\) Read
+
+```go
+func (s *ReadableBase) Read(b []byte) (int, error)
+```
+
+
+
+<a id="ReadableBase.ReadV8" />
+
+### func \(\*ReadableBase\) ReadV8
+
+```go
+func (r *ReadableBase) ReadV8(ctx context.Context, size int) error
+```
+
+
+
+<a id="ReadableBase.Readable" />
+
+### func \(\*ReadableBase\) Readable
+
+```go
+func (r *ReadableBase) Readable() bool
+```
+
+
+
+<a id="ReadableBase.ReadableAborted" />
+
+### func \(\*ReadableBase\) ReadableAborted
+
+```go
+func (r *ReadableBase) ReadableAborted() bool
+```
+
+
+
+<a id="ReadableBase.ReadableDidRead" />
+
+### func \(\*ReadableBase\) ReadableDidRead
+
+```go
+func (r *ReadableBase) ReadableDidRead() bool
+```
+
+
+
+<a id="ReadableBase.ReadableEncoding" />
+
+### func \(\*ReadableBase\) ReadableEncoding
+
+```go
+func (r *ReadableBase) ReadableEncoding() *BufferEncoding
+```
+
+
+
+<a id="ReadableBase.ReadableEnded" />
+
+### func \(\*ReadableBase\) ReadableEnded
+
+```go
+func (r *ReadableBase) ReadableEnded() bool
+```
+
+
+
+<a id="ReadableBase.ReadableFlowing" />
+
+### func \(\*ReadableBase\) ReadableFlowing
+
+```go
+func (r *ReadableBase) ReadableFlowing() bool
+```
+
+
+
+<a id="ReadableBase.ReadableHighWaterMark" />
+
+### func \(\*ReadableBase\) ReadableHighWaterMark
+
+```go
+func (r *ReadableBase) ReadableHighWaterMark() int
+```
+
+
+
+<a id="ReadableBase.ReadableLength" />
+
+### func \(\*ReadableBase\) ReadableLength
+
+```go
+func (r *ReadableBase) ReadableLength() int
+```
+
+
+
+<a id="ReadableBase.ReadableObjectMode" />
+
+### func \(\*ReadableBase\) ReadableObjectMode
+
+```go
+func (r *ReadableBase) ReadableObjectMode() bool
+```
+
+
+
+<a id="ReadableBase.Reduce" />
+
+### func \(\*ReadableBase\) Reduce
+
+```go
+func (r *ReadableBase) Reduce(context.Context, *isolates.Value, *isolates.Value, *isolates.Value) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.Resume" />
+
+### func \(\*ReadableBase\) Resume
+
+```go
+func (r *ReadableBase) Resume(ctx context.Context)
+```
+
+
+
+<a id="ReadableBase.SetEncoding" />
+
+### func \(\*ReadableBase\) SetEncoding
+
+```go
+func (r *ReadableBase) SetEncoding(BufferEncoding) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.SetReadableState" />
+
+### func \(\*ReadableBase\) SetReadableState
+
+```go
+func (s *ReadableBase) SetReadableState(state ReadableStreamState) bool
+```
+
+
+
+<a id="ReadableBase.SetReadableStateConditional" />
+
+### func \(\*ReadableBase\) SetReadableStateConditional
+
+```go
+func (s *ReadableBase) SetReadableStateConditional(fromState ReadableStreamState, toState ReadableStreamState) bool
+```
+
+
+
+<a id="ReadableBase.Some" />
+
+### func \(\*ReadableBase\) Some
+
+```go
+func (r *ReadableBase) Some(context.Context, *isolates.Value, *isolates.Value) (bool, error)
+```
+
+
+
+<a id="ReadableBase.Take" />
+
+### func \(\*ReadableBase\) Take
+
+```go
+func (r *ReadableBase) Take(context.Context, int, *isolates.Value) (Readable, error)
+```
+
+
+
+<a id="ReadableBase.ToArray" />
+
+### func \(\*ReadableBase\) ToArray
+
+```go
+func (r *ReadableBase) ToArray(context.Context, *isolates.Value) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.Unpipe" />
+
+### func \(\*ReadableBase\) Unpipe
+
+```go
+func (r *ReadableBase) Unpipe(ctx context.Context, destination *isolates.Value) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.Unshift" />
+
+### func \(\*ReadableBase\) Unshift
+
+```go
+func (r *ReadableBase) Unshift(context.Context, *isolates.Value, *BufferEncoding) error
+```
+
+
+
+<a id="ReadableBase.V8FuncAsIndexedPairs" />
+
+### func \(\*ReadableBase\) V8FuncAsIndexedPairs
+
+```go
+func (r *ReadableBase) V8FuncAsIndexedPairs(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncCompose" />
+
+### func \(\*ReadableBase\) V8FuncCompose
+
+```go
+func (r *ReadableBase) V8FuncCompose(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncDrop" />
+
+### func \(\*ReadableBase\) V8FuncDrop
+
+```go
+func (r *ReadableBase) V8FuncDrop(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncEvery" />
+
+### func \(\*ReadableBase\) V8FuncEvery
+
+```go
+func (r *ReadableBase) V8FuncEvery(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncFilter" />
+
+### func \(\*ReadableBase\) V8FuncFilter
+
+```go
+func (r *ReadableBase) V8FuncFilter(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncFind" />
+
+### func \(\*ReadableBase\) V8FuncFind
+
+```go
+func (r *ReadableBase) V8FuncFind(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncFlatMap" />
+
+### func \(\*ReadableBase\) V8FuncFlatMap
+
+```go
+func (r *ReadableBase) V8FuncFlatMap(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncForEach" />
+
+### func \(\*ReadableBase\) V8FuncForEach
+
+```go
+func (r *ReadableBase) V8FuncForEach(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncIterator" />
+
+### func \(\*ReadableBase\) V8FuncIterator
+
+```go
+func (r *ReadableBase) V8FuncIterator(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncMap" />
+
+### func \(\*ReadableBase\) V8FuncMap
+
+```go
+func (r *ReadableBase) V8FuncMap(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncPause" />
+
+### func \(\*ReadableBase\) V8FuncPause
+
+```go
+func (r *ReadableBase) V8FuncPause(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncPipe" />
+
+### func \(\*ReadableBase\) V8FuncPipe
+
+```go
+func (r *ReadableBase) V8FuncPipe(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncPush" />
+
+### func \(\*ReadableBase\) V8FuncPush
+
+```go
+func (r *ReadableBase) V8FuncPush(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncReadV8" />
+
+### func \(\*ReadableBase\) V8FuncReadV8
+
+```go
+func (r *ReadableBase) V8FuncReadV8(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncReduce" />
+
+### func \(\*ReadableBase\) V8FuncReduce
+
+```go
+func (r *ReadableBase) V8FuncReduce(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncResume" />
+
+### func \(\*ReadableBase\) V8FuncResume
+
+```go
+func (r *ReadableBase) V8FuncResume(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncSetEncoding" />
+
+### func \(\*ReadableBase\) V8FuncSetEncoding
+
+```go
+func (r *ReadableBase) V8FuncSetEncoding(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncSome" />
+
+### func \(\*ReadableBase\) V8FuncSome
+
+```go
+func (r *ReadableBase) V8FuncSome(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncTake" />
+
+### func \(\*ReadableBase\) V8FuncTake
+
+```go
+func (r *ReadableBase) V8FuncTake(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncToArray" />
+
+### func \(\*ReadableBase\) V8FuncToArray
+
+```go
+func (r *ReadableBase) V8FuncToArray(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncUnpipe" />
+
+### func \(\*ReadableBase\) V8FuncUnpipe
+
+```go
+func (r *ReadableBase) V8FuncUnpipe(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncUnshift" />
+
+### func \(\*ReadableBase\) V8FuncUnshift
+
+```go
+func (r *ReadableBase) V8FuncUnshift(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8FuncWrap" />
+
+### func \(\*ReadableBase\) V8FuncWrap
+
+```go
+func (r *ReadableBase) V8FuncWrap(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8GetIsPaused" />
+
+### func \(\*ReadableBase\) V8GetIsPaused
+
+```go
+func (r *ReadableBase) V8GetIsPaused(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8GetReadable" />
+
+### func \(\*ReadableBase\) V8GetReadable
+
+```go
+func (r *ReadableBase) V8GetReadable(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8GetReadableAborted" />
+
+### func \(\*ReadableBase\) V8GetReadableAborted
+
+```go
+func (r *ReadableBase) V8GetReadableAborted(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8GetReadableDidRead" />
+
+### func \(\*ReadableBase\) V8GetReadableDidRead
+
+```go
+func (r *ReadableBase) V8GetReadableDidRead(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8GetReadableEncoding" />
+
+### func \(\*ReadableBase\) V8GetReadableEncoding
+
+```go
+func (r *ReadableBase) V8GetReadableEncoding(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8GetReadableEnded" />
+
+### func \(\*ReadableBase\) V8GetReadableEnded
+
+```go
+func (r *ReadableBase) V8GetReadableEnded(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8GetReadableFlowing" />
+
+### func \(\*ReadableBase\) V8GetReadableFlowing
+
+```go
+func (r *ReadableBase) V8GetReadableFlowing(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8GetReadableHighWaterMark" />
+
+### func \(\*ReadableBase\) V8GetReadableHighWaterMark
+
+```go
+func (r *ReadableBase) V8GetReadableHighWaterMark(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8GetReadableLength" />
+
+### func \(\*ReadableBase\) V8GetReadableLength
+
+```go
+func (r *ReadableBase) V8GetReadableLength(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.V8GetReadableObjectMode" />
+
+### func \(\*ReadableBase\) V8GetReadableObjectMode
+
+```go
+func (r *ReadableBase) V8GetReadableObjectMode(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableBase.Wrap" />
+
+### func \(\*ReadableBase\) Wrap
+
+```go
+func (r *ReadableBase) Wrap(context.Context, *isolates.Value) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadableStreamState"></a>
+
+## type ReadableStreamState
+
+
+
+```go
+type ReadableStreamState int
+```
+
+<a name="ReadableStreamStatePaused"></a>
+
+```go
+const (
+    ReadableStreamStatePaused ReadableStreamState = iota
+    ReadableStreamStateResumed
+)
+```
+
+<a id="Reader"></a>
+
+## type Reader
+
+
+
+```go
+type Reader struct {
+    io.Reader
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewReader" />
+
+### func NewReader
+
+```go
+func NewReader(in isolates.FunctionArgs) (*Reader, error)
+```
+
+
+
+<a id="Reader.Construct" />
+
+### func \(\*Reader\) Construct
+
+```go
+func (c *Reader) Construct(in isolates.FunctionArgs, this Stream, callback *isolates.Value) error
+```
+
+
+
+<a id="Reader.Read" />
+
+### func \(\*Reader\) Read
+
+```go
+func (c *Reader) Read(in isolates.FunctionArgs, this Readable) error
+```
+
+
+
+<a id="Reader.V8FuncConstruct" />
+
+### func \(\*Reader\) V8FuncConstruct
+
+```go
+func (c *Reader) V8FuncConstruct(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Reader.V8FuncRead" />
+
+### func \(\*Reader\) V8FuncRead
+
+```go
+func (c *Reader) V8FuncRead(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Stream"></a>
+
+## type Stream
+
+
+
+```go
+type Stream interface {
+    events.EventEmitter
+    io.Closer
+    Destroy(context.Context, *isolates.Value) error
+    Closed() bool
+    Destroyed() bool
+    Errored() *isolates.Value
+}
+```
+
+<a id="StreamBase"></a>
+
+## type StreamBase
+
+
+
+```go
+type StreamBase struct {
+    *events.EventEmitterBase
+
+    Context *isolates.Context
+    This    *isolates.Value
+    Options *isolates.Value
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewStream" />
+
+### func NewStream
+
+```go
+func NewStream(in isolates.FunctionArgs) (*StreamBase, error)
+```
+
+
+
+<a id="StreamBase.Close" />
+
+### func \(\*StreamBase\) Close
+
+```go
+func (s *StreamBase) Close() error
+```
+
+
+
+<a id="StreamBase.Closed" />
+
+### func \(\*StreamBase\) Closed
+
+```go
+func (s *StreamBase) Closed() bool
+```
+
+
+
+<a id="StreamBase.Destroy" />
+
+### func \(\*StreamBase\) Destroy
+
+```go
+func (s *StreamBase) Destroy(ctx context.Context, err *isolates.Value) error
+```
+
+
+
+<a id="StreamBase.Destroyed" />
+
+### func \(\*StreamBase\) Destroyed
+
+```go
+func (s *StreamBase) Destroyed() bool
+```
+
+
+
+<a id="StreamBase.EmitError" />
+
+### func \(\*StreamBase\) EmitError
+
+```go
+func (s *StreamBase) EmitError(ctx context.Context, err error) error
+```
+
+
+
+<a id="StreamBase.EmitErrorValue" />
+
+### func \(\*StreamBase\) EmitErrorValue
+
+```go
+func (s *StreamBase) EmitErrorValue(ctx context.Context, error *isolates.Value) error
+```
+
+
+
+<a id="StreamBase.Errored" />
+
+### func \(\*StreamBase\) Errored
+
+```go
+func (s *StreamBase) Errored() *isolates.Value
+```
+
+
+
+<a id="StreamBase.OnStateChange" />
+
+### func \(\*StreamBase\) OnStateChange
+
+```go
+func (s *StreamBase) OnStateChange(callback func(s StreamState) error) func()
+```
+
+
+
+<a id="StreamBase.SetState" />
+
+### func \(\*StreamBase\) SetState
+
+```go
+func (s *StreamBase) SetState(state StreamState) bool
+```
+
+
+
+<a id="StreamBase.SetStateConditional" />
+
+### func \(\*StreamBase\) SetStateConditional
+
+```go
+func (s *StreamBase) SetStateConditional(fromState StreamState, toState StreamState) bool
+```
+
+
+
+<a id="StreamBase.V8FuncDestroy" />
+
+### func \(\*StreamBase\) V8FuncDestroy
+
+```go
+func (s *StreamBase) V8FuncDestroy(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="StreamBase.V8GetClosed" />
+
+### func \(\*StreamBase\) V8GetClosed
+
+```go
+func (s *StreamBase) V8GetClosed(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="StreamBase.V8GetDestroyed" />
+
+### func \(\*StreamBase\) V8GetDestroyed
+
+```go
+func (s *StreamBase) V8GetDestroyed(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="StreamBase.V8GetErrored" />
+
+### func \(\*StreamBase\) V8GetErrored
+
+```go
+func (s *StreamBase) V8GetErrored(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="StreamState"></a>
+
+## type StreamState
+
+
+
+```go
+type StreamState int
+```
+
+<a name="StreamStateNew"></a>
+
+```go
+const (
+    StreamStateNew StreamState = iota
+    StreamStateReady
+    StreamStateErrored
+    StreamStateDestroying
+    StreamStateDestroyed
+    StreamStateClosing
+    StreamStateClosed
+)
+```
+
+<a id="Transform"></a>
+
+## type Transform
+
+
+
+```go
+type Transform interface {
+    Duplex
+}
+```
+
+<a id="TransformBase"></a>
+
+## type TransformBase
+
+
+
+```go
+type TransformBase struct {
+    *DuplexBase
+}
+```
+
+<a id="NewTransform" />
+
+### func NewTransform
+
+```go
+func NewTransform(in isolates.FunctionArgs) (*TransformBase, error)
+```
+
+
+
+<a id="Writable"></a>
+
+## type Writable
+
+
+
+```go
+type Writable interface {
+    Stream
+    io.Writer
+
+    Cork(context.Context) error
+    End(context.Context, ...any) error
+    SetDefaultEncoding(encoding BufferEncoding)
+    Uncork(context.Context) error
+    Writable() bool
+    WritableAborted() bool
+    WritableEnded() bool
+    WritableCorked() int
+
+    WritableFinished() bool
+    WritableHighWaterMark() int
+    WritableLength() int
+    WritableNeedDrain() bool
+    WritableObjectMode() bool
+    WritableWrite(context.Context, ...any) error
+}
+```
+
+<a id="WritableBase"></a>
+
+## type WritableBase
+
+
+
+```go
+type WritableBase struct {
+    *StreamBase
+}
+```
+
+<a id="NewWritable" />
+
+### func NewWritable
+
+```go
+func NewWritable(in isolates.FunctionArgs) (*WritableBase, error)
+```
+
+
+
+<a id="NewWritableWithStream" />
+
+### func NewWritableWithStream
+
+```go
+func NewWritableWithStream(in isolates.FunctionArgs, StreamBase *StreamBase) (*WritableBase, error)
+```
+
+
+
+<a id="WritableBase.Cork" />
+
+### func \(\*WritableBase\) Cork
+
+```go
+func (w *WritableBase) Cork(context.Context) error
+```
+
+
+
+<a id="WritableBase.End" />
+
+### func \(\*WritableBase\) End
+
+```go
+func (w *WritableBase) End(ctx context.Context, args ...any) error
+```
+
+
+
+<a id="WritableBase.SetDefaultEncoding" />
+
+### func \(\*WritableBase\) SetDefaultEncoding
+
+```go
+func (w *WritableBase) SetDefaultEncoding(encoding BufferEncoding)
+```
+
+
+
+<a id="WritableBase.Uncork" />
+
+### func \(\*WritableBase\) Uncork
+
+```go
+func (w *WritableBase) Uncork(context.Context) error
+```
+
+
+
+<a id="WritableBase.V8FuncCork" />
+
+### func \(\*WritableBase\) V8FuncCork
+
+```go
+func (w *WritableBase) V8FuncCork(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WritableBase.V8FuncEnd" />
+
+### func \(\*WritableBase\) V8FuncEnd
+
+```go
+func (w *WritableBase) V8FuncEnd(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WritableBase.V8FuncSetDefaultEncoding" />
+
+### func \(\*WritableBase\) V8FuncSetDefaultEncoding
+
+```go
+func (w *WritableBase) V8FuncSetDefaultEncoding(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WritableBase.V8FuncUncork" />
+
+### func \(\*WritableBase\) V8FuncUncork
+
+```go
+func (w *WritableBase) V8FuncUncork(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WritableBase.V8FuncWrite" />
+
+### func \(\*WritableBase\) V8FuncWrite
+
+```go
+func (w *WritableBase) V8FuncWrite(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WritableBase.V8GetWritable" />
+
+### func \(\*WritableBase\) V8GetWritable
+
+```go
+func (w *WritableBase) V8GetWritable(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WritableBase.V8GetWritableAborted" />
+
+### func \(\*WritableBase\) V8GetWritableAborted
+
+```go
+func (w *WritableBase) V8GetWritableAborted(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WritableBase.V8GetWritableCorked" />
+
+### func \(\*WritableBase\) V8GetWritableCorked
+
+```go
+func (w *WritableBase) V8GetWritableCorked(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WritableBase.V8GetWritableEnded" />
+
+### func \(\*WritableBase\) V8GetWritableEnded
+
+```go
+func (w *WritableBase) V8GetWritableEnded(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WritableBase.V8GetWritableFinished" />
+
+### func \(\*WritableBase\) V8GetWritableFinished
+
+```go
+func (w *WritableBase) V8GetWritableFinished(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WritableBase.V8GetWritableHighWaterMark" />
+
+### func \(\*WritableBase\) V8GetWritableHighWaterMark
+
+```go
+func (w *WritableBase) V8GetWritableHighWaterMark(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WritableBase.V8GetWritableLength" />
+
+### func \(\*WritableBase\) V8GetWritableLength
+
+```go
+func (w *WritableBase) V8GetWritableLength(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WritableBase.V8GetWritableNeedDrain" />
+
+### func \(\*WritableBase\) V8GetWritableNeedDrain
+
+```go
+func (w *WritableBase) V8GetWritableNeedDrain(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WritableBase.V8GetWritableObjectMode" />
+
+### func \(\*WritableBase\) V8GetWritableObjectMode
+
+```go
+func (w *WritableBase) V8GetWritableObjectMode(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WritableBase.Writable" />
+
+### func \(\*WritableBase\) Writable
+
+```go
+func (w *WritableBase) Writable() bool
+```
+
+
+
+<a id="WritableBase.WritableAborted" />
+
+### func \(\*WritableBase\) WritableAborted
+
+```go
+func (w *WritableBase) WritableAborted() bool
+```
+
+
+
+<a id="WritableBase.WritableCorked" />
+
+### func \(\*WritableBase\) WritableCorked
+
+```go
+func (w *WritableBase) WritableCorked() int
+```
+
+
+
+<a id="WritableBase.WritableEnded" />
+
+### func \(\*WritableBase\) WritableEnded
+
+```go
+func (w *WritableBase) WritableEnded() bool
+```
+
+
+
+<a id="WritableBase.WritableFinished" />
+
+### func \(\*WritableBase\) WritableFinished
+
+```go
+func (w *WritableBase) WritableFinished() bool
+```
+
+
+
+<a id="WritableBase.WritableHighWaterMark" />
+
+### func \(\*WritableBase\) WritableHighWaterMark
+
+```go
+func (w *WritableBase) WritableHighWaterMark() int
+```
+
+
+
+<a id="WritableBase.WritableLength" />
+
+### func \(\*WritableBase\) WritableLength
+
+```go
+func (w *WritableBase) WritableLength() int
+```
+
+
+
+<a id="WritableBase.WritableNeedDrain" />
+
+### func \(\*WritableBase\) WritableNeedDrain
+
+```go
+func (w *WritableBase) WritableNeedDrain() bool
+```
+
+
+
+<a id="WritableBase.WritableObjectMode" />
+
+### func \(\*WritableBase\) WritableObjectMode
+
+```go
+func (w *WritableBase) WritableObjectMode() bool
+```
+
+
+
+<a id="WritableBase.WritableWrite" />
+
+### func \(\*WritableBase\) WritableWrite
+
+```go
+func (w *WritableBase) WritableWrite(ctx context.Context, args ...any) error
+```
+
+
+
+<a id="WritableBase.Write" />
+
+### func \(\*WritableBase\) Write
+
+```go
+func (c *WritableBase) Write(b []byte) (int, error)
+```
+
+
+
+<a id="WriteCloser"></a>
+
+## type WriteCloser
+
+
+
+```go
+type WriteCloser struct {
+    *Closer
+    *Writer
+}
+```
+
+<a id="NewWriteCloser" />
+
+### func NewWriteCloser
+
+```go
+func NewWriteCloser(in isolates.FunctionArgs) (*WriteCloser, error)
+```
+
+
+
+<a id="WriteCloser.Final" />
+
+### func \(\*WriteCloser\) Final
+
+```go
+func (c *WriteCloser) Final(in isolates.FunctionArgs, this Writable, callback *isolates.Value) error
+```
+
+
+
+<a id="WriteCloser.V8FuncFinal" />
+
+### func \(\*WriteCloser\) V8FuncFinal
+
+```go
+func (c *WriteCloser) V8FuncFinal(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Writer"></a>
+
+## type Writer
+
+
+
+```go
+type Writer struct {
+    io.Writer
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewWriter" />
+
+### func NewWriter
+
+```go
+func NewWriter(in isolates.FunctionArgs) (*Writer, error)
+```
+
+
+
+<a id="Writer.V8FuncWrite" />
+
+### func \(\*Writer\) V8FuncWrite
+
+```go
+func (c *Writer) V8FuncWrite(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Writer.Write" />
+
+### func \(\*Writer\) Write
+
+```go
+func (c *Writer) Write(in isolates.FunctionArgs, this Writable, chunk *isolates.Value, encoding string, callback *isolates.Value) error
+```
+
+
+

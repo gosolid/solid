@@ -1,0 +1,18 @@
+templateFile:
+  doc: tools/godoc/templates/doc.gotxt
+  example: tools/godoc/templates/example.gotxt
+  file: tools/godoc/templates/file.gotxt
+  func: tools/godoc/templates/func.gotxt
+  import: tools/godoc/templates/import.gotxt
+  index: tools/godoc/templates/index.gotxt
+  list: tools/godoc/templates/list.gotxt
+  package: tools/godoc/templates/package.gotxt
+  text: tools/godoc/templates/text.gotxt
+  type: tools/godoc/templates/type.gotxt
+  value: tools/godoc/templates/value.gotxt
+
+repository:
+  url: https://github.com/gosolid/solid
+
+output: "packages/docs/pages/reference/go/{{.ImportPath}}.mdx"
+format: plain

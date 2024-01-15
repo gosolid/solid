@@ -6,7 +6,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("worker_threads", "/Users/tim/src/grexie/solid/pkg/runtime/worker_threads/worker_threads.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("worker_threads", "worker_threads.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   return nil, nil
 })
 

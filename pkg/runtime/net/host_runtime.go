@@ -3,12 +3,12 @@
 package net
 
 import (
+  isolates "github.com/grexie/isolates"
   stream "github.com/gosolid/solid/pkg/runtime/stream"
   reflect "reflect"
-  isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("net", "/Users/tim/src/grexie/solid/pkg/runtime/net/host.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("net", "host.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if _, err := in.Context.CreateWithName(in.ExecutionContext, "HostNetOptions", func (in isolates.FunctionArgs) (*HostNetOptions, error) {
     return NewHostNetOptions(in)
   }); err != nil {

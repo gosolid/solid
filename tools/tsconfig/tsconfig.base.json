@@ -19,6 +19,6 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["node"]
+    "types": []
   }
 }

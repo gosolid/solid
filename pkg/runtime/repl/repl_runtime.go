@@ -6,7 +6,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("repl", "/Users/tim/src/grexie/solid/pkg/runtime/repl/repl.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("repl", "repl.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   return nil, nil
 })
 

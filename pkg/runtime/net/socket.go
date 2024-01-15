@@ -1,6 +1,8 @@
 //js:package net
 package net
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"context"
 
@@ -8,16 +10,20 @@ import (
 	isolates "github.com/grexie/isolates"
 )
 
+//js:alias SocketBase
 type Socket interface {
 	stream.Duplex
 }
 
+//js:class Socket
 type SocketBase struct {
 	*stream.DuplexBase
 }
 
 func newSocket(in isolates.FunctionArgs, net *NetBase) (*SocketBase, error) {
-	if DuplexBase, err := stream.NewDuplex(in); err != nil {
+	if args, err := in.WithArgs(); err != nil {
+		return nil, err
+	} else if DuplexBase, err := stream.NewDuplex(args); err != nil {
 		return nil, err
 	} else {
 		socket := &SocketBase{DuplexBase: DuplexBase}

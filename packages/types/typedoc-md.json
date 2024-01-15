@@ -1,0 +1,18 @@
+{
+  "out": "../docs/pages/reference/js",
+  "plugin": ["typedoc-plugin-markdown", "typedoc-plugin-frontmatter"],
+  "frontmatterTags": ["moduleName"],
+  "frontmatterGlobals": {
+    "language": "js"
+  },
+  "name": "Sølid",
+  "githubPages": false,
+  "commentStyle": "all",
+  "entryPointStrategy": "merge",
+  "tsconfig": "tsconfig.docs.json",
+  "hideBreadcrumbs": true,
+  "hideInPageTOC": true,
+  "entryDocument": "none",
+  "namedAnchors": true,
+  "readme": "none"
+}

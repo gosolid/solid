@@ -2,6 +2,8 @@
 
 package tty
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"fmt"
 	"regexp"

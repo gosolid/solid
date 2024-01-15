@@ -1,0 +1,157 @@
+---
+package: "github.com/gosolid/solid/pkg/runtime/crypto"
+language: go
+---
+
+# crypto
+
+```go
+import "github.com/gosolid/solid/pkg/runtime/crypto"
+```
+
+## Index
+
+<ul>
+
+<li parentName="ul"><a href="#Hash">
+
+```go
+type Hash
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewHash">
+
+```go
+func NewHash(algorithm string) (*Hash, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Hash.Algorithm">
+
+```go
+func (h *Hash) Algorithm() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#Hash.Sum">
+
+```go
+func (h *Hash) Sum(b []byte) []byte
+```
+
+</a></li>
+<li parentName="ul"><a href="#Hash.V8FuncDigest">
+
+```go
+func (h *Hash) V8FuncDigest(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Hash.V8FuncUpdate">
+
+```go
+func (h *Hash) V8FuncUpdate(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Hash.V8GetAlgorithm">
+
+```go
+func (h *Hash) V8GetAlgorithm(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Hash.Write">
+
+```go
+func (h *Hash) Write(b []byte) (int, error)
+```
+
+</a></li>
+</ul></li>
+
+</ul>
+
+<a id="Hash"></a>
+
+## type Hash
+
+
+
+```go
+type Hash struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewHash" />
+
+### func NewHash
+
+```go
+func NewHash(algorithm string) (*Hash, error)
+```
+
+
+
+<a id="Hash.Algorithm" />
+
+### func \(\*Hash\) Algorithm
+
+```go
+func (h *Hash) Algorithm() string
+```
+
+
+
+<a id="Hash.Sum" />
+
+### func \(\*Hash\) Sum
+
+```go
+func (h *Hash) Sum(b []byte) []byte
+```
+
+
+
+<a id="Hash.V8FuncDigest" />
+
+### func \(\*Hash\) V8FuncDigest
+
+```go
+func (h *Hash) V8FuncDigest(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Hash.V8FuncUpdate" />
+
+### func \(\*Hash\) V8FuncUpdate
+
+```go
+func (h *Hash) V8FuncUpdate(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Hash.V8GetAlgorithm" />
+
+### func \(\*Hash\) V8GetAlgorithm
+
+```go
+func (h *Hash) V8GetAlgorithm(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Hash.Write" />
+
+### func \(\*Hash\) Write
+
+```go
+func (h *Hash) Write(b []byte) (int, error)
+```
+
+
+

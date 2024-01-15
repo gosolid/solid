@@ -6,7 +6,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("util", "/Users/tim/src/grexie/solid/pkg/runtime/util/promisify.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("util", "promisify.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   {
     fnName := "promisify"
     if fn, err := in.Context.CreateFunction(in.ExecutionContext, &fnName, func (in isolates.FunctionArgs) (*isolates.Value, error) {

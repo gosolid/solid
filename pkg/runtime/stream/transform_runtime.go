@@ -6,7 +6,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("stream", "/Users/tim/src/grexie/solid/pkg/runtime/stream/transform.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("stream", "transform.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "Transform", func (in isolates.FunctionArgs) (*TransformBase, error) {
     return NewTransform(in)
   }); err != nil {

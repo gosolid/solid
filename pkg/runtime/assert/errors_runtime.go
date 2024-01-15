@@ -7,7 +7,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("assert", "/Users/tim/src/grexie/solid/pkg/runtime/assert/errors.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("assert", "errors.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "AssertionError", func (in isolates.FunctionArgs) (*AssertionErrorBase, error) {
     var _options AssertionErrorOptions
     if v, err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&_options).Elem()); err != nil {

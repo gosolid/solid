@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "types": []
+  },
+  "include": ["./lib/*/**/__DOCS__.d.ts"]
+}

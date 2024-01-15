@@ -1,0 +1,18 @@
+{
+  "name": "@types/gosolid__solid",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "codegen": "node ./build.mjs",
+    "codegen:clean": "rm -Rf lib/",
+    "docgen": "typedoc ./lib/*/**/__DOCS__.d.ts && node transformDocs.mjs && typedoc --options typedoc-md.json ../docs/js.json && rm ../docs/pages/reference/js/none ../docs/js.json",
+    "docgen:clean": "rm -Rf ../docs/pages/reference/{go,js}"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts"
+    }
+  }
+}

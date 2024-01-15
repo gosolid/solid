@@ -1,0 +1,24 @@
+{{- if .Receiver -}}
+  <a id="{{- .Anchor -}}" />
+  {{- spacer -}}
+	{{- header .Level (codeHref .Location | link (escape .Name) | printf "func (%s) %s" .Receiver) -}}
+{{- else -}}
+  <a id="{{- .Anchor -}}" />
+  {{- spacer -}}
+	{{- header .Level (codeHref .Location | link (escape .Name) | printf "func %s") -}}
+{{- end -}}
+{{- spacer -}}
+
+```go{{- "\n" -}}{{- .Signature -}}{{- "\n" -}}```
+{{- spacer -}}
+
+{{- template "doc" .Doc -}}
+
+{{- if len .Examples -}}
+	{{- spacer -}}
+
+	{{- range (iter .Examples) -}}
+		{{- template "example" .Entry -}}
+		{{- if (not .Last) -}}{{- spacer -}}{{- end -}}
+	{{- end -}}
+{{- end -}}

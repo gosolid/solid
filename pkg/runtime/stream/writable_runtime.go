@@ -7,7 +7,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("stream", "/Users/tim/src/grexie/solid/pkg/runtime/stream/writable.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("stream", "writable.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "Writable", func (in isolates.FunctionArgs) (*WritableBase, error) {
     return NewWritable(in)
   }); err != nil {

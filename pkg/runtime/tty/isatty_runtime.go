@@ -7,7 +7,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("tty", "/Users/tim/src/grexie/solid/pkg/runtime/tty/isatty.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("tty", "isatty.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   {
     fnName := "isatty"
     if fn, err := in.Context.CreateFunction(in.ExecutionContext, &fnName, func (in isolates.FunctionArgs) (*isolates.Value, error) {

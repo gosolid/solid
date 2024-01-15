@@ -1,0 +1,2438 @@
+---
+package: "github.com/gosolid/solid/pkg/runtime/http"
+language: go
+---
+
+# http
+
+```go
+import "github.com/gosolid/solid/pkg/runtime/http"
+```
+
+## Index
+
+<ul>
+
+<li parentName="ul"><a href="#ClientRequest">
+
+```go
+type ClientRequest
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#ClientResponse">
+
+```go
+type ClientResponse
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Http">
+
+```go
+type Http
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewDefaultHttp">
+
+```go
+func NewDefaultHttp(in isolates.RuntimeFunctionArgs) (Http, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#HttpBase">
+
+```go
+type HttpBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewHttp">
+
+```go
+func NewHttp(in isolates.FunctionArgs) (*HttpBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#HttpBase.Net">
+
+```go
+func (h *HttpBase) Net() net.Net
+```
+
+</a></li>
+<li parentName="ul"><a href="#HttpBase.Server">
+
+```go
+func (h *HttpBase) Server() *isolates.Value
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#HttpInformation">
+
+```go
+type HttpInformation
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#HttpServerOptions">
+
+```go
+type HttpServerOptions
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#IncomingMessage">
+
+```go
+type IncomingMessage
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#IncomingMessageBase">
+
+```go
+type IncomingMessageBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewIncomingMessage">
+
+```go
+func NewIncomingMessage(in isolates.FunctionArgs) (*IncomingMessageBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.Complete">
+
+```go
+func (r *IncomingMessageBase) Complete() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.Headers">
+
+```go
+func (r *IncomingMessageBase) Headers() map[string]any
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.HeadersDistinct">
+
+```go
+func (r *IncomingMessageBase) HeadersDistinct() http.Header
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.HttpVersion">
+
+```go
+func (r *IncomingMessageBase) HttpVersion() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.RawHeaders">
+
+```go
+func (r *IncomingMessageBase) RawHeaders() []string
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.RawTrailers">
+
+```go
+func (r *IncomingMessageBase) RawTrailers() []string
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.SetTimeout">
+
+```go
+func (r *IncomingMessageBase) SetTimeout(ctx context.Context, timeout time.Duration, listener *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.Trailers">
+
+```go
+func (r *IncomingMessageBase) Trailers() http.Header
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.TrailersDistinct">
+
+```go
+func (r *IncomingMessageBase) TrailersDistinct() http.Header
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.V8FuncSetTimeout">
+
+```go
+func (r *IncomingMessageBase) V8FuncSetTimeout(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.V8GetComplete">
+
+```go
+func (r *IncomingMessageBase) V8GetComplete(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.V8GetHeaders">
+
+```go
+func (r *IncomingMessageBase) V8GetHeaders(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.V8GetHeadersDistinct">
+
+```go
+func (r *IncomingMessageBase) V8GetHeadersDistinct(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.V8GetHttpVersion">
+
+```go
+func (r *IncomingMessageBase) V8GetHttpVersion(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.V8GetRawHeaders">
+
+```go
+func (r *IncomingMessageBase) V8GetRawHeaders(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.V8GetRawTrailers">
+
+```go
+func (r *IncomingMessageBase) V8GetRawTrailers(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.V8GetTrailers">
+
+```go
+func (r *IncomingMessageBase) V8GetTrailers(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#IncomingMessageBase.V8GetTrailersDistinct">
+
+```go
+func (r *IncomingMessageBase) V8GetTrailersDistinct(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#OutgoingMessage">
+
+```go
+type OutgoingMessage
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#OutgoingMessageBase">
+
+```go
+type OutgoingMessageBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewOutgoingMessage">
+
+```go
+func NewOutgoingMessage(in isolates.FunctionArgs) (*OutgoingMessageBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.AddTrailers">
+
+```go
+func (r *OutgoingMessageBase) AddTrailers(headers http.Header)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.AppendHeader">
+
+```go
+func (r *OutgoingMessageBase) AppendHeader(name string, values []string)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.Destroyed">
+
+```go
+func (r *OutgoingMessageBase) Destroyed() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.Finished">
+
+```go
+func (r *OutgoingMessageBase) Finished() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.FlushHeaders">
+
+```go
+func (r *OutgoingMessageBase) FlushHeaders() error
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.GetHeader">
+
+```go
+func (r *OutgoingMessageBase) GetHeader(name string) []string
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.GetHeaderNames">
+
+```go
+func (r *OutgoingMessageBase) GetHeaderNames() []string
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.GetRawHeaderNames">
+
+```go
+func (r *OutgoingMessageBase) GetRawHeaderNames() []string
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.HasHeader">
+
+```go
+func (r *OutgoingMessageBase) HasHeader(name string) bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.Headers">
+
+```go
+func (r *OutgoingMessageBase) Headers() map[string]any
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.HeadersSent">
+
+```go
+func (r *OutgoingMessageBase) HeadersSent() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.RemoveHeader">
+
+```go
+func (r *OutgoingMessageBase) RemoveHeader(name string)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.SendDate">
+
+```go
+func (r *OutgoingMessageBase) SendDate() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.SetHeader">
+
+```go
+func (r *OutgoingMessageBase) SetHeader(ctx context.Context, name string, value *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.SetHeaders">
+
+```go
+func (r *OutgoingMessageBase) SetHeaders(headers http.Header)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.SetSendDate">
+
+```go
+func (r *OutgoingMessageBase) SetSendDate(bool)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.SetStrictContentLength">
+
+```go
+func (r *OutgoingMessageBase) SetStrictContentLength(bool)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.SetTimeout">
+
+```go
+func (r *OutgoingMessageBase) SetTimeout(timeout time.Duration, listener func() error) func()
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.StrictContentLength">
+
+```go
+func (r *OutgoingMessageBase) StrictContentLength() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8FuncAddTrailers">
+
+```go
+func (r *OutgoingMessageBase) V8FuncAddTrailers(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8FuncAppendHeader">
+
+```go
+func (r *OutgoingMessageBase) V8FuncAppendHeader(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8FuncGetHeader">
+
+```go
+func (r *OutgoingMessageBase) V8FuncGetHeader(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8FuncGetHeaderNames">
+
+```go
+func (r *OutgoingMessageBase) V8FuncGetHeaderNames(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8FuncGetRawHeaderNames">
+
+```go
+func (r *OutgoingMessageBase) V8FuncGetRawHeaderNames(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8FuncHasHeader">
+
+```go
+func (r *OutgoingMessageBase) V8FuncHasHeader(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8FuncRemoveHeader">
+
+```go
+func (r *OutgoingMessageBase) V8FuncRemoveHeader(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8FuncSetHeader">
+
+```go
+func (r *OutgoingMessageBase) V8FuncSetHeader(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8FuncSetHeaders">
+
+```go
+func (r *OutgoingMessageBase) V8FuncSetHeaders(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8FuncSetTimeout">
+
+```go
+func (r *OutgoingMessageBase) V8FuncSetTimeout(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8FuncWait">
+
+```go
+func (r *OutgoingMessageBase) V8FuncWait(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8FuncWriteContinue">
+
+```go
+func (r *OutgoingMessageBase) V8FuncWriteContinue(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8FuncWriteEarlyHints">
+
+```go
+func (r *OutgoingMessageBase) V8FuncWriteEarlyHints(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8FuncWriteProcessing">
+
+```go
+func (r *OutgoingMessageBase) V8FuncWriteProcessing(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8GetDestroyed">
+
+```go
+func (r *OutgoingMessageBase) V8GetDestroyed(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8GetFinished">
+
+```go
+func (r *OutgoingMessageBase) V8GetFinished(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8GetHeaders">
+
+```go
+func (r *OutgoingMessageBase) V8GetHeaders(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8GetHeadersSent">
+
+```go
+func (r *OutgoingMessageBase) V8GetHeadersSent(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8GetSendDate">
+
+```go
+func (r *OutgoingMessageBase) V8GetSendDate(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8GetStrictContentLength">
+
+```go
+func (r *OutgoingMessageBase) V8GetStrictContentLength(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8GetWritableEnded">
+
+```go
+func (r *OutgoingMessageBase) V8GetWritableEnded(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.V8GetWritableFinished">
+
+```go
+func (r *OutgoingMessageBase) V8GetWritableFinished(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.Wait">
+
+```go
+func (r *OutgoingMessageBase) Wait() error
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.WritableEnded">
+
+```go
+func (r *OutgoingMessageBase) WritableEnded() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.WritableFinished">
+
+```go
+func (r *OutgoingMessageBase) WritableFinished() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.WriteContinue">
+
+```go
+func (r *OutgoingMessageBase) WriteContinue() error
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.WriteEarlyHints">
+
+```go
+func (r *OutgoingMessageBase) WriteEarlyHints(header http.Header) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.WriteHead">
+
+```go
+func (r *OutgoingMessageBase) WriteHead(statusCode int, statusMessage string, headers http.Header) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#OutgoingMessageBase.WriteProcessing">
+
+```go
+func (r *OutgoingMessageBase) WriteProcessing() error
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Server">
+
+```go
+type Server
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#ServerBase">
+
+```go
+type ServerBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#ServerBase.CloseAllConnections">
+
+```go
+func (l *ServerBase) CloseAllConnections() error
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.CloseIdleConnections">
+
+```go
+func (l *ServerBase) CloseIdleConnections() error
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.HeadersTimeout">
+
+```go
+func (l *ServerBase) HeadersTimeout() time.Duration
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.KeepAliveTimeout">
+
+```go
+func (l *ServerBase) KeepAliveTimeout() time.Duration
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.MaxHeadersCount">
+
+```go
+func (l *ServerBase) MaxHeadersCount() int
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.MaxRequestsPerSocket">
+
+```go
+func (l *ServerBase) MaxRequestsPerSocket() int
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.RequestTimeout">
+
+```go
+func (l *ServerBase) RequestTimeout() time.Duration
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.SetHeadersTimeout">
+
+```go
+func (l *ServerBase) SetHeadersTimeout(headersTimeout time.Duration)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.SetKeepAliveTimeout">
+
+```go
+func (l *ServerBase) SetKeepAliveTimeout(keepAliveTimeout time.Duration)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.SetMaxHeadersCount">
+
+```go
+func (l *ServerBase) SetMaxHeadersCount(maxHeadersCount int)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.SetMaxRequestsPerSocket">
+
+```go
+func (l *ServerBase) SetMaxRequestsPerSocket(maxRequestsPerSocket int)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.SetRequestTimeout">
+
+```go
+func (l *ServerBase) SetRequestTimeout(requestTimeout time.Duration)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.SetTimeout">
+
+```go
+func (l *ServerBase) SetTimeout(ctx context.Context, timeout time.Duration, listener *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.Timeout">
+
+```go
+func (l *ServerBase) Timeout() time.Duration
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.V8FuncCloseAllConnections">
+
+```go
+func (l *ServerBase) V8FuncCloseAllConnections(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.V8FuncCloseIdleConnections">
+
+```go
+func (l *ServerBase) V8FuncCloseIdleConnections(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.V8FuncSetTimeout">
+
+```go
+func (l *ServerBase) V8FuncSetTimeout(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.V8GetHeadersTimeout">
+
+```go
+func (l *ServerBase) V8GetHeadersTimeout(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.V8GetKeepAliveTimeout">
+
+```go
+func (l *ServerBase) V8GetKeepAliveTimeout(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.V8GetMaxHeadersCount">
+
+```go
+func (l *ServerBase) V8GetMaxHeadersCount(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.V8GetMaxRequestsPerSocket">
+
+```go
+func (l *ServerBase) V8GetMaxRequestsPerSocket(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.V8GetRequestTimeout">
+
+```go
+func (l *ServerBase) V8GetRequestTimeout(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.V8GetTimeout">
+
+```go
+func (l *ServerBase) V8GetTimeout(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#ServerRequest">
+
+```go
+type ServerRequest
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#ServerRequestBase">
+
+```go
+type ServerRequestBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewServerRequest">
+
+```go
+func NewServerRequest(in isolates.FunctionArgs) (*ServerRequestBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerRequestBase.IsUpgrade">
+
+```go
+func (r *ServerRequestBase) IsUpgrade() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerRequestBase.Method">
+
+```go
+func (r *ServerRequestBase) Method() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerRequestBase.Response">
+
+```go
+func (r *ServerRequestBase) Response(ctx context.Context) (ServerResponse, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerRequestBase.Socket">
+
+```go
+func (r *ServerRequestBase) Socket() net.Socket
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerRequestBase.URL">
+
+```go
+func (r *ServerRequestBase) URL() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerRequestBase.V8GetMethod">
+
+```go
+func (r *ServerRequestBase) V8GetMethod(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerRequestBase.V8GetSocket">
+
+```go
+func (r *ServerRequestBase) V8GetSocket(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerRequestBase.V8GetUrl">
+
+```go
+func (r *ServerRequestBase) V8GetUrl(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#ServerResponse">
+
+```go
+type ServerResponse
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#ServerResponseBase">
+
+```go
+type ServerResponseBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewServerResponse">
+
+```go
+func NewServerResponse(in isolates.FunctionArgs) (*ServerResponseBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerResponseBase.FlushHeaders">
+
+```go
+func (r *ServerResponseBase) FlushHeaders() error
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerResponseBase.Request">
+
+```go
+func (r *ServerResponseBase) Request(context.Context) (ServerRequest, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerResponseBase.SetStatusCode">
+
+```go
+func (r *ServerResponseBase) SetStatusCode(statusCode int)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerResponseBase.SetStatusMessage">
+
+```go
+func (r *ServerResponseBase) SetStatusMessage(statusMessage string)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerResponseBase.Socket">
+
+```go
+func (r *ServerResponseBase) Socket() net.Socket
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerResponseBase.StatusCode">
+
+```go
+func (r *ServerResponseBase) StatusCode() int
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerResponseBase.StatusMessage">
+
+```go
+func (r *ServerResponseBase) StatusMessage() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerResponseBase.V8FuncFlushHeaders">
+
+```go
+func (r *ServerResponseBase) V8FuncFlushHeaders(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerResponseBase.V8FuncWriteHead">
+
+```go
+func (r *ServerResponseBase) V8FuncWriteHead(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerResponseBase.V8GetSocket">
+
+```go
+func (r *ServerResponseBase) V8GetSocket(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerResponseBase.V8GetStatusCode">
+
+```go
+func (r *ServerResponseBase) V8GetStatusCode(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerResponseBase.V8GetStatusMessage">
+
+```go
+func (r *ServerResponseBase) V8GetStatusMessage(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerResponseBase.WriteHead">
+
+```go
+func (r *ServerResponseBase) WriteHead(statusCode int, statusMessage string, headers http.Header) error
+```
+
+</a></li>
+</ul></li>
+
+</ul>
+
+<a id="ClientRequest"></a>
+
+## type ClientRequest
+
+
+
+```go
+type ClientRequest interface {
+    OutgoingMessage
+
+    MaxHeadersCount() int
+    SetMaxHeadersCount(int)
+    Path() string
+    SetPath(string)
+    Method() string
+    SetMethod(string)
+    Host() string
+    SetHost(string)
+    Protocol() string
+    SetProtocol(string)
+    ReusedSocket() bool
+    SetNoDelay(bool)
+    SetSocketKeepAlive(bool, time.Duration)
+}
+```
+
+<a id="ClientResponse"></a>
+
+## type ClientResponse
+
+
+
+```go
+type ClientResponse interface {
+    IncomingMessage
+
+    StatusCode() int
+    StatusMessage() string
+}
+```
+
+<a id="Http"></a>
+
+## type Http
+
+
+
+```go
+type Http interface {
+    Net() net.Net
+    Server() *isolates.Value
+}
+```
+
+<a id="NewDefaultHttp" />
+
+### func NewDefaultHttp
+
+```go
+func NewDefaultHttp(in isolates.RuntimeFunctionArgs) (Http, error)
+```
+
+
+
+<a id="HttpBase"></a>
+
+## type HttpBase
+
+
+
+```go
+type HttpBase struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewHttp" />
+
+### func NewHttp
+
+```go
+func NewHttp(in isolates.FunctionArgs) (*HttpBase, error)
+```
+
+
+
+<a id="HttpBase.Net" />
+
+### func \(\*HttpBase\) Net
+
+```go
+func (h *HttpBase) Net() net.Net
+```
+
+
+
+<a id="HttpBase.Server" />
+
+### func \(\*HttpBase\) Server
+
+```go
+func (h *HttpBase) Server() *isolates.Value
+```
+
+
+
+<a id="HttpInformation"></a>
+
+## type HttpInformation
+
+
+
+```go
+type HttpInformation interface {
+    HttpVersion() string
+    HttpVersionMajor() int
+    HttpVersionMinor() int
+    StatusCode() int
+    StatusMessage() string
+    Headers() http.Header
+    RawHeaders() []string
+}
+```
+
+<a id="HttpServerOptions"></a>
+
+## type HttpServerOptions
+
+
+
+```go
+type HttpServerOptions struct {
+    ConnectionsCheckingInterval time.Duration `json:"connectionsCheckingInterval"`
+    HeadersTimeout              time.Duration `json:"headersTimeout"`
+    HighWaterMark               int           `json:"highWaterMark"`
+    JoinDuplicateHeaders        bool          `json:"joinDuplicateHeaders"`
+    KeepAlive                   bool          `json:"keepAlive"`
+    KeepAliveInitialDelay       time.Duration `json:"keepAliveInitialDelay"`
+    KeepAliveTimeout            time.Duration `json:"keepAliveTimeout"`
+    MaxHeaderSize               int           `json:"maxHeaderSize"`
+    NoDelay                     bool          `json:"noDelay"`
+    RequestTimeout              time.Duration `json:"requestTimeout"`
+    RequireHostHeader           bool          `json:"requireHostHeader"`
+    UniqueHeaders               []string      `json:"uniqueHeaders"`
+}
+```
+
+<a id="IncomingMessage"></a>
+
+## type IncomingMessage
+
+
+
+```go
+type IncomingMessage interface {
+    stream.Readable
+
+    Complete() bool
+    Headers() map[string]any
+    HeadersDistinct() http.Header
+    HttpVersion() string
+
+    RawHeaders() []string
+    RawTrailers() []string
+    SetTimeout(context.Context, time.Duration, *isolates.Value) error
+    Trailers() http.Header
+    TrailersDistinct() http.Header
+}
+```
+
+<a id="IncomingMessageBase"></a>
+
+## type IncomingMessageBase
+
+
+
+```go
+type IncomingMessageBase struct {
+    *stream.ReadableBase
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewIncomingMessage" />
+
+### func NewIncomingMessage
+
+```go
+func NewIncomingMessage(in isolates.FunctionArgs) (*IncomingMessageBase, error)
+```
+
+
+
+<a id="IncomingMessageBase.Complete" />
+
+### func \(\*IncomingMessageBase\) Complete
+
+```go
+func (r *IncomingMessageBase) Complete() bool
+```
+
+
+
+<a id="IncomingMessageBase.Headers" />
+
+### func \(\*IncomingMessageBase\) Headers
+
+```go
+func (r *IncomingMessageBase) Headers() map[string]any
+```
+
+
+
+<a id="IncomingMessageBase.HeadersDistinct" />
+
+### func \(\*IncomingMessageBase\) HeadersDistinct
+
+```go
+func (r *IncomingMessageBase) HeadersDistinct() http.Header
+```
+
+
+
+<a id="IncomingMessageBase.HttpVersion" />
+
+### func \(\*IncomingMessageBase\) HttpVersion
+
+```go
+func (r *IncomingMessageBase) HttpVersion() string
+```
+
+
+
+<a id="IncomingMessageBase.RawHeaders" />
+
+### func \(\*IncomingMessageBase\) RawHeaders
+
+```go
+func (r *IncomingMessageBase) RawHeaders() []string
+```
+
+
+
+<a id="IncomingMessageBase.RawTrailers" />
+
+### func \(\*IncomingMessageBase\) RawTrailers
+
+```go
+func (r *IncomingMessageBase) RawTrailers() []string
+```
+
+
+
+<a id="IncomingMessageBase.SetTimeout" />
+
+### func \(\*IncomingMessageBase\) SetTimeout
+
+```go
+func (r *IncomingMessageBase) SetTimeout(ctx context.Context, timeout time.Duration, listener *isolates.Value) error
+```
+
+
+
+<a id="IncomingMessageBase.Trailers" />
+
+### func \(\*IncomingMessageBase\) Trailers
+
+```go
+func (r *IncomingMessageBase) Trailers() http.Header
+```
+
+
+
+<a id="IncomingMessageBase.TrailersDistinct" />
+
+### func \(\*IncomingMessageBase\) TrailersDistinct
+
+```go
+func (r *IncomingMessageBase) TrailersDistinct() http.Header
+```
+
+
+
+<a id="IncomingMessageBase.V8FuncSetTimeout" />
+
+### func \(\*IncomingMessageBase\) V8FuncSetTimeout
+
+```go
+func (r *IncomingMessageBase) V8FuncSetTimeout(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="IncomingMessageBase.V8GetComplete" />
+
+### func \(\*IncomingMessageBase\) V8GetComplete
+
+```go
+func (r *IncomingMessageBase) V8GetComplete(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="IncomingMessageBase.V8GetHeaders" />
+
+### func \(\*IncomingMessageBase\) V8GetHeaders
+
+```go
+func (r *IncomingMessageBase) V8GetHeaders(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="IncomingMessageBase.V8GetHeadersDistinct" />
+
+### func \(\*IncomingMessageBase\) V8GetHeadersDistinct
+
+```go
+func (r *IncomingMessageBase) V8GetHeadersDistinct(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="IncomingMessageBase.V8GetHttpVersion" />
+
+### func \(\*IncomingMessageBase\) V8GetHttpVersion
+
+```go
+func (r *IncomingMessageBase) V8GetHttpVersion(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="IncomingMessageBase.V8GetRawHeaders" />
+
+### func \(\*IncomingMessageBase\) V8GetRawHeaders
+
+```go
+func (r *IncomingMessageBase) V8GetRawHeaders(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="IncomingMessageBase.V8GetRawTrailers" />
+
+### func \(\*IncomingMessageBase\) V8GetRawTrailers
+
+```go
+func (r *IncomingMessageBase) V8GetRawTrailers(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="IncomingMessageBase.V8GetTrailers" />
+
+### func \(\*IncomingMessageBase\) V8GetTrailers
+
+```go
+func (r *IncomingMessageBase) V8GetTrailers(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="IncomingMessageBase.V8GetTrailersDistinct" />
+
+### func \(\*IncomingMessageBase\) V8GetTrailersDistinct
+
+```go
+func (r *IncomingMessageBase) V8GetTrailersDistinct(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessage"></a>
+
+## type OutgoingMessage
+
+
+
+```go
+type OutgoingMessage interface {
+    stream.Writable
+
+    AddTrailers(headers http.Header)
+    AppendHeader(name string, values []string)
+    Destroyed() bool
+    Finished() bool
+    FlushHeaders() error
+    GetHeader(name string) []string
+    GetHeaderNames() []string
+    GetRawHeaderNames() []string
+    Headers() map[string]any
+    HasHeader(name string) bool
+    HeadersSent() bool
+    RemoveHeader(name string)
+    SetHeader(ctx context.Context, name string, value *isolates.Value) error
+    SetHeaders(headers http.Header)
+    SetTimeout(time.Duration, func() error) func()
+}
+```
+
+<a id="OutgoingMessageBase"></a>
+
+## type OutgoingMessageBase
+
+
+
+```go
+type OutgoingMessageBase struct {
+    *stream.WritableBase
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewOutgoingMessage" />
+
+### func NewOutgoingMessage
+
+```go
+func NewOutgoingMessage(in isolates.FunctionArgs) (*OutgoingMessageBase, error)
+```
+
+
+
+<a id="OutgoingMessageBase.AddTrailers" />
+
+### func \(\*OutgoingMessageBase\) AddTrailers
+
+```go
+func (r *OutgoingMessageBase) AddTrailers(headers http.Header)
+```
+
+
+
+<a id="OutgoingMessageBase.AppendHeader" />
+
+### func \(\*OutgoingMessageBase\) AppendHeader
+
+```go
+func (r *OutgoingMessageBase) AppendHeader(name string, values []string)
+```
+
+
+
+<a id="OutgoingMessageBase.Destroyed" />
+
+### func \(\*OutgoingMessageBase\) Destroyed
+
+```go
+func (r *OutgoingMessageBase) Destroyed() bool
+```
+
+
+
+<a id="OutgoingMessageBase.Finished" />
+
+### func \(\*OutgoingMessageBase\) Finished
+
+```go
+func (r *OutgoingMessageBase) Finished() bool
+```
+
+
+
+<a id="OutgoingMessageBase.FlushHeaders" />
+
+### func \(\*OutgoingMessageBase\) FlushHeaders
+
+```go
+func (r *OutgoingMessageBase) FlushHeaders() error
+```
+
+
+
+<a id="OutgoingMessageBase.GetHeader" />
+
+### func \(\*OutgoingMessageBase\) GetHeader
+
+```go
+func (r *OutgoingMessageBase) GetHeader(name string) []string
+```
+
+
+
+<a id="OutgoingMessageBase.GetHeaderNames" />
+
+### func \(\*OutgoingMessageBase\) GetHeaderNames
+
+```go
+func (r *OutgoingMessageBase) GetHeaderNames() []string
+```
+
+
+
+<a id="OutgoingMessageBase.GetRawHeaderNames" />
+
+### func \(\*OutgoingMessageBase\) GetRawHeaderNames
+
+```go
+func (r *OutgoingMessageBase) GetRawHeaderNames() []string
+```
+
+
+
+<a id="OutgoingMessageBase.HasHeader" />
+
+### func \(\*OutgoingMessageBase\) HasHeader
+
+```go
+func (r *OutgoingMessageBase) HasHeader(name string) bool
+```
+
+
+
+<a id="OutgoingMessageBase.Headers" />
+
+### func \(\*OutgoingMessageBase\) Headers
+
+```go
+func (r *OutgoingMessageBase) Headers() map[string]any
+```
+
+
+
+<a id="OutgoingMessageBase.HeadersSent" />
+
+### func \(\*OutgoingMessageBase\) HeadersSent
+
+```go
+func (r *OutgoingMessageBase) HeadersSent() bool
+```
+
+
+
+<a id="OutgoingMessageBase.RemoveHeader" />
+
+### func \(\*OutgoingMessageBase\) RemoveHeader
+
+```go
+func (r *OutgoingMessageBase) RemoveHeader(name string)
+```
+
+
+
+<a id="OutgoingMessageBase.SendDate" />
+
+### func \(\*OutgoingMessageBase\) SendDate
+
+```go
+func (r *OutgoingMessageBase) SendDate() bool
+```
+
+
+
+<a id="OutgoingMessageBase.SetHeader" />
+
+### func \(\*OutgoingMessageBase\) SetHeader
+
+```go
+func (r *OutgoingMessageBase) SetHeader(ctx context.Context, name string, value *isolates.Value) error
+```
+
+
+
+<a id="OutgoingMessageBase.SetHeaders" />
+
+### func \(\*OutgoingMessageBase\) SetHeaders
+
+```go
+func (r *OutgoingMessageBase) SetHeaders(headers http.Header)
+```
+
+
+
+<a id="OutgoingMessageBase.SetSendDate" />
+
+### func \(\*OutgoingMessageBase\) SetSendDate
+
+```go
+func (r *OutgoingMessageBase) SetSendDate(bool)
+```
+
+
+
+<a id="OutgoingMessageBase.SetStrictContentLength" />
+
+### func \(\*OutgoingMessageBase\) SetStrictContentLength
+
+```go
+func (r *OutgoingMessageBase) SetStrictContentLength(bool)
+```
+
+
+
+<a id="OutgoingMessageBase.SetTimeout" />
+
+### func \(\*OutgoingMessageBase\) SetTimeout
+
+```go
+func (r *OutgoingMessageBase) SetTimeout(timeout time.Duration, listener func() error) func()
+```
+
+
+
+<a id="OutgoingMessageBase.StrictContentLength" />
+
+### func \(\*OutgoingMessageBase\) StrictContentLength
+
+```go
+func (r *OutgoingMessageBase) StrictContentLength() bool
+```
+
+
+
+<a id="OutgoingMessageBase.V8FuncAddTrailers" />
+
+### func \(\*OutgoingMessageBase\) V8FuncAddTrailers
+
+```go
+func (r *OutgoingMessageBase) V8FuncAddTrailers(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8FuncAppendHeader" />
+
+### func \(\*OutgoingMessageBase\) V8FuncAppendHeader
+
+```go
+func (r *OutgoingMessageBase) V8FuncAppendHeader(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8FuncGetHeader" />
+
+### func \(\*OutgoingMessageBase\) V8FuncGetHeader
+
+```go
+func (r *OutgoingMessageBase) V8FuncGetHeader(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8FuncGetHeaderNames" />
+
+### func \(\*OutgoingMessageBase\) V8FuncGetHeaderNames
+
+```go
+func (r *OutgoingMessageBase) V8FuncGetHeaderNames(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8FuncGetRawHeaderNames" />
+
+### func \(\*OutgoingMessageBase\) V8FuncGetRawHeaderNames
+
+```go
+func (r *OutgoingMessageBase) V8FuncGetRawHeaderNames(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8FuncHasHeader" />
+
+### func \(\*OutgoingMessageBase\) V8FuncHasHeader
+
+```go
+func (r *OutgoingMessageBase) V8FuncHasHeader(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8FuncRemoveHeader" />
+
+### func \(\*OutgoingMessageBase\) V8FuncRemoveHeader
+
+```go
+func (r *OutgoingMessageBase) V8FuncRemoveHeader(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8FuncSetHeader" />
+
+### func \(\*OutgoingMessageBase\) V8FuncSetHeader
+
+```go
+func (r *OutgoingMessageBase) V8FuncSetHeader(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8FuncSetHeaders" />
+
+### func \(\*OutgoingMessageBase\) V8FuncSetHeaders
+
+```go
+func (r *OutgoingMessageBase) V8FuncSetHeaders(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8FuncSetTimeout" />
+
+### func \(\*OutgoingMessageBase\) V8FuncSetTimeout
+
+```go
+func (r *OutgoingMessageBase) V8FuncSetTimeout(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8FuncWait" />
+
+### func \(\*OutgoingMessageBase\) V8FuncWait
+
+```go
+func (r *OutgoingMessageBase) V8FuncWait(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8FuncWriteContinue" />
+
+### func \(\*OutgoingMessageBase\) V8FuncWriteContinue
+
+```go
+func (r *OutgoingMessageBase) V8FuncWriteContinue(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8FuncWriteEarlyHints" />
+
+### func \(\*OutgoingMessageBase\) V8FuncWriteEarlyHints
+
+```go
+func (r *OutgoingMessageBase) V8FuncWriteEarlyHints(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8FuncWriteProcessing" />
+
+### func \(\*OutgoingMessageBase\) V8FuncWriteProcessing
+
+```go
+func (r *OutgoingMessageBase) V8FuncWriteProcessing(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8GetDestroyed" />
+
+### func \(\*OutgoingMessageBase\) V8GetDestroyed
+
+```go
+func (r *OutgoingMessageBase) V8GetDestroyed(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8GetFinished" />
+
+### func \(\*OutgoingMessageBase\) V8GetFinished
+
+```go
+func (r *OutgoingMessageBase) V8GetFinished(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8GetHeaders" />
+
+### func \(\*OutgoingMessageBase\) V8GetHeaders
+
+```go
+func (r *OutgoingMessageBase) V8GetHeaders(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8GetHeadersSent" />
+
+### func \(\*OutgoingMessageBase\) V8GetHeadersSent
+
+```go
+func (r *OutgoingMessageBase) V8GetHeadersSent(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8GetSendDate" />
+
+### func \(\*OutgoingMessageBase\) V8GetSendDate
+
+```go
+func (r *OutgoingMessageBase) V8GetSendDate(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8GetStrictContentLength" />
+
+### func \(\*OutgoingMessageBase\) V8GetStrictContentLength
+
+```go
+func (r *OutgoingMessageBase) V8GetStrictContentLength(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8GetWritableEnded" />
+
+### func \(\*OutgoingMessageBase\) V8GetWritableEnded
+
+```go
+func (r *OutgoingMessageBase) V8GetWritableEnded(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.V8GetWritableFinished" />
+
+### func \(\*OutgoingMessageBase\) V8GetWritableFinished
+
+```go
+func (r *OutgoingMessageBase) V8GetWritableFinished(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="OutgoingMessageBase.Wait" />
+
+### func \(\*OutgoingMessageBase\) Wait
+
+```go
+func (r *OutgoingMessageBase) Wait() error
+```
+
+
+
+<a id="OutgoingMessageBase.WritableEnded" />
+
+### func \(\*OutgoingMessageBase\) WritableEnded
+
+```go
+func (r *OutgoingMessageBase) WritableEnded() bool
+```
+
+
+
+<a id="OutgoingMessageBase.WritableFinished" />
+
+### func \(\*OutgoingMessageBase\) WritableFinished
+
+```go
+func (r *OutgoingMessageBase) WritableFinished() bool
+```
+
+
+
+<a id="OutgoingMessageBase.WriteContinue" />
+
+### func \(\*OutgoingMessageBase\) WriteContinue
+
+```go
+func (r *OutgoingMessageBase) WriteContinue() error
+```
+
+
+
+<a id="OutgoingMessageBase.WriteEarlyHints" />
+
+### func \(\*OutgoingMessageBase\) WriteEarlyHints
+
+```go
+func (r *OutgoingMessageBase) WriteEarlyHints(header http.Header) error
+```
+
+
+
+<a id="OutgoingMessageBase.WriteHead" />
+
+### func \(\*OutgoingMessageBase\) WriteHead
+
+```go
+func (r *OutgoingMessageBase) WriteHead(statusCode int, statusMessage string, headers http.Header) error
+```
+
+
+
+<a id="OutgoingMessageBase.WriteProcessing" />
+
+### func \(\*OutgoingMessageBase\) WriteProcessing
+
+```go
+func (r *OutgoingMessageBase) WriteProcessing() error
+```
+
+
+
+<a id="Server"></a>
+
+## type Server
+
+
+
+```go
+type Server interface {
+    net.Server
+
+    CloseAllConnections() error
+    CloseIdleConnections() error
+    HeadersTimeout() time.Duration
+    SetHeadersTimeout(time.Duration)
+    MaxHeadersCount() int
+    SetMaxHeadersCount(int)
+    RequestTimeout() time.Duration
+    SetRequestTimeout(time.Duration)
+    Timeout() time.Duration
+    SetTimeout(ctx context.Context, timeout time.Duration, listener *isolates.Value) error
+    MaxRequestsPerSocket() int
+    SetMaxRequestsPerSocket(int)
+    KeepAliveTimeout() time.Duration
+    SetKeepAliveTimeout(time.Duration)
+}
+```
+
+<a id="ServerBase"></a>
+
+## type ServerBase
+
+
+
+```go
+type ServerBase struct {
+    *net.ServerBase
+
+    This *isolates.Value
+    // contains filtered or unexported fields
+}
+```
+
+<a id="ServerBase.CloseAllConnections" />
+
+### func \(\*ServerBase\) CloseAllConnections
+
+```go
+func (l *ServerBase) CloseAllConnections() error
+```
+
+
+
+<a id="ServerBase.CloseIdleConnections" />
+
+### func \(\*ServerBase\) CloseIdleConnections
+
+```go
+func (l *ServerBase) CloseIdleConnections() error
+```
+
+
+
+<a id="ServerBase.HeadersTimeout" />
+
+### func \(\*ServerBase\) HeadersTimeout
+
+```go
+func (l *ServerBase) HeadersTimeout() time.Duration
+```
+
+
+
+<a id="ServerBase.KeepAliveTimeout" />
+
+### func \(\*ServerBase\) KeepAliveTimeout
+
+```go
+func (l *ServerBase) KeepAliveTimeout() time.Duration
+```
+
+
+
+<a id="ServerBase.MaxHeadersCount" />
+
+### func \(\*ServerBase\) MaxHeadersCount
+
+```go
+func (l *ServerBase) MaxHeadersCount() int
+```
+
+
+
+<a id="ServerBase.MaxRequestsPerSocket" />
+
+### func \(\*ServerBase\) MaxRequestsPerSocket
+
+```go
+func (l *ServerBase) MaxRequestsPerSocket() int
+```
+
+
+
+<a id="ServerBase.RequestTimeout" />
+
+### func \(\*ServerBase\) RequestTimeout
+
+```go
+func (l *ServerBase) RequestTimeout() time.Duration
+```
+
+
+
+<a id="ServerBase.SetHeadersTimeout" />
+
+### func \(\*ServerBase\) SetHeadersTimeout
+
+```go
+func (l *ServerBase) SetHeadersTimeout(headersTimeout time.Duration)
+```
+
+
+
+<a id="ServerBase.SetKeepAliveTimeout" />
+
+### func \(\*ServerBase\) SetKeepAliveTimeout
+
+```go
+func (l *ServerBase) SetKeepAliveTimeout(keepAliveTimeout time.Duration)
+```
+
+
+
+<a id="ServerBase.SetMaxHeadersCount" />
+
+### func \(\*ServerBase\) SetMaxHeadersCount
+
+```go
+func (l *ServerBase) SetMaxHeadersCount(maxHeadersCount int)
+```
+
+
+
+<a id="ServerBase.SetMaxRequestsPerSocket" />
+
+### func \(\*ServerBase\) SetMaxRequestsPerSocket
+
+```go
+func (l *ServerBase) SetMaxRequestsPerSocket(maxRequestsPerSocket int)
+```
+
+
+
+<a id="ServerBase.SetRequestTimeout" />
+
+### func \(\*ServerBase\) SetRequestTimeout
+
+```go
+func (l *ServerBase) SetRequestTimeout(requestTimeout time.Duration)
+```
+
+
+
+<a id="ServerBase.SetTimeout" />
+
+### func \(\*ServerBase\) SetTimeout
+
+```go
+func (l *ServerBase) SetTimeout(ctx context.Context, timeout time.Duration, listener *isolates.Value) error
+```
+
+
+
+<a id="ServerBase.Timeout" />
+
+### func \(\*ServerBase\) Timeout
+
+```go
+func (l *ServerBase) Timeout() time.Duration
+```
+
+
+
+<a id="ServerBase.V8FuncCloseAllConnections" />
+
+### func \(\*ServerBase\) V8FuncCloseAllConnections
+
+```go
+func (l *ServerBase) V8FuncCloseAllConnections(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerBase.V8FuncCloseIdleConnections" />
+
+### func \(\*ServerBase\) V8FuncCloseIdleConnections
+
+```go
+func (l *ServerBase) V8FuncCloseIdleConnections(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerBase.V8FuncSetTimeout" />
+
+### func \(\*ServerBase\) V8FuncSetTimeout
+
+```go
+func (l *ServerBase) V8FuncSetTimeout(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerBase.V8GetHeadersTimeout" />
+
+### func \(\*ServerBase\) V8GetHeadersTimeout
+
+```go
+func (l *ServerBase) V8GetHeadersTimeout(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerBase.V8GetKeepAliveTimeout" />
+
+### func \(\*ServerBase\) V8GetKeepAliveTimeout
+
+```go
+func (l *ServerBase) V8GetKeepAliveTimeout(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerBase.V8GetMaxHeadersCount" />
+
+### func \(\*ServerBase\) V8GetMaxHeadersCount
+
+```go
+func (l *ServerBase) V8GetMaxHeadersCount(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerBase.V8GetMaxRequestsPerSocket" />
+
+### func \(\*ServerBase\) V8GetMaxRequestsPerSocket
+
+```go
+func (l *ServerBase) V8GetMaxRequestsPerSocket(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerBase.V8GetRequestTimeout" />
+
+### func \(\*ServerBase\) V8GetRequestTimeout
+
+```go
+func (l *ServerBase) V8GetRequestTimeout(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerBase.V8GetTimeout" />
+
+### func \(\*ServerBase\) V8GetTimeout
+
+```go
+func (l *ServerBase) V8GetTimeout(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerRequest"></a>
+
+## type ServerRequest
+
+
+
+```go
+type ServerRequest interface {
+    IncomingMessage
+
+    Response(context.Context) (ServerResponse, error)
+    Socket() net.Socket
+
+    IsUpgrade() bool
+
+    Method() string
+    URL() string
+}
+```
+
+<a id="ServerRequestBase"></a>
+
+## type ServerRequestBase
+
+
+
+```go
+type ServerRequestBase struct {
+    *IncomingMessageBase
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewServerRequest" />
+
+### func NewServerRequest
+
+```go
+func NewServerRequest(in isolates.FunctionArgs) (*ServerRequestBase, error)
+```
+
+
+
+<a id="ServerRequestBase.IsUpgrade" />
+
+### func \(\*ServerRequestBase\) IsUpgrade
+
+```go
+func (r *ServerRequestBase) IsUpgrade() bool
+```
+
+
+
+<a id="ServerRequestBase.Method" />
+
+### func \(\*ServerRequestBase\) Method
+
+```go
+func (r *ServerRequestBase) Method() string
+```
+
+
+
+<a id="ServerRequestBase.Response" />
+
+### func \(\*ServerRequestBase\) Response
+
+```go
+func (r *ServerRequestBase) Response(ctx context.Context) (ServerResponse, error)
+```
+
+
+
+<a id="ServerRequestBase.Socket" />
+
+### func \(\*ServerRequestBase\) Socket
+
+```go
+func (r *ServerRequestBase) Socket() net.Socket
+```
+
+
+
+<a id="ServerRequestBase.URL" />
+
+### func \(\*ServerRequestBase\) URL
+
+```go
+func (r *ServerRequestBase) URL() string
+```
+
+
+
+<a id="ServerRequestBase.V8GetMethod" />
+
+### func \(\*ServerRequestBase\) V8GetMethod
+
+```go
+func (r *ServerRequestBase) V8GetMethod(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerRequestBase.V8GetSocket" />
+
+### func \(\*ServerRequestBase\) V8GetSocket
+
+```go
+func (r *ServerRequestBase) V8GetSocket(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerRequestBase.V8GetUrl" />
+
+### func \(\*ServerRequestBase\) V8GetUrl
+
+```go
+func (r *ServerRequestBase) V8GetUrl(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerResponse"></a>
+
+## type ServerResponse
+
+
+
+```go
+type ServerResponse interface {
+    OutgoingMessage
+
+    Request(context.Context) (ServerRequest, error)
+    Socket() net.Socket
+    SendDate() bool
+    SetSendDate(bool)
+    StatusCode() int
+    SetStatusCode(int)
+    StatusMessage() string
+    SetStatusMessage(string)
+    StrictContentLength() bool
+    SetStrictContentLength(bool)
+    WriteContinue() error
+    WriteEarlyHints(http.Header) error
+    WriteHead(statusCode int, statusMessage string, headers http.Header) error
+    WriteProcessing() error
+
+    Wait() error
+}
+```
+
+<a id="ServerResponseBase"></a>
+
+## type ServerResponseBase
+
+
+
+```go
+type ServerResponseBase struct {
+    *OutgoingMessageBase
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewServerResponse" />
+
+### func NewServerResponse
+
+```go
+func NewServerResponse(in isolates.FunctionArgs) (*ServerResponseBase, error)
+```
+
+
+
+<a id="ServerResponseBase.FlushHeaders" />
+
+### func \(\*ServerResponseBase\) FlushHeaders
+
+```go
+func (r *ServerResponseBase) FlushHeaders() error
+```
+
+
+
+<a id="ServerResponseBase.Request" />
+
+### func \(\*ServerResponseBase\) Request
+
+```go
+func (r *ServerResponseBase) Request(context.Context) (ServerRequest, error)
+```
+
+
+
+<a id="ServerResponseBase.SetStatusCode" />
+
+### func \(\*ServerResponseBase\) SetStatusCode
+
+```go
+func (r *ServerResponseBase) SetStatusCode(statusCode int)
+```
+
+
+
+<a id="ServerResponseBase.SetStatusMessage" />
+
+### func \(\*ServerResponseBase\) SetStatusMessage
+
+```go
+func (r *ServerResponseBase) SetStatusMessage(statusMessage string)
+```
+
+
+
+<a id="ServerResponseBase.Socket" />
+
+### func \(\*ServerResponseBase\) Socket
+
+```go
+func (r *ServerResponseBase) Socket() net.Socket
+```
+
+
+
+<a id="ServerResponseBase.StatusCode" />
+
+### func \(\*ServerResponseBase\) StatusCode
+
+```go
+func (r *ServerResponseBase) StatusCode() int
+```
+
+
+
+<a id="ServerResponseBase.StatusMessage" />
+
+### func \(\*ServerResponseBase\) StatusMessage
+
+```go
+func (r *ServerResponseBase) StatusMessage() string
+```
+
+
+
+<a id="ServerResponseBase.V8FuncFlushHeaders" />
+
+### func \(\*ServerResponseBase\) V8FuncFlushHeaders
+
+```go
+func (r *ServerResponseBase) V8FuncFlushHeaders(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerResponseBase.V8FuncWriteHead" />
+
+### func \(\*ServerResponseBase\) V8FuncWriteHead
+
+```go
+func (r *ServerResponseBase) V8FuncWriteHead(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerResponseBase.V8GetSocket" />
+
+### func \(\*ServerResponseBase\) V8GetSocket
+
+```go
+func (r *ServerResponseBase) V8GetSocket(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerResponseBase.V8GetStatusCode" />
+
+### func \(\*ServerResponseBase\) V8GetStatusCode
+
+```go
+func (r *ServerResponseBase) V8GetStatusCode(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerResponseBase.V8GetStatusMessage" />
+
+### func \(\*ServerResponseBase\) V8GetStatusMessage
+
+```go
+func (r *ServerResponseBase) V8GetStatusMessage(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerResponseBase.WriteHead" />
+
+### func \(\*ServerResponseBase\) WriteHead
+
+```go
+func (r *ServerResponseBase) WriteHead(statusCode int, statusMessage string, headers http.Header) error
+```
+
+
+

@@ -2,6 +2,8 @@
 
 package http
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"context"
 	"encoding/json"

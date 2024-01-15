@@ -8,7 +8,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("fs", "/Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("fs", "embed.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "EmbeddedFileSystem", func (in isolates.FunctionArgs) (*embedfs, error) {
     var _embed *embed.FS
     if v, err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&_embed).Elem()); err != nil {
@@ -467,14 +467,6 @@ func (f *embedfile) V8FuncCloseSync(in isolates.FunctionArgs) (*isolates.Value, 
     return nil, err
   } else {
     return nil, nil
-  }
-}
-
-func (f *embedfile) V8FuncCreateReadStream(in isolates.FunctionArgs) (*isolates.Value, error) {
-  if result, err := f.ReadStream(in.ExecutionContext); err != nil {
-    return nil, err
-  } else {
-    return in.Context.Create(in.ExecutionContext, result)
   }
 }
 

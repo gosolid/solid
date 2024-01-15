@@ -2,6 +2,8 @@
 
 package tty
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"os"
 	"reflect"
@@ -26,7 +28,7 @@ type WriteStreamBase struct {
 	fd int
 }
 
-//js:constructor
+//js:constructor WriteStream
 //js:export WriteStream
 func NewWriteStream(in isolates.FunctionArgs) (*WriteStreamBase, error) {
 	var fd int

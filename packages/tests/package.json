@@ -1,0 +1,22 @@
+{
+  "name": "@grexie/workers-test",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "./src/index.ts",
+  "scripts": {
+    "start": "run-p start:tests",
+    "start:tests": "nodemon -w .. -e js,go -x 'go run -tags ${NODE_ENV:-development} ../../main.go --standalone -r ts-node/register/transpile-only node_modules/.bin/mocha -- --extension js,cjs,mjs,ts,cts,mts \"packages/tests/src/**/*.test.+(js|cjs|mjs|ts|cts|mts)\"' --signal SIGKILL"
+  },
+  "dependencies": {
+    "mocha": "^10.2.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.5",
+    "@types/chai-as-promised": "^7.1.5",
+    "@types/mocha": "^10.0.1",
+    "@types/webpack-env": "^1.18.1",
+    "chai": "^4.3.7",
+    "chai-as-promised": "^7.1.1"
+  }
+}

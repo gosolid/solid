@@ -2,6 +2,8 @@
 
 package fs
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"context"
 	gofs "io/fs"
@@ -21,6 +23,7 @@ type FileMode gofs.FileMode
 
 //go:generate go run github.com/grexie/isolates/codegen
 
+//js:alias fs
 type FS interface {
 	ReadDir(ctx context.Context, path string) ([]string, error)
 	ReadFile(ctx context.Context, path string) ([]byte, error)
@@ -60,6 +63,7 @@ type fsv8 interface {
 	V8FuncFile(in isolates.FunctionArgs) (*isolates.Value, error)
 }
 
+//js:alias stats
 type Stats interface {
 	IsFile() bool
 	IsDirectory() bool
@@ -97,6 +101,7 @@ type statsv8 interface {
 	V8GetMode(in isolates.GetterArgs) (*isolates.Value, error)
 }
 
+//js:alias direntry
 type DirEntry interface {
 	IsFile() bool
 	IsDirectory() bool
@@ -109,6 +114,7 @@ type direntryv8 interface {
 	V8GetName(in isolates.GetterArgs) (*isolates.Value, error)
 }
 
+//js:alias filebase
 type File interface {
 	Close(ctx context.Context) error
 	ReadStream(ctx context.Context) (ReadStream, error)
@@ -118,7 +124,6 @@ type File interface {
 type filev8 interface {
 	V8FuncClose(in isolates.FunctionArgs) (*isolates.Value, error)
 	V8FuncCloseSync(in isolates.FunctionArgs) (*isolates.Value, error)
-	V8FuncCreateReadStream(in isolates.FunctionArgs) (*isolates.Value, error)
 	V8FuncReadAll(in isolates.FunctionArgs) (*isolates.Value, error)
 	V8FuncReadAllSync(in isolates.FunctionArgs) (*isolates.Value, error)
 }

@@ -2,6 +2,8 @@
 
 package fs
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"context"
 	"fmt"
@@ -21,6 +23,7 @@ var _ FS = &httpfs{}
 var _ fsv8 = &httpfs{}
 
 type httpfile struct {
+	*filebase
 	path string
 }
 
@@ -63,6 +66,7 @@ func (fs *httpfs) ReadDir(ctx context.Context, path string) ([]string, error) {
 
 //js:method readFileSync
 //js:callback-method readFile
+//js:return buffer.Buffer
 func (fs *httpfs) ReadFile(ctx context.Context, path string) ([]byte, error) {
 	if mount, _, err := fs.mounts.Resolve(ctx, path); err != nil && err != os.ErrNotExist {
 		return nil, err
@@ -114,7 +118,7 @@ func (fs *httpfs) Open(ctx context.Context, path string) (FileDescriptor, error)
 	} else if res.StatusCode != 200 {
 		return 0, os.ErrNotExist
 	} else {
-		return NewFileDescriptor(ctx, &httpfile{u})
+		return NewFileDescriptor(ctx, &httpfile{&filebase{}, u})
 	}
 }
 
@@ -201,7 +205,6 @@ func (f *httpfile) Close(ctx context.Context) error {
 	return nil
 }
 
-//js:method createReadStream
 func (f *httpfile) ReadStream(ctx context.Context) (ReadStream, error) {
 	if req, err := http.NewRequest(http.MethodGet, f.path, nil); err != nil {
 		return nil, err
@@ -218,6 +221,7 @@ func (f *httpfile) ReadStream(ctx context.Context) (ReadStream, error) {
 
 //js:method readAllSync
 //js:callback-method readAll
+//js:return buffer.Buffer
 func (f *httpfile) ReadAll(ctx context.Context) ([]byte, error) {
 	if reader, err := f.ReadStream(ctx); err != nil {
 		return nil, err

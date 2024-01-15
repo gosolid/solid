@@ -7,7 +7,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("path", "/Users/tim/src/grexie/solid/pkg/runtime/path/posix.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("path", "posix.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   {
     fnName := "toNamespacedPath"
     if fn, err := in.Context.CreateFunction(in.ExecutionContext, &fnName, func (in isolates.FunctionArgs) (*isolates.Value, error) {

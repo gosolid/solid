@@ -1,0 +1,13 @@
+//js:package native/macos/io-kit
+package io_kit
+
+//go:generate go run github.com/grexie/isolates/codegen
+
+/*
+struct IOKit.VDRetrieveGammaRec
+*/
+
+type VDRetrieveGammaRec struct {
+  CsGammaTableID uint `v8:"csGammaTableID"`
+  CsGammaTablePtr GammaTbl `v8:"csGammaTablePtr"`
+}

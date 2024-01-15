@@ -1,0 +1,877 @@
+---
+package: "github.com/gosolid/solid/pkg/runtime/console"
+language: go
+---
+
+# console
+
+```go
+import "github.com/gosolid/solid/pkg/runtime/console"
+```
+
+## Index
+
+<ul>
+
+<li parentName="ul"><a href="#Console">
+
+```go
+type Console
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#ConsoleBase">
+
+```go
+type ConsoleBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewConsole">
+
+```go
+func NewConsole(in isolates.FunctionArgs) (*ConsoleBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Assert">
+
+```go
+func (c *ConsoleBase) Assert(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Clear">
+
+```go
+func (c *ConsoleBase) Clear()
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Count">
+
+```go
+func (c *ConsoleBase) Count(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.CountReset">
+
+```go
+func (c *ConsoleBase) CountReset(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Debug">
+
+```go
+func (c *ConsoleBase) Debug(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Dir">
+
+```go
+func (c *ConsoleBase) Dir(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.DirXML">
+
+```go
+func (c *ConsoleBase) DirXML(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Error">
+
+```go
+func (c *ConsoleBase) Error(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Group">
+
+```go
+func (c *ConsoleBase) Group(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.GroupCollapsed">
+
+```go
+func (c *ConsoleBase) GroupCollapsed(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.GroupEnd">
+
+```go
+func (c *ConsoleBase) GroupEnd(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Info">
+
+```go
+func (c *ConsoleBase) Info(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Log">
+
+```go
+func (c *ConsoleBase) Log(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Profile">
+
+```go
+func (c *ConsoleBase) Profile(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.ProfileEnd">
+
+```go
+func (c *ConsoleBase) ProfileEnd(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Table">
+
+```go
+func (c *ConsoleBase) Table(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Time">
+
+```go
+func (c *ConsoleBase) Time(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.TimeEnd">
+
+```go
+func (c *ConsoleBase) TimeEnd(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.TimeLog">
+
+```go
+func (c *ConsoleBase) TimeLog(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.TimeStamp">
+
+```go
+func (c *ConsoleBase) TimeStamp(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Trace">
+
+```go
+func (c *ConsoleBase) Trace(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncAssert">
+
+```go
+func (c *ConsoleBase) V8FuncAssert(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncClear">
+
+```go
+func (c *ConsoleBase) V8FuncClear(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncCount">
+
+```go
+func (c *ConsoleBase) V8FuncCount(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncCountReset">
+
+```go
+func (c *ConsoleBase) V8FuncCountReset(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncDebug">
+
+```go
+func (c *ConsoleBase) V8FuncDebug(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncDir">
+
+```go
+func (c *ConsoleBase) V8FuncDir(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncDirXML">
+
+```go
+func (c *ConsoleBase) V8FuncDirXML(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncError">
+
+```go
+func (c *ConsoleBase) V8FuncError(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncGroup">
+
+```go
+func (c *ConsoleBase) V8FuncGroup(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncGroupCollapsed">
+
+```go
+func (c *ConsoleBase) V8FuncGroupCollapsed(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncGroupEnd">
+
+```go
+func (c *ConsoleBase) V8FuncGroupEnd(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncInfo">
+
+```go
+func (c *ConsoleBase) V8FuncInfo(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncLog">
+
+```go
+func (c *ConsoleBase) V8FuncLog(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncProfile">
+
+```go
+func (c *ConsoleBase) V8FuncProfile(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncProfileEnd">
+
+```go
+func (c *ConsoleBase) V8FuncProfileEnd(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncTable">
+
+```go
+func (c *ConsoleBase) V8FuncTable(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncTime">
+
+```go
+func (c *ConsoleBase) V8FuncTime(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncTimeEnd">
+
+```go
+func (c *ConsoleBase) V8FuncTimeEnd(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncTimeLog">
+
+```go
+func (c *ConsoleBase) V8FuncTimeLog(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncTimeStamp">
+
+```go
+func (c *ConsoleBase) V8FuncTimeStamp(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncTrace">
+
+```go
+func (c *ConsoleBase) V8FuncTrace(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.V8FuncWarn">
+
+```go
+func (c *ConsoleBase) V8FuncWarn(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Warn">
+
+```go
+func (c *ConsoleBase) Warn(args ...any)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.Write">
+
+```go
+func (c *ConsoleBase) Write(writable *isolates.Value, msg string)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ConsoleBase.WriteLine">
+
+```go
+func (c *ConsoleBase) WriteLine(writable *isolates.Value, msg string)
+```
+
+</a></li>
+</ul></li>
+
+</ul>
+
+<a id="Console"></a>
+
+## type Console
+
+
+
+```go
+type Console interface {
+    Assert(args ...any)
+    Clear()
+    Count(args ...any)
+    CountReset(args ...any)
+    Debug(args ...any)
+    Dir(args ...any)
+    DirXML(args ...any)
+    Error(args ...any)
+    Group(args ...any)
+    GroupCollapsed(args ...any)
+    GroupEnd(args ...any)
+    Info(args ...any)
+    Log(args ...any)
+    Table(args ...any)
+    Time(args ...any)
+    TimeEnd(args ...any)
+    TimeLog(args ...any)
+    Trace(args ...any)
+    Warn(args ...any)
+    Profile(args ...any)
+    ProfileEnd(args ...any)
+    TimeStamp(args ...any)
+}
+```
+
+<a id="ConsoleBase"></a>
+
+## type ConsoleBase
+
+
+
+```go
+type ConsoleBase struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewConsole" />
+
+### func NewConsole
+
+```go
+func NewConsole(in isolates.FunctionArgs) (*ConsoleBase, error)
+```
+
+
+
+<a id="ConsoleBase.Assert" />
+
+### func \(\*ConsoleBase\) Assert
+
+```go
+func (c *ConsoleBase) Assert(args ...any)
+```
+
+
+
+<a id="ConsoleBase.Clear" />
+
+### func \(\*ConsoleBase\) Clear
+
+```go
+func (c *ConsoleBase) Clear()
+```
+
+
+
+<a id="ConsoleBase.Count" />
+
+### func \(\*ConsoleBase\) Count
+
+```go
+func (c *ConsoleBase) Count(args ...any)
+```
+
+
+
+<a id="ConsoleBase.CountReset" />
+
+### func \(\*ConsoleBase\) CountReset
+
+```go
+func (c *ConsoleBase) CountReset(args ...any)
+```
+
+
+
+<a id="ConsoleBase.Debug" />
+
+### func \(\*ConsoleBase\) Debug
+
+```go
+func (c *ConsoleBase) Debug(args ...any)
+```
+
+
+
+<a id="ConsoleBase.Dir" />
+
+### func \(\*ConsoleBase\) Dir
+
+```go
+func (c *ConsoleBase) Dir(args ...any)
+```
+
+
+
+<a id="ConsoleBase.DirXML" />
+
+### func \(\*ConsoleBase\) DirXML
+
+```go
+func (c *ConsoleBase) DirXML(args ...any)
+```
+
+
+
+<a id="ConsoleBase.Error" />
+
+### func \(\*ConsoleBase\) Error
+
+```go
+func (c *ConsoleBase) Error(args ...any)
+```
+
+
+
+<a id="ConsoleBase.Group" />
+
+### func \(\*ConsoleBase\) Group
+
+```go
+func (c *ConsoleBase) Group(args ...any)
+```
+
+
+
+<a id="ConsoleBase.GroupCollapsed" />
+
+### func \(\*ConsoleBase\) GroupCollapsed
+
+```go
+func (c *ConsoleBase) GroupCollapsed(args ...any)
+```
+
+
+
+<a id="ConsoleBase.GroupEnd" />
+
+### func \(\*ConsoleBase\) GroupEnd
+
+```go
+func (c *ConsoleBase) GroupEnd(args ...any)
+```
+
+
+
+<a id="ConsoleBase.Info" />
+
+### func \(\*ConsoleBase\) Info
+
+```go
+func (c *ConsoleBase) Info(args ...any)
+```
+
+
+
+<a id="ConsoleBase.Log" />
+
+### func \(\*ConsoleBase\) Log
+
+```go
+func (c *ConsoleBase) Log(args ...any)
+```
+
+
+
+<a id="ConsoleBase.Profile" />
+
+### func \(\*ConsoleBase\) Profile
+
+```go
+func (c *ConsoleBase) Profile(args ...any)
+```
+
+
+
+<a id="ConsoleBase.ProfileEnd" />
+
+### func \(\*ConsoleBase\) ProfileEnd
+
+```go
+func (c *ConsoleBase) ProfileEnd(args ...any)
+```
+
+
+
+<a id="ConsoleBase.Table" />
+
+### func \(\*ConsoleBase\) Table
+
+```go
+func (c *ConsoleBase) Table(args ...any)
+```
+
+
+
+<a id="ConsoleBase.Time" />
+
+### func \(\*ConsoleBase\) Time
+
+```go
+func (c *ConsoleBase) Time(args ...any)
+```
+
+
+
+<a id="ConsoleBase.TimeEnd" />
+
+### func \(\*ConsoleBase\) TimeEnd
+
+```go
+func (c *ConsoleBase) TimeEnd(args ...any)
+```
+
+
+
+<a id="ConsoleBase.TimeLog" />
+
+### func \(\*ConsoleBase\) TimeLog
+
+```go
+func (c *ConsoleBase) TimeLog(args ...any)
+```
+
+
+
+<a id="ConsoleBase.TimeStamp" />
+
+### func \(\*ConsoleBase\) TimeStamp
+
+```go
+func (c *ConsoleBase) TimeStamp(args ...any)
+```
+
+
+
+<a id="ConsoleBase.Trace" />
+
+### func \(\*ConsoleBase\) Trace
+
+```go
+func (c *ConsoleBase) Trace(args ...any)
+```
+
+
+
+<a id="ConsoleBase.V8FuncAssert" />
+
+### func \(\*ConsoleBase\) V8FuncAssert
+
+```go
+func (c *ConsoleBase) V8FuncAssert(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncClear" />
+
+### func \(\*ConsoleBase\) V8FuncClear
+
+```go
+func (c *ConsoleBase) V8FuncClear(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncCount" />
+
+### func \(\*ConsoleBase\) V8FuncCount
+
+```go
+func (c *ConsoleBase) V8FuncCount(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncCountReset" />
+
+### func \(\*ConsoleBase\) V8FuncCountReset
+
+```go
+func (c *ConsoleBase) V8FuncCountReset(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncDebug" />
+
+### func \(\*ConsoleBase\) V8FuncDebug
+
+```go
+func (c *ConsoleBase) V8FuncDebug(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncDir" />
+
+### func \(\*ConsoleBase\) V8FuncDir
+
+```go
+func (c *ConsoleBase) V8FuncDir(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncDirXML" />
+
+### func \(\*ConsoleBase\) V8FuncDirXML
+
+```go
+func (c *ConsoleBase) V8FuncDirXML(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncError" />
+
+### func \(\*ConsoleBase\) V8FuncError
+
+```go
+func (c *ConsoleBase) V8FuncError(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncGroup" />
+
+### func \(\*ConsoleBase\) V8FuncGroup
+
+```go
+func (c *ConsoleBase) V8FuncGroup(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncGroupCollapsed" />
+
+### func \(\*ConsoleBase\) V8FuncGroupCollapsed
+
+```go
+func (c *ConsoleBase) V8FuncGroupCollapsed(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncGroupEnd" />
+
+### func \(\*ConsoleBase\) V8FuncGroupEnd
+
+```go
+func (c *ConsoleBase) V8FuncGroupEnd(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncInfo" />
+
+### func \(\*ConsoleBase\) V8FuncInfo
+
+```go
+func (c *ConsoleBase) V8FuncInfo(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncLog" />
+
+### func \(\*ConsoleBase\) V8FuncLog
+
+```go
+func (c *ConsoleBase) V8FuncLog(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncProfile" />
+
+### func \(\*ConsoleBase\) V8FuncProfile
+
+```go
+func (c *ConsoleBase) V8FuncProfile(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncProfileEnd" />
+
+### func \(\*ConsoleBase\) V8FuncProfileEnd
+
+```go
+func (c *ConsoleBase) V8FuncProfileEnd(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncTable" />
+
+### func \(\*ConsoleBase\) V8FuncTable
+
+```go
+func (c *ConsoleBase) V8FuncTable(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncTime" />
+
+### func \(\*ConsoleBase\) V8FuncTime
+
+```go
+func (c *ConsoleBase) V8FuncTime(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncTimeEnd" />
+
+### func \(\*ConsoleBase\) V8FuncTimeEnd
+
+```go
+func (c *ConsoleBase) V8FuncTimeEnd(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncTimeLog" />
+
+### func \(\*ConsoleBase\) V8FuncTimeLog
+
+```go
+func (c *ConsoleBase) V8FuncTimeLog(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncTimeStamp" />
+
+### func \(\*ConsoleBase\) V8FuncTimeStamp
+
+```go
+func (c *ConsoleBase) V8FuncTimeStamp(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncTrace" />
+
+### func \(\*ConsoleBase\) V8FuncTrace
+
+```go
+func (c *ConsoleBase) V8FuncTrace(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.V8FuncWarn" />
+
+### func \(\*ConsoleBase\) V8FuncWarn
+
+```go
+func (c *ConsoleBase) V8FuncWarn(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ConsoleBase.Warn" />
+
+### func \(\*ConsoleBase\) Warn
+
+```go
+func (c *ConsoleBase) Warn(args ...any)
+```
+
+
+
+<a id="ConsoleBase.Write" />
+
+### func \(\*ConsoleBase\) Write
+
+```go
+func (c *ConsoleBase) Write(writable *isolates.Value, msg string)
+```
+
+
+
+<a id="ConsoleBase.WriteLine" />
+
+### func \(\*ConsoleBase\) WriteLine
+
+```go
+func (c *ConsoleBase) WriteLine(writable *isolates.Value, msg string)
+```
+
+
+

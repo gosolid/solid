@@ -7,7 +7,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("native:@grexie/workers/crypto", "/Users/tim/src/grexie/solid/pkg/runtime/crypto/crypto.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("native:@grexie/workers/crypto", "crypto.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "Hash", func (in isolates.FunctionArgs) (*Hash, error) {
     var _algorithm string
     if v, err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&_algorithm).Elem()); err != nil {

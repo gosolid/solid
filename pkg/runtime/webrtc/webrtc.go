@@ -1,4 +1,4 @@
-//js:package native:@grexie/workers/webrtc
+//js:package webrtc
 package webrtc
 
 //go:generate go run github.com/grexie/isolates/codegen
@@ -20,6 +20,7 @@ var PeerConnectionStateClosed = "closed"
 var PeerConnectionStateOpen = "open"
 var PeerConnectionStateConnecting = "connecting"
 
+//js:alias string
 type PeerConnectionState = string
 type DataChannelOptions = webrtc.DataChannelInit
 
@@ -28,7 +29,6 @@ type WebRTC struct {
 	api *webrtc.API
 }
 
-//js:constructor
 func NewWebRTC() *WebRTC {
 	var settingEngine = webrtc.SettingEngine{}
 
@@ -44,7 +44,6 @@ func NewWebRTC() *WebRTC {
 	return &WebRTC{api}
 }
 
-//js:class
 type PeerConnection struct {
 	mutex sync.Mutex
 	ID    ID

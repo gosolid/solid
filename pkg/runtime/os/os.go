@@ -2,6 +2,8 @@
 
 package os
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"runtime"
 )

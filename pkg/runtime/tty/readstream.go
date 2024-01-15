@@ -2,6 +2,8 @@
 
 package tty
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"os"
 	"reflect"
@@ -26,7 +28,7 @@ type ReadStreamBase struct {
 	state *term.State
 }
 
-//js:constructor
+//js:constructor ReadStream
 //js:export ReadStream
 func NewReadStream(in isolates.FunctionArgs) (*ReadStreamBase, error) {
 	var fd int

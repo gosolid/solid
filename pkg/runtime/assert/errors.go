@@ -2,6 +2,8 @@
 
 package assert
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"context"
 	"fmt"

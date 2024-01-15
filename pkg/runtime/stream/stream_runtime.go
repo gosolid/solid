@@ -7,7 +7,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("stream", "/Users/tim/src/grexie/solid/pkg/runtime/stream/stream.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("stream", "stream.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   {
     fnName := "pipeline"
     if fn, err := in.Context.CreateFunction(in.ExecutionContext, &fnName, func (in isolates.FunctionArgs) (*isolates.Value, error) {

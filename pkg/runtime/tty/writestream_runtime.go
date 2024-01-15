@@ -6,8 +6,8 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("tty", "/Users/tim/src/grexie/solid/pkg/runtime/tty/writestream.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
-  if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "WriteStreamBase", func (in isolates.FunctionArgs) (*WriteStreamBase, error) {
+var _ = isolates.RegisterRuntime("tty", "writestream.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+  if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "WriteStream", func (in isolates.FunctionArgs) (*WriteStreamBase, error) {
     return NewWriteStream(in)
   }); err != nil {
     return nil, err

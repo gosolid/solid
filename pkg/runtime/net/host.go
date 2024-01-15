@@ -2,8 +2,11 @@
 
 package net
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"context"
+	"errors"
 	gonet "net"
 	"reflect"
 
@@ -35,7 +38,7 @@ func (n *HostNetOptions) Listen(in isolates.FunctionArgs, server Server, network
 
 			for {
 				if conn, err := listener.Accept(); err != nil {
-					if err == gonet.ErrClosed {
+					if errors.Is(err, gonet.ErrClosed) {
 						return
 					}
 

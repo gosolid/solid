@@ -7,13 +7,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("native:@grexie/workers/webrtc", "/Users/tim/src/grexie/solid/pkg/runtime/webrtc/webrtc.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
-  if _, err := in.Context.CreateWithName(in.ExecutionContext, "WebRTC", func (in isolates.FunctionArgs) (*WebRTC, error) {
-    return NewWebRTC(), nil
-  }); err != nil {
-    return nil, err
-  }
-
+var _ = isolates.RegisterRuntime("webrtc", "webrtc.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if _, err := in.Context.CreateWithName(in.ExecutionContext, "PeerConnection", func (in isolates.FunctionArgs) (*PeerConnection, error) {
     var _id ID
     if v, err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&_id).Elem()); err != nil {

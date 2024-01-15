@@ -7,9 +7,10 @@
 *.dll
 *.so
 *.dylib
-solid
+/solid
 .vscode
 yarn-error.log
+*.txt
 
 # Test binary, built with `go test -c`
 *.test

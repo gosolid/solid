@@ -14,6 +14,7 @@ import (
 
 var _ Console = &ConsoleBase{}
 
+//js:alias ConsoleBase
 type Console interface {
 	Assert(args ...any)
 	Clear()

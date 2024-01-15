@@ -2,10 +2,13 @@
 
 package stream
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import "github.com/grexie/isolates"
 
 var _ Transform = &TransformBase{}
 
+//js:alias TransformBase
 type Transform interface {
 	Duplex
 }

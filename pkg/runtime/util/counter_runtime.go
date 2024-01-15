@@ -8,7 +8,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("util", "/Users/tim/src/grexie/solid/pkg/runtime/util/counter.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("util", "counter.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "Counter", func (in isolates.FunctionArgs) (*Counter, error) {
     var _size int64
     if v, err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&_size).Elem()); err != nil {

@@ -6,7 +6,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("net", "/Users/tim/src/grexie/solid/pkg/runtime/net/address.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("net", "address.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if _, err := in.Context.CreateWithName(in.ExecutionContext, "SocketAddress", func (in isolates.FunctionArgs) (*Address, error) {
     return NewAddress(in)
   }); err != nil {

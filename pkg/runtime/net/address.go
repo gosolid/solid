@@ -2,6 +2,8 @@
 
 package net
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"errors"
 	"fmt"

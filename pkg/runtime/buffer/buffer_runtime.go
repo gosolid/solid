@@ -3,11 +3,11 @@
 package buffer
 
 import (
-  isolates "github.com/grexie/isolates"
   reflect "reflect"
+  isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("buffer", "/Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("buffer", "buffer.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "Buffer", func (in isolates.FunctionArgs) (*Buffer, error) {
     return NewBuffer(in), nil
   }); err != nil {

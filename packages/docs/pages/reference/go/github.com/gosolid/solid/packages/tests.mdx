@@ -1,0 +1,31 @@
+---
+package: "github.com/gosolid/solid/packages/tests"
+language: go
+---
+
+# tests
+
+```go
+import "github.com/gosolid/solid/packages/tests"
+```
+
+## Index
+
+<ul>
+
+- [Variables](<#Variables>)
+
+
+
+</ul>
+
+<a id="Variables" />
+
+## Variables
+
+<a name="FS"></a>
+
+```go
+var FS = fs.NewFS().Mount("/", fs.NewEmbedFS(&testsFS), "/lib")
+```
+

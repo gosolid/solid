@@ -2,6 +2,8 @@
 
 package http
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"bufio"
 	"context"
@@ -417,6 +419,7 @@ func (r *OutgoingMessageBase) SetHeaders(headers http.Header) {
 }
 
 //js:method
+//ts:setTimeout(timeout: number, listener: () => void): void
 func (r *OutgoingMessageBase) SetTimeout(timeout time.Duration, listener func() error) func() {
 	return nil
 }

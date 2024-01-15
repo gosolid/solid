@@ -2,11 +2,14 @@
 
 package http
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"github.com/gosolid/solid/pkg/runtime/net"
 	isolates "github.com/grexie/isolates"
 )
 
+//js:alias HttpBase
 type Http interface {
 	Net() net.Net
 	Server() *isolates.Value

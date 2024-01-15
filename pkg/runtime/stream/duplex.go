@@ -2,12 +2,15 @@
 
 package stream
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	isolates "github.com/grexie/isolates"
 )
 
 var _ Duplex = &DuplexBase{}
 
+//js:alias DuplexBase
 type Duplex interface {
 	Readable
 	Writable

@@ -7,7 +7,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("fs", "/Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("fs", "fs.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "FileSystem", func (in isolates.FunctionArgs) (*fs, error) {
     return NewFS(), nil
   }); err != nil {
@@ -500,6 +500,70 @@ func (fs *fs) V8FuncAccess(in isolates.FunctionArgs) (*isolates.Value, error) {
       if err := fs.Access(in.ExecutionContext, p, args...); err != nil {
         resolver.Reject(in.ExecutionContext, err)
       } else if result, err := in.Context.Undefined(in.ExecutionContext); err != nil {
+        resolver.Reject(in.ExecutionContext, err)
+      } else {
+        resolver.Resolve(in.ExecutionContext, result)
+      }
+    })
+
+    if len(in.Args) > 0 {
+      callback := in.Arg(in.ExecutionContext, len(in.Args) - 1)
+      if callback.IsKind(isolates.KindFunction) {
+        return nil, resolver.ToCallback(in.ExecutionContext, callback)
+      }
+    }
+    return nil, nil
+  }
+}
+
+func (f *filebase) V8FuncClose(in isolates.FunctionArgs) (*isolates.Value, error) {
+  if resolver, err := in.Context.NewResolver(in.ExecutionContext); err != nil {
+    return nil, err
+  } else {
+    in.Background(func(in isolates.FunctionArgs) {
+      if err := f.Close(in.ExecutionContext); err != nil {
+        resolver.Reject(in.ExecutionContext, err)
+      } else if result, err := in.Context.Undefined(in.ExecutionContext); err != nil {
+        resolver.Reject(in.ExecutionContext, err)
+      } else {
+        resolver.Resolve(in.ExecutionContext, result)
+      }
+    })
+
+    if len(in.Args) > 0 {
+      callback := in.Arg(in.ExecutionContext, len(in.Args) - 1)
+      if callback.IsKind(isolates.KindFunction) {
+        return nil, resolver.ToCallback(in.ExecutionContext, callback)
+      }
+    }
+    return nil, nil
+  }
+}
+
+func (f *filebase) V8FuncCloseSync(in isolates.FunctionArgs) (*isolates.Value, error) {
+  if err := f.Close(in.ExecutionContext); err != nil {
+    return nil, err
+  } else {
+    return nil, nil
+  }
+}
+
+func (f *filebase) V8FuncReadAllSync(in isolates.FunctionArgs) (*isolates.Value, error) {
+  if result, err := f.ReadAll(in.ExecutionContext); err != nil {
+    return nil, err
+  } else {
+    return in.Context.Create(in.ExecutionContext, result)
+  }
+}
+
+func (f *filebase) V8FuncReadAll(in isolates.FunctionArgs) (*isolates.Value, error) {
+  if resolver, err := in.Context.NewResolver(in.ExecutionContext); err != nil {
+    return nil, err
+  } else {
+    in.Background(func(in isolates.FunctionArgs) {
+      if result, err := f.ReadAll(in.ExecutionContext); err != nil {
+        resolver.Reject(in.ExecutionContext, err)
+      } else if result, err := in.Context.Create(in.ExecutionContext, result); err != nil {
         resolver.Reject(in.ExecutionContext, err)
       } else {
         resolver.Resolve(in.ExecutionContext, result)

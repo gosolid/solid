@@ -2,6 +2,8 @@
 
 package fs
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"context"
 	"sync"
@@ -18,6 +20,7 @@ var ErrNoFileDescriptorTable = func(ctx context.Context) error {
 var ErrFileDescriptorNotFound = func(ctx context.Context) error { return NewFSError(ctx, "ENOFD", "file descriptor not found") }
 var ErrInvalid = func(ctx context.Context) error { return NewFSError(ctx, "EINVAL", "received invalid argument") }
 
+//ts:export type FileDescriptor = number
 type FileDescriptor uintptr
 
 func NewFileDescriptor(ctx context.Context, file File) (FileDescriptor, error) {

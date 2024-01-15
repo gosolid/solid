@@ -6,7 +6,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("net", "/Users/tim/src/grexie/solid/pkg/runtime/net/net.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("net", "net.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "Net", func (in isolates.FunctionArgs) (*NetBase, error) {
     return NewNet(in)
   }); err != nil {

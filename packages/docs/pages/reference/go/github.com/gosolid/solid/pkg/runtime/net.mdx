@@ -1,0 +1,1062 @@
+---
+package: "github.com/gosolid/solid/pkg/runtime/net"
+language: go
+---
+
+# net
+
+```go
+import "github.com/gosolid/solid/pkg/runtime/net"
+```
+
+## Index
+
+<ul>
+
+- [Variables](<#Variables>)
+
+<li parentName="ul"><a href="#Address">
+
+```go
+type Address
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewAddress">
+
+```go
+func NewAddress(in isolates.FunctionArgs) (*Address, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Address.Address">
+
+```go
+func (a *Address) Address() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#Address.Family">
+
+```go
+func (a *Address) Family() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#Address.Port">
+
+```go
+func (a *Address) Port() int
+```
+
+</a></li>
+<li parentName="ul"><a href="#Address.V8GetAddress">
+
+```go
+func (a *Address) V8GetAddress(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Address.V8GetFamily">
+
+```go
+func (a *Address) V8GetFamily(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Address.V8GetPort">
+
+```go
+func (a *Address) V8GetPort(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#HostNetOptions">
+
+```go
+type HostNetOptions
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewHostNetOptions">
+
+```go
+func NewHostNetOptions(in isolates.FunctionArgs) (*HostNetOptions, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#HostNetOptions.Listen">
+
+```go
+func (n *HostNetOptions) Listen(in isolates.FunctionArgs, server Server, network string, address string) (Listener, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#HostNetOptions.V8FuncListen">
+
+```go
+func (n *HostNetOptions) V8FuncListen(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#HostSocketOptions">
+
+```go
+type HostSocketOptions
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewHostSocketOptions">
+
+```go
+func NewHostSocketOptions(in isolates.FunctionArgs) (*HostSocketOptions, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#HostSocketOptions.Final">
+
+```go
+func (c *HostSocketOptions) Final(in isolates.FunctionArgs, this stream.Writable, callback *isolates.Value) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#HostSocketOptions.LocalAddress">
+
+```go
+func (c *HostSocketOptions) LocalAddress(ctx context.Context, this *SocketBase) (*Address, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#HostSocketOptions.RemoteAddress">
+
+```go
+func (c *HostSocketOptions) RemoteAddress(ctx context.Context, this *SocketBase) (*Address, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#HostSocketOptions.V8FuncFinal">
+
+```go
+func (c *HostSocketOptions) V8FuncFinal(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#HostSocketOptions.V8FuncLocalAddress">
+
+```go
+func (c *HostSocketOptions) V8FuncLocalAddress(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#HostSocketOptions.V8FuncRemoteAddress">
+
+```go
+func (c *HostSocketOptions) V8FuncRemoteAddress(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Listener">
+
+```go
+type Listener
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Net">
+
+```go
+type Net
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#NetBase">
+
+```go
+type NetBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewHostNet">
+
+```go
+func NewHostNet(ctx context.Context) (*NetBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#NewNet">
+
+```go
+func NewNet(in isolates.FunctionArgs) (*NetBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#NetBase.Listen">
+
+```go
+func (n *NetBase) Listen(ctx context.Context, server Server, network, address string) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#NetBase.Server">
+
+```go
+func (n *NetBase) Server() *isolates.Value
+```
+
+</a></li>
+<li parentName="ul"><a href="#NetBase.Socket">
+
+```go
+func (n *NetBase) Socket() *isolates.Value
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Server">
+
+```go
+type Server
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#ServerBase">
+
+```go
+type ServerBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#ServerBase.Address">
+
+```go
+func (s *ServerBase) Address(ctx context.Context) (*Address, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.Close">
+
+```go
+func (s *ServerBase) Close(ctx context.Context) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.Listen">
+
+```go
+func (s *ServerBase) Listen(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.Listener">
+
+```go
+func (s *ServerBase) Listener() *isolates.Value
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.Net">
+
+```go
+func (s *ServerBase) Net() Net
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.V8FuncAddress">
+
+```go
+func (s *ServerBase) V8FuncAddress(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.V8FuncClose">
+
+```go
+func (s *ServerBase) V8FuncClose(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.V8FuncListen">
+
+```go
+func (s *ServerBase) V8FuncListen(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ServerBase.V8Get_listener">
+
+```go
+func (s *ServerBase) V8Get_listener(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Socket">
+
+```go
+type Socket
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#SocketBase">
+
+```go
+type SocketBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#SocketBase.Address">
+
+```go
+func (s *SocketBase) Address(ctx context.Context) (*Address, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.LocalAddress">
+
+```go
+func (s *SocketBase) LocalAddress(ctx context.Context) (*string, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.LocalFamily">
+
+```go
+func (s *SocketBase) LocalFamily(ctx context.Context) (*string, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.LocalPort">
+
+```go
+func (s *SocketBase) LocalPort(ctx context.Context) (*int, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.RemoteAddress">
+
+```go
+func (s *SocketBase) RemoteAddress(ctx context.Context) (*string, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.RemoteFamily">
+
+```go
+func (s *SocketBase) RemoteFamily(ctx context.Context) (*string, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.RemotePort">
+
+```go
+func (s *SocketBase) RemotePort(ctx context.Context) (*int, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.SetNoDelay">
+
+```go
+func (s *SocketBase) SetNoDelay(ctx context.Context) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.SetTimeout">
+
+```go
+func (s *SocketBase) SetTimeout(ctx context.Context) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.V8FuncAddress">
+
+```go
+func (s *SocketBase) V8FuncAddress(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.V8FuncSetNoDelay">
+
+```go
+func (s *SocketBase) V8FuncSetNoDelay(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.V8FuncSetTimeout">
+
+```go
+func (s *SocketBase) V8FuncSetTimeout(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.V8GetLocalAddress">
+
+```go
+func (s *SocketBase) V8GetLocalAddress(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.V8GetLocalFamily">
+
+```go
+func (s *SocketBase) V8GetLocalFamily(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.V8GetLocalPort">
+
+```go
+func (s *SocketBase) V8GetLocalPort(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.V8GetRemoteAddress">
+
+```go
+func (s *SocketBase) V8GetRemoteAddress(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.V8GetRemoteFamily">
+
+```go
+func (s *SocketBase) V8GetRemoteFamily(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#SocketBase.V8GetRemotePort">
+
+```go
+func (s *SocketBase) V8GetRemotePort(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li>
+
+</ul>
+
+<a id="Variables" />
+
+## Variables
+
+<a name="ErrInvalidNet"></a>
+
+```go
+var ErrInvalidNet = errors.New("receiver does not implement net.Net")
+```
+
+<a id="Address"></a>
+
+## type Address
+
+
+
+```go
+type Address struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewAddress" />
+
+### func NewAddress
+
+```go
+func NewAddress(in isolates.FunctionArgs) (*Address, error)
+```
+
+
+
+<a id="Address.Address" />
+
+### func \(\*Address\) Address
+
+```go
+func (a *Address) Address() string
+```
+
+
+
+<a id="Address.Family" />
+
+### func \(\*Address\) Family
+
+```go
+func (a *Address) Family() string
+```
+
+
+
+<a id="Address.Port" />
+
+### func \(\*Address\) Port
+
+```go
+func (a *Address) Port() int
+```
+
+
+
+<a id="Address.V8GetAddress" />
+
+### func \(\*Address\) V8GetAddress
+
+```go
+func (a *Address) V8GetAddress(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Address.V8GetFamily" />
+
+### func \(\*Address\) V8GetFamily
+
+```go
+func (a *Address) V8GetFamily(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Address.V8GetPort" />
+
+### func \(\*Address\) V8GetPort
+
+```go
+func (a *Address) V8GetPort(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="HostNetOptions"></a>
+
+## type HostNetOptions
+
+
+
+```go
+type HostNetOptions struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewHostNetOptions" />
+
+### func NewHostNetOptions
+
+```go
+func NewHostNetOptions(in isolates.FunctionArgs) (*HostNetOptions, error)
+```
+
+
+
+<a id="HostNetOptions.Listen" />
+
+### func \(\*HostNetOptions\) Listen
+
+```go
+func (n *HostNetOptions) Listen(in isolates.FunctionArgs, server Server, network string, address string) (Listener, error)
+```
+
+
+
+<a id="HostNetOptions.V8FuncListen" />
+
+### func \(\*HostNetOptions\) V8FuncListen
+
+```go
+func (n *HostNetOptions) V8FuncListen(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="HostSocketOptions"></a>
+
+## type HostSocketOptions
+
+
+
+```go
+type HostSocketOptions struct {
+    *stream.ReadWriteCloser
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewHostSocketOptions" />
+
+### func NewHostSocketOptions
+
+```go
+func NewHostSocketOptions(in isolates.FunctionArgs) (*HostSocketOptions, error)
+```
+
+
+
+<a id="HostSocketOptions.Final" />
+
+### func \(\*HostSocketOptions\) Final
+
+```go
+func (c *HostSocketOptions) Final(in isolates.FunctionArgs, this stream.Writable, callback *isolates.Value) error
+```
+
+
+
+<a id="HostSocketOptions.LocalAddress" />
+
+### func \(\*HostSocketOptions\) LocalAddress
+
+```go
+func (c *HostSocketOptions) LocalAddress(ctx context.Context, this *SocketBase) (*Address, error)
+```
+
+
+
+<a id="HostSocketOptions.RemoteAddress" />
+
+### func \(\*HostSocketOptions\) RemoteAddress
+
+```go
+func (c *HostSocketOptions) RemoteAddress(ctx context.Context, this *SocketBase) (*Address, error)
+```
+
+
+
+<a id="HostSocketOptions.V8FuncFinal" />
+
+### func \(\*HostSocketOptions\) V8FuncFinal
+
+```go
+func (c *HostSocketOptions) V8FuncFinal(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="HostSocketOptions.V8FuncLocalAddress" />
+
+### func \(\*HostSocketOptions\) V8FuncLocalAddress
+
+```go
+func (c *HostSocketOptions) V8FuncLocalAddress(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="HostSocketOptions.V8FuncRemoteAddress" />
+
+### func \(\*HostSocketOptions\) V8FuncRemoteAddress
+
+```go
+func (c *HostSocketOptions) V8FuncRemoteAddress(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Listener"></a>
+
+## type Listener
+
+
+
+```go
+type Listener interface {
+    Close(ctx context.Context) error
+    Address(ctx context.Context) (*Address, error)
+}
+```
+
+<a id="Net"></a>
+
+## type Net
+
+
+
+```go
+type Net interface {
+    Server() *isolates.Value
+    Socket() *isolates.Value
+    Listen(ctx context.Context, server Server, network string, address string) (*isolates.Value, error)
+}
+```
+
+<a id="NetBase"></a>
+
+## type NetBase
+
+
+
+```go
+type NetBase struct {
+    This *isolates.Value
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewHostNet" />
+
+### func NewHostNet
+
+```go
+func NewHostNet(ctx context.Context) (*NetBase, error)
+```
+
+
+
+<a id="NewNet" />
+
+### func NewNet
+
+```go
+func NewNet(in isolates.FunctionArgs) (*NetBase, error)
+```
+
+
+
+<a id="NetBase.Listen" />
+
+### func \(\*NetBase\) Listen
+
+```go
+func (n *NetBase) Listen(ctx context.Context, server Server, network, address string) (*isolates.Value, error)
+```
+
+
+
+<a id="NetBase.Server" />
+
+### func \(\*NetBase\) Server
+
+```go
+func (n *NetBase) Server() *isolates.Value
+```
+
+
+
+<a id="NetBase.Socket" />
+
+### func \(\*NetBase\) Socket
+
+```go
+func (n *NetBase) Socket() *isolates.Value
+```
+
+
+
+<a id="Server"></a>
+
+## type Server
+
+
+
+```go
+type Server interface {
+    events.EventEmitter
+    Listener
+    Net() Net
+}
+```
+
+<a id="ServerBase"></a>
+
+## type ServerBase
+
+
+
+```go
+type ServerBase struct {
+    *events.EventEmitterBase
+    // contains filtered or unexported fields
+}
+```
+
+<a id="ServerBase.Address" />
+
+### func \(\*ServerBase\) Address
+
+```go
+func (s *ServerBase) Address(ctx context.Context) (*Address, error)
+```
+
+
+
+<a id="ServerBase.Close" />
+
+### func \(\*ServerBase\) Close
+
+```go
+func (s *ServerBase) Close(ctx context.Context) error
+```
+
+
+
+<a id="ServerBase.Listen" />
+
+### func \(\*ServerBase\) Listen
+
+```go
+func (s *ServerBase) Listen(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerBase.Listener" />
+
+### func \(\*ServerBase\) Listener
+
+```go
+func (s *ServerBase) Listener() *isolates.Value
+```
+
+
+
+<a id="ServerBase.Net" />
+
+### func \(\*ServerBase\) Net
+
+```go
+func (s *ServerBase) Net() Net
+```
+
+
+
+<a id="ServerBase.V8FuncAddress" />
+
+### func \(\*ServerBase\) V8FuncAddress
+
+```go
+func (s *ServerBase) V8FuncAddress(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerBase.V8FuncClose" />
+
+### func \(\*ServerBase\) V8FuncClose
+
+```go
+func (s *ServerBase) V8FuncClose(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerBase.V8FuncListen" />
+
+### func \(\*ServerBase\) V8FuncListen
+
+```go
+func (s *ServerBase) V8FuncListen(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ServerBase.V8Get_listener" />
+
+### func \(\*ServerBase\) V8Get\\\_listener
+
+```go
+func (s *ServerBase) V8Get_listener(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Socket"></a>
+
+## type Socket
+
+
+
+```go
+type Socket interface {
+    stream.Duplex
+}
+```
+
+<a id="SocketBase"></a>
+
+## type SocketBase
+
+
+
+```go
+type SocketBase struct {
+    *stream.DuplexBase
+}
+```
+
+<a id="SocketBase.Address" />
+
+### func \(\*SocketBase\) Address
+
+```go
+func (s *SocketBase) Address(ctx context.Context) (*Address, error)
+```
+
+
+
+<a id="SocketBase.LocalAddress" />
+
+### func \(\*SocketBase\) LocalAddress
+
+```go
+func (s *SocketBase) LocalAddress(ctx context.Context) (*string, error)
+```
+
+
+
+<a id="SocketBase.LocalFamily" />
+
+### func \(\*SocketBase\) LocalFamily
+
+```go
+func (s *SocketBase) LocalFamily(ctx context.Context) (*string, error)
+```
+
+
+
+<a id="SocketBase.LocalPort" />
+
+### func \(\*SocketBase\) LocalPort
+
+```go
+func (s *SocketBase) LocalPort(ctx context.Context) (*int, error)
+```
+
+
+
+<a id="SocketBase.RemoteAddress" />
+
+### func \(\*SocketBase\) RemoteAddress
+
+```go
+func (s *SocketBase) RemoteAddress(ctx context.Context) (*string, error)
+```
+
+
+
+<a id="SocketBase.RemoteFamily" />
+
+### func \(\*SocketBase\) RemoteFamily
+
+```go
+func (s *SocketBase) RemoteFamily(ctx context.Context) (*string, error)
+```
+
+
+
+<a id="SocketBase.RemotePort" />
+
+### func \(\*SocketBase\) RemotePort
+
+```go
+func (s *SocketBase) RemotePort(ctx context.Context) (*int, error)
+```
+
+
+
+<a id="SocketBase.SetNoDelay" />
+
+### func \(\*SocketBase\) SetNoDelay
+
+```go
+func (s *SocketBase) SetNoDelay(ctx context.Context) error
+```
+
+
+
+<a id="SocketBase.SetTimeout" />
+
+### func \(\*SocketBase\) SetTimeout
+
+```go
+func (s *SocketBase) SetTimeout(ctx context.Context) error
+```
+
+
+
+<a id="SocketBase.V8FuncAddress" />
+
+### func \(\*SocketBase\) V8FuncAddress
+
+```go
+func (s *SocketBase) V8FuncAddress(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="SocketBase.V8FuncSetNoDelay" />
+
+### func \(\*SocketBase\) V8FuncSetNoDelay
+
+```go
+func (s *SocketBase) V8FuncSetNoDelay(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="SocketBase.V8FuncSetTimeout" />
+
+### func \(\*SocketBase\) V8FuncSetTimeout
+
+```go
+func (s *SocketBase) V8FuncSetTimeout(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="SocketBase.V8GetLocalAddress" />
+
+### func \(\*SocketBase\) V8GetLocalAddress
+
+```go
+func (s *SocketBase) V8GetLocalAddress(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="SocketBase.V8GetLocalFamily" />
+
+### func \(\*SocketBase\) V8GetLocalFamily
+
+```go
+func (s *SocketBase) V8GetLocalFamily(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="SocketBase.V8GetLocalPort" />
+
+### func \(\*SocketBase\) V8GetLocalPort
+
+```go
+func (s *SocketBase) V8GetLocalPort(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="SocketBase.V8GetRemoteAddress" />
+
+### func \(\*SocketBase\) V8GetRemoteAddress
+
+```go
+func (s *SocketBase) V8GetRemoteAddress(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="SocketBase.V8GetRemoteFamily" />
+
+### func \(\*SocketBase\) V8GetRemoteFamily
+
+```go
+func (s *SocketBase) V8GetRemoteFamily(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="SocketBase.V8GetRemotePort" />
+
+### func \(\*SocketBase\) V8GetRemotePort
+
+```go
+func (s *SocketBase) V8GetRemotePort(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+

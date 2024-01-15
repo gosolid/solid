@@ -1,0 +1,3334 @@
+---
+package: "github.com/gosolid/solid/pkg/runtime/tty"
+language: go
+---
+
+# tty
+
+```go
+import "github.com/gosolid/solid/pkg/runtime/tty"
+```
+
+## Index
+
+<ul>
+
+- [Variables](<#Variables>)
+
+
+
+<li parentName="ul"><a href="#IsTTY">
+
+```go
+func IsTTY(fd int) (bool, error)
+```
+
+</a></li>
+
+<li parentName="ul"><a href="#AnsiEscapeSequence">
+
+```go
+type AnsiEscapeSequence
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewAnsiEscapeSequence">
+
+```go
+func NewAnsiEscapeSequence() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundBlack">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBlack() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundBlue">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBlue() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundBrightBlack">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightBlack() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundBrightBlue">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightBlue() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundBrightCyan">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightCyan() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundBrightGreen">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightGreen() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundBrightMagenta">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightMagenta() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundBrightRed">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightRed() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundBrightWhite">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightWhite() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundBrightYellow">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightYellow() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundColor">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundColor(r int, g int, b int) *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundCyan">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundCyan() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundDefault">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundDefault() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundGreen">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundGreen() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundIndexedColor">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundIndexedColor(index int) *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundMagenta">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundMagenta() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundRed">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundRed() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundWhite">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundWhite() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BackgroundYellow">
+
+```go
+func (e *AnsiEscapeSequence) BackgroundYellow() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Black">
+
+```go
+func (e *AnsiEscapeSequence) Black() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Blink">
+
+```go
+func (e *AnsiEscapeSequence) Blink() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BlinkReset">
+
+```go
+func (e *AnsiEscapeSequence) BlinkReset() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Blue">
+
+```go
+func (e *AnsiEscapeSequence) Blue() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Bold">
+
+```go
+func (e *AnsiEscapeSequence) Bold() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BoldReset">
+
+```go
+func (e *AnsiEscapeSequence) BoldReset() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BrightBlack">
+
+```go
+func (e *AnsiEscapeSequence) BrightBlack() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BrightBlue">
+
+```go
+func (e *AnsiEscapeSequence) BrightBlue() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BrightCyan">
+
+```go
+func (e *AnsiEscapeSequence) BrightCyan() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BrightGreen">
+
+```go
+func (e *AnsiEscapeSequence) BrightGreen() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BrightMagenta">
+
+```go
+func (e *AnsiEscapeSequence) BrightMagenta() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BrightRed">
+
+```go
+func (e *AnsiEscapeSequence) BrightRed() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BrightWhite">
+
+```go
+func (e *AnsiEscapeSequence) BrightWhite() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.BrightYellow">
+
+```go
+func (e *AnsiEscapeSequence) BrightYellow() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Color">
+
+```go
+func (e *AnsiEscapeSequence) Color(r int, g int, b int) *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Cyan">
+
+```go
+func (e *AnsiEscapeSequence) Cyan() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Default">
+
+```go
+func (e *AnsiEscapeSequence) Default() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Dim">
+
+```go
+func (e *AnsiEscapeSequence) Dim() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.DimReset">
+
+```go
+func (e *AnsiEscapeSequence) DimReset() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Disable">
+
+```go
+func (e *AnsiEscapeSequence) Disable() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Enable">
+
+```go
+func (e *AnsiEscapeSequence) Enable() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Enabled">
+
+```go
+func (e *AnsiEscapeSequence) Enabled() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.EraseEntireScreen">
+
+```go
+func (e *AnsiEscapeSequence) EraseEntireScreen() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.EraseFromCursorToEndOfLine">
+
+```go
+func (e *AnsiEscapeSequence) EraseFromCursorToEndOfLine() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.EraseFromCursorToEndOfScreen">
+
+```go
+func (e *AnsiEscapeSequence) EraseFromCursorToEndOfScreen() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.EraseFromCursorToStartOfLine">
+
+```go
+func (e *AnsiEscapeSequence) EraseFromCursorToStartOfLine() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.EraseFromCursorToStartOfScreen">
+
+```go
+func (e *AnsiEscapeSequence) EraseFromCursorToStartOfScreen() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.EraseInDisplay">
+
+```go
+func (e *AnsiEscapeSequence) EraseInDisplay() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.EraseInLine">
+
+```go
+func (e *AnsiEscapeSequence) EraseInLine() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.EraseLine">
+
+```go
+func (e *AnsiEscapeSequence) EraseLine() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.EraseSavedLines">
+
+```go
+func (e *AnsiEscapeSequence) EraseSavedLines() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Format">
+
+```go
+func (e *AnsiEscapeSequence) Format(s string) string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Green">
+
+```go
+func (e *AnsiEscapeSequence) Green() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Hidden">
+
+```go
+func (e *AnsiEscapeSequence) Hidden() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.HiddenReset">
+
+```go
+func (e *AnsiEscapeSequence) HiddenReset() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Home">
+
+```go
+func (e *AnsiEscapeSequence) Home() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.IndexedColor">
+
+```go
+func (e *AnsiEscapeSequence) IndexedColor(index int) *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Italic">
+
+```go
+func (e *AnsiEscapeSequence) Italic() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.ItalicReset">
+
+```go
+func (e *AnsiEscapeSequence) ItalicReset() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Magenta">
+
+```go
+func (e *AnsiEscapeSequence) Magenta() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Move">
+
+```go
+func (e *AnsiEscapeSequence) Move(line int, column int) string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.MoveDown">
+
+```go
+func (e *AnsiEscapeSequence) MoveDown(lines int) string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.MoveLeft">
+
+```go
+func (e *AnsiEscapeSequence) MoveLeft(columns int) string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.MoveRight">
+
+```go
+func (e *AnsiEscapeSequence) MoveRight(columns int) string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.MoveToStart">
+
+```go
+func (e *AnsiEscapeSequence) MoveToStart() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.MoveToStartDown">
+
+```go
+func (e *AnsiEscapeSequence) MoveToStartDown(lines int) string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.MoveToStartUp">
+
+```go
+func (e *AnsiEscapeSequence) MoveToStartUp(lines int) string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.MoveUp">
+
+```go
+func (e *AnsiEscapeSequence) MoveUp(lines int) string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.MoveUpOne">
+
+```go
+func (e *AnsiEscapeSequence) MoveUpOne() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Red">
+
+```go
+func (e *AnsiEscapeSequence) Red() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.RequestCursorPosition">
+
+```go
+func (e *AnsiEscapeSequence) RequestCursorPosition() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.RequestCursorPositionSCO">
+
+```go
+func (e *AnsiEscapeSequence) RequestCursorPositionSCO() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Reset">
+
+```go
+func (e *AnsiEscapeSequence) Reset() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.RestoreCursorPosition">
+
+```go
+func (e *AnsiEscapeSequence) RestoreCursorPosition() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Reverse">
+
+```go
+func (e *AnsiEscapeSequence) Reverse() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.ReverseReset">
+
+```go
+func (e *AnsiEscapeSequence) ReverseReset() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.SaveCursorPosition">
+
+```go
+func (e *AnsiEscapeSequence) SaveCursorPosition() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.SaveCursorPositionSCO">
+
+```go
+func (e *AnsiEscapeSequence) SaveCursorPositionSCO() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Strikethrough">
+
+```go
+func (e *AnsiEscapeSequence) Strikethrough() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.StrikethroughReset">
+
+```go
+func (e *AnsiEscapeSequence) StrikethroughReset() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.String">
+
+```go
+func (e *AnsiEscapeSequence) String() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Strip">
+
+```go
+func (e *AnsiEscapeSequence) Strip(s string) string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Underline">
+
+```go
+func (e *AnsiEscapeSequence) Underline() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.UnderlineReset">
+
+```go
+func (e *AnsiEscapeSequence) UnderlineReset() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncBackgroundColor">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncBackgroundColor(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncBackgroundIndexedColor">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncBackgroundIndexedColor(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncColor">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncColor(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncDisable">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncDisable(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncEnable">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEnable(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncEraseEntireScreen">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseEntireScreen(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncEraseFromCursorToEndOfLine">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseFromCursorToEndOfLine(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncEraseFromCursorToEndOfScreen">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseFromCursorToEndOfScreen(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncEraseFromCursorToStartOfLine">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseFromCursorToStartOfLine(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncEraseFromCursorToStartOfScreen">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseFromCursorToStartOfScreen(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncEraseInDisplay">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseInDisplay(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncEraseInLine">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseInLine(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncEraseLine">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseLine(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncEraseSavedLines">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseSavedLines(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncHome">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncHome(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncIndexedColor">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncIndexedColor(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncMove">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMove(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncMoveDown">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveDown(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncMoveLeft">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveLeft(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncMoveRight">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveRight(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncMoveToStart">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveToStart(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncMoveToStartDown">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveToStartDown(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncMoveToStartUp">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveToStartUp(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncMoveUp">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveUp(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncMoveUpOne">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveUpOne(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncRequestCursorPosition">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncRequestCursorPosition(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncRequestCursorPositionSCO">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncRequestCursorPositionSCO(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncRestoreCursorPosition">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncRestoreCursorPosition(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncSaveCursorPosition">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncSaveCursorPosition(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncSaveCursorPositionSCO">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncSaveCursorPositionSCO(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8FuncStrip">
+
+```go
+func (e *AnsiEscapeSequence) V8FuncStrip(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundBlack">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBlack(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundBlue">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBlue(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundBrightBlack">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightBlack(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundBrightBlue">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightBlue(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundBrightCyan">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightCyan(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundBrightGreen">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightGreen(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundBrightMagenta">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightMagenta(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundBrightRed">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightRed(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundBrightWhite">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightWhite(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundBrightYellow">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightYellow(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundCyan">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundCyan(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundDefault">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundDefault(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundGreen">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundGreen(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundMagenta">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundMagenta(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundRed">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundRed(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundWhite">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundWhite(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBackgroundYellow">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundYellow(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBlack">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBlack(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBlink">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBlink(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBlinkReset">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBlinkReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBlue">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBlue(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBold">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBold(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBoldReset">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBoldReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBrightBlack">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightBlack(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBrightBlue">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightBlue(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBrightCyan">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightCyan(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBrightGreen">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightGreen(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBrightMagenta">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightMagenta(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBrightRed">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightRed(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBrightWhite">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightWhite(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetBrightYellow">
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightYellow(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetCyan">
+
+```go
+func (e *AnsiEscapeSequence) V8GetCyan(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetDefault">
+
+```go
+func (e *AnsiEscapeSequence) V8GetDefault(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetDim">
+
+```go
+func (e *AnsiEscapeSequence) V8GetDim(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetDimReset">
+
+```go
+func (e *AnsiEscapeSequence) V8GetDimReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetEnabled">
+
+```go
+func (e *AnsiEscapeSequence) V8GetEnabled(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetGreen">
+
+```go
+func (e *AnsiEscapeSequence) V8GetGreen(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetHidden">
+
+```go
+func (e *AnsiEscapeSequence) V8GetHidden(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetHiddenReset">
+
+```go
+func (e *AnsiEscapeSequence) V8GetHiddenReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetItalic">
+
+```go
+func (e *AnsiEscapeSequence) V8GetItalic(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetItalicReset">
+
+```go
+func (e *AnsiEscapeSequence) V8GetItalicReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetMagenta">
+
+```go
+func (e *AnsiEscapeSequence) V8GetMagenta(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetRed">
+
+```go
+func (e *AnsiEscapeSequence) V8GetRed(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetReset">
+
+```go
+func (e *AnsiEscapeSequence) V8GetReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetReverse">
+
+```go
+func (e *AnsiEscapeSequence) V8GetReverse(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetReverseReset">
+
+```go
+func (e *AnsiEscapeSequence) V8GetReverseReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetStrikethrough">
+
+```go
+func (e *AnsiEscapeSequence) V8GetStrikethrough(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetStrikethroughReset">
+
+```go
+func (e *AnsiEscapeSequence) V8GetStrikethroughReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetUnderline">
+
+```go
+func (e *AnsiEscapeSequence) V8GetUnderline(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetUnderlineReset">
+
+```go
+func (e *AnsiEscapeSequence) V8GetUnderlineReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetWhite">
+
+```go
+func (e *AnsiEscapeSequence) V8GetWhite(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.V8GetYellow">
+
+```go
+func (e *AnsiEscapeSequence) V8GetYellow(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.White">
+
+```go
+func (e *AnsiEscapeSequence) White() *AnsiEscapeSequence
+```
+
+</a></li>
+<li parentName="ul"><a href="#AnsiEscapeSequence.Yellow">
+
+```go
+func (e *AnsiEscapeSequence) Yellow() *AnsiEscapeSequence
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#ReadStream">
+
+```go
+type ReadStream
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#ReadStreamBase">
+
+```go
+type ReadStreamBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewReadStream">
+
+```go
+func NewReadStream(in isolates.FunctionArgs) (*ReadStreamBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadStreamBase.IsRaw">
+
+```go
+func (r *ReadStreamBase) IsRaw() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadStreamBase.IsTTY">
+
+```go
+func (r *ReadStreamBase) IsTTY() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadStreamBase.SetRawMode">
+
+```go
+func (r *ReadStreamBase) SetRawMode(in isolates.FunctionArgs, mode bool) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadStreamBase.V8FuncSetRawMode">
+
+```go
+func (r *ReadStreamBase) V8FuncSetRawMode(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadStreamBase.V8GetIsRaw">
+
+```go
+func (r *ReadStreamBase) V8GetIsRaw(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#ReadStreamBase.V8GetIsTTY">
+
+```go
+func (r *ReadStreamBase) V8GetIsTTY(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#WriteStream">
+
+```go
+type WriteStream
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#WriteStreamBase">
+
+```go
+type WriteStreamBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewWriteStream">
+
+```go
+func NewWriteStream(in isolates.FunctionArgs) (*WriteStreamBase, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WriteStreamBase.Clear">
+
+```go
+func (w *WriteStreamBase) Clear() error
+```
+
+</a></li>
+<li parentName="ul"><a href="#WriteStreamBase.Columns">
+
+```go
+func (w *WriteStreamBase) Columns() (int, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WriteStreamBase.GetWindowSize">
+
+```go
+func (w *WriteStreamBase) GetWindowSize() ([]int, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WriteStreamBase.IsTTY">
+
+```go
+func (w *WriteStreamBase) IsTTY() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#WriteStreamBase.Rows">
+
+```go
+func (w *WriteStreamBase) Rows() (int, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WriteStreamBase.V8FuncClear">
+
+```go
+func (w *WriteStreamBase) V8FuncClear(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WriteStreamBase.V8FuncGetWindowSize">
+
+```go
+func (w *WriteStreamBase) V8FuncGetWindowSize(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WriteStreamBase.V8GetColumns">
+
+```go
+func (w *WriteStreamBase) V8GetColumns(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WriteStreamBase.V8GetIsTTY">
+
+```go
+func (w *WriteStreamBase) V8GetIsTTY(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WriteStreamBase.V8GetRows">
+
+```go
+func (w *WriteStreamBase) V8GetRows(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li>
+
+</ul>
+
+<a id="Variables" />
+
+## Variables
+
+<a name="ANSI"></a>
+
+```go
+var ANSI = NewAnsiEscapeSequence()
+```
+
+<a id="IsTTY" />
+
+## func IsTTY
+
+```go
+func IsTTY(fd int) (bool, error)
+```
+
+
+
+<a id="AnsiEscapeSequence"></a>
+
+## type AnsiEscapeSequence
+
+
+
+```go
+type AnsiEscapeSequence struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewAnsiEscapeSequence" />
+
+### func NewAnsiEscapeSequence
+
+```go
+func NewAnsiEscapeSequence() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundBlack" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundBlack
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBlack() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundBlue" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundBlue
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBlue() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundBrightBlack" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundBrightBlack
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightBlack() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundBrightBlue" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundBrightBlue
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightBlue() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundBrightCyan" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundBrightCyan
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightCyan() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundBrightGreen" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundBrightGreen
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightGreen() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundBrightMagenta" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundBrightMagenta
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightMagenta() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundBrightRed" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundBrightRed
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightRed() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundBrightWhite" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundBrightWhite
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightWhite() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundBrightYellow" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundBrightYellow
+
+```go
+func (e *AnsiEscapeSequence) BackgroundBrightYellow() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundColor" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundColor
+
+```go
+func (e *AnsiEscapeSequence) BackgroundColor(r int, g int, b int) *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundCyan" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundCyan
+
+```go
+func (e *AnsiEscapeSequence) BackgroundCyan() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundDefault" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundDefault
+
+```go
+func (e *AnsiEscapeSequence) BackgroundDefault() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundGreen" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundGreen
+
+```go
+func (e *AnsiEscapeSequence) BackgroundGreen() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundIndexedColor" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundIndexedColor
+
+```go
+func (e *AnsiEscapeSequence) BackgroundIndexedColor(index int) *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundMagenta" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundMagenta
+
+```go
+func (e *AnsiEscapeSequence) BackgroundMagenta() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundRed" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundRed
+
+```go
+func (e *AnsiEscapeSequence) BackgroundRed() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundWhite" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundWhite
+
+```go
+func (e *AnsiEscapeSequence) BackgroundWhite() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BackgroundYellow" />
+
+### func \(\*AnsiEscapeSequence\) BackgroundYellow
+
+```go
+func (e *AnsiEscapeSequence) BackgroundYellow() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Black" />
+
+### func \(\*AnsiEscapeSequence\) Black
+
+```go
+func (e *AnsiEscapeSequence) Black() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Blink" />
+
+### func \(\*AnsiEscapeSequence\) Blink
+
+```go
+func (e *AnsiEscapeSequence) Blink() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BlinkReset" />
+
+### func \(\*AnsiEscapeSequence\) BlinkReset
+
+```go
+func (e *AnsiEscapeSequence) BlinkReset() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Blue" />
+
+### func \(\*AnsiEscapeSequence\) Blue
+
+```go
+func (e *AnsiEscapeSequence) Blue() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Bold" />
+
+### func \(\*AnsiEscapeSequence\) Bold
+
+```go
+func (e *AnsiEscapeSequence) Bold() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BoldReset" />
+
+### func \(\*AnsiEscapeSequence\) BoldReset
+
+```go
+func (e *AnsiEscapeSequence) BoldReset() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BrightBlack" />
+
+### func \(\*AnsiEscapeSequence\) BrightBlack
+
+```go
+func (e *AnsiEscapeSequence) BrightBlack() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BrightBlue" />
+
+### func \(\*AnsiEscapeSequence\) BrightBlue
+
+```go
+func (e *AnsiEscapeSequence) BrightBlue() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BrightCyan" />
+
+### func \(\*AnsiEscapeSequence\) BrightCyan
+
+```go
+func (e *AnsiEscapeSequence) BrightCyan() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BrightGreen" />
+
+### func \(\*AnsiEscapeSequence\) BrightGreen
+
+```go
+func (e *AnsiEscapeSequence) BrightGreen() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BrightMagenta" />
+
+### func \(\*AnsiEscapeSequence\) BrightMagenta
+
+```go
+func (e *AnsiEscapeSequence) BrightMagenta() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BrightRed" />
+
+### func \(\*AnsiEscapeSequence\) BrightRed
+
+```go
+func (e *AnsiEscapeSequence) BrightRed() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BrightWhite" />
+
+### func \(\*AnsiEscapeSequence\) BrightWhite
+
+```go
+func (e *AnsiEscapeSequence) BrightWhite() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.BrightYellow" />
+
+### func \(\*AnsiEscapeSequence\) BrightYellow
+
+```go
+func (e *AnsiEscapeSequence) BrightYellow() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Color" />
+
+### func \(\*AnsiEscapeSequence\) Color
+
+```go
+func (e *AnsiEscapeSequence) Color(r int, g int, b int) *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Cyan" />
+
+### func \(\*AnsiEscapeSequence\) Cyan
+
+```go
+func (e *AnsiEscapeSequence) Cyan() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Default" />
+
+### func \(\*AnsiEscapeSequence\) Default
+
+```go
+func (e *AnsiEscapeSequence) Default() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Dim" />
+
+### func \(\*AnsiEscapeSequence\) Dim
+
+```go
+func (e *AnsiEscapeSequence) Dim() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.DimReset" />
+
+### func \(\*AnsiEscapeSequence\) DimReset
+
+```go
+func (e *AnsiEscapeSequence) DimReset() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Disable" />
+
+### func \(\*AnsiEscapeSequence\) Disable
+
+```go
+func (e *AnsiEscapeSequence) Disable() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Enable" />
+
+### func \(\*AnsiEscapeSequence\) Enable
+
+```go
+func (e *AnsiEscapeSequence) Enable() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Enabled" />
+
+### func \(\*AnsiEscapeSequence\) Enabled
+
+```go
+func (e *AnsiEscapeSequence) Enabled() bool
+```
+
+
+
+<a id="AnsiEscapeSequence.EraseEntireScreen" />
+
+### func \(\*AnsiEscapeSequence\) EraseEntireScreen
+
+```go
+func (e *AnsiEscapeSequence) EraseEntireScreen() string
+```
+
+
+
+<a id="AnsiEscapeSequence.EraseFromCursorToEndOfLine" />
+
+### func \(\*AnsiEscapeSequence\) EraseFromCursorToEndOfLine
+
+```go
+func (e *AnsiEscapeSequence) EraseFromCursorToEndOfLine() string
+```
+
+
+
+<a id="AnsiEscapeSequence.EraseFromCursorToEndOfScreen" />
+
+### func \(\*AnsiEscapeSequence\) EraseFromCursorToEndOfScreen
+
+```go
+func (e *AnsiEscapeSequence) EraseFromCursorToEndOfScreen() string
+```
+
+
+
+<a id="AnsiEscapeSequence.EraseFromCursorToStartOfLine" />
+
+### func \(\*AnsiEscapeSequence\) EraseFromCursorToStartOfLine
+
+```go
+func (e *AnsiEscapeSequence) EraseFromCursorToStartOfLine() string
+```
+
+
+
+<a id="AnsiEscapeSequence.EraseFromCursorToStartOfScreen" />
+
+### func \(\*AnsiEscapeSequence\) EraseFromCursorToStartOfScreen
+
+```go
+func (e *AnsiEscapeSequence) EraseFromCursorToStartOfScreen() string
+```
+
+
+
+<a id="AnsiEscapeSequence.EraseInDisplay" />
+
+### func \(\*AnsiEscapeSequence\) EraseInDisplay
+
+```go
+func (e *AnsiEscapeSequence) EraseInDisplay() string
+```
+
+
+
+<a id="AnsiEscapeSequence.EraseInLine" />
+
+### func \(\*AnsiEscapeSequence\) EraseInLine
+
+```go
+func (e *AnsiEscapeSequence) EraseInLine() string
+```
+
+
+
+<a id="AnsiEscapeSequence.EraseLine" />
+
+### func \(\*AnsiEscapeSequence\) EraseLine
+
+```go
+func (e *AnsiEscapeSequence) EraseLine() string
+```
+
+
+
+<a id="AnsiEscapeSequence.EraseSavedLines" />
+
+### func \(\*AnsiEscapeSequence\) EraseSavedLines
+
+```go
+func (e *AnsiEscapeSequence) EraseSavedLines() string
+```
+
+
+
+<a id="AnsiEscapeSequence.Format" />
+
+### func \(\*AnsiEscapeSequence\) Format
+
+```go
+func (e *AnsiEscapeSequence) Format(s string) string
+```
+
+
+
+<a id="AnsiEscapeSequence.Green" />
+
+### func \(\*AnsiEscapeSequence\) Green
+
+```go
+func (e *AnsiEscapeSequence) Green() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Hidden" />
+
+### func \(\*AnsiEscapeSequence\) Hidden
+
+```go
+func (e *AnsiEscapeSequence) Hidden() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.HiddenReset" />
+
+### func \(\*AnsiEscapeSequence\) HiddenReset
+
+```go
+func (e *AnsiEscapeSequence) HiddenReset() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Home" />
+
+### func \(\*AnsiEscapeSequence\) Home
+
+```go
+func (e *AnsiEscapeSequence) Home() string
+```
+
+
+
+<a id="AnsiEscapeSequence.IndexedColor" />
+
+### func \(\*AnsiEscapeSequence\) IndexedColor
+
+```go
+func (e *AnsiEscapeSequence) IndexedColor(index int) *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Italic" />
+
+### func \(\*AnsiEscapeSequence\) Italic
+
+```go
+func (e *AnsiEscapeSequence) Italic() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.ItalicReset" />
+
+### func \(\*AnsiEscapeSequence\) ItalicReset
+
+```go
+func (e *AnsiEscapeSequence) ItalicReset() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Magenta" />
+
+### func \(\*AnsiEscapeSequence\) Magenta
+
+```go
+func (e *AnsiEscapeSequence) Magenta() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Move" />
+
+### func \(\*AnsiEscapeSequence\) Move
+
+```go
+func (e *AnsiEscapeSequence) Move(line int, column int) string
+```
+
+
+
+<a id="AnsiEscapeSequence.MoveDown" />
+
+### func \(\*AnsiEscapeSequence\) MoveDown
+
+```go
+func (e *AnsiEscapeSequence) MoveDown(lines int) string
+```
+
+
+
+<a id="AnsiEscapeSequence.MoveLeft" />
+
+### func \(\*AnsiEscapeSequence\) MoveLeft
+
+```go
+func (e *AnsiEscapeSequence) MoveLeft(columns int) string
+```
+
+
+
+<a id="AnsiEscapeSequence.MoveRight" />
+
+### func \(\*AnsiEscapeSequence\) MoveRight
+
+```go
+func (e *AnsiEscapeSequence) MoveRight(columns int) string
+```
+
+
+
+<a id="AnsiEscapeSequence.MoveToStart" />
+
+### func \(\*AnsiEscapeSequence\) MoveToStart
+
+```go
+func (e *AnsiEscapeSequence) MoveToStart() string
+```
+
+
+
+<a id="AnsiEscapeSequence.MoveToStartDown" />
+
+### func \(\*AnsiEscapeSequence\) MoveToStartDown
+
+```go
+func (e *AnsiEscapeSequence) MoveToStartDown(lines int) string
+```
+
+
+
+<a id="AnsiEscapeSequence.MoveToStartUp" />
+
+### func \(\*AnsiEscapeSequence\) MoveToStartUp
+
+```go
+func (e *AnsiEscapeSequence) MoveToStartUp(lines int) string
+```
+
+
+
+<a id="AnsiEscapeSequence.MoveUp" />
+
+### func \(\*AnsiEscapeSequence\) MoveUp
+
+```go
+func (e *AnsiEscapeSequence) MoveUp(lines int) string
+```
+
+
+
+<a id="AnsiEscapeSequence.MoveUpOne" />
+
+### func \(\*AnsiEscapeSequence\) MoveUpOne
+
+```go
+func (e *AnsiEscapeSequence) MoveUpOne() string
+```
+
+
+
+<a id="AnsiEscapeSequence.Red" />
+
+### func \(\*AnsiEscapeSequence\) Red
+
+```go
+func (e *AnsiEscapeSequence) Red() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.RequestCursorPosition" />
+
+### func \(\*AnsiEscapeSequence\) RequestCursorPosition
+
+```go
+func (e *AnsiEscapeSequence) RequestCursorPosition() string
+```
+
+
+
+<a id="AnsiEscapeSequence.RequestCursorPositionSCO" />
+
+### func \(\*AnsiEscapeSequence\) RequestCursorPositionSCO
+
+```go
+func (e *AnsiEscapeSequence) RequestCursorPositionSCO() string
+```
+
+
+
+<a id="AnsiEscapeSequence.Reset" />
+
+### func \(\*AnsiEscapeSequence\) Reset
+
+```go
+func (e *AnsiEscapeSequence) Reset() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.RestoreCursorPosition" />
+
+### func \(\*AnsiEscapeSequence\) RestoreCursorPosition
+
+```go
+func (e *AnsiEscapeSequence) RestoreCursorPosition() string
+```
+
+
+
+<a id="AnsiEscapeSequence.Reverse" />
+
+### func \(\*AnsiEscapeSequence\) Reverse
+
+```go
+func (e *AnsiEscapeSequence) Reverse() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.ReverseReset" />
+
+### func \(\*AnsiEscapeSequence\) ReverseReset
+
+```go
+func (e *AnsiEscapeSequence) ReverseReset() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.SaveCursorPosition" />
+
+### func \(\*AnsiEscapeSequence\) SaveCursorPosition
+
+```go
+func (e *AnsiEscapeSequence) SaveCursorPosition() string
+```
+
+
+
+<a id="AnsiEscapeSequence.SaveCursorPositionSCO" />
+
+### func \(\*AnsiEscapeSequence\) SaveCursorPositionSCO
+
+```go
+func (e *AnsiEscapeSequence) SaveCursorPositionSCO() string
+```
+
+
+
+<a id="AnsiEscapeSequence.Strikethrough" />
+
+### func \(\*AnsiEscapeSequence\) Strikethrough
+
+```go
+func (e *AnsiEscapeSequence) Strikethrough() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.StrikethroughReset" />
+
+### func \(\*AnsiEscapeSequence\) StrikethroughReset
+
+```go
+func (e *AnsiEscapeSequence) StrikethroughReset() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.String" />
+
+### func \(\*AnsiEscapeSequence\) String
+
+```go
+func (e *AnsiEscapeSequence) String() string
+```
+
+
+
+<a id="AnsiEscapeSequence.Strip" />
+
+### func \(\*AnsiEscapeSequence\) Strip
+
+```go
+func (e *AnsiEscapeSequence) Strip(s string) string
+```
+
+
+
+<a id="AnsiEscapeSequence.Underline" />
+
+### func \(\*AnsiEscapeSequence\) Underline
+
+```go
+func (e *AnsiEscapeSequence) Underline() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.UnderlineReset" />
+
+### func \(\*AnsiEscapeSequence\) UnderlineReset
+
+```go
+func (e *AnsiEscapeSequence) UnderlineReset() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncBackgroundColor" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncBackgroundColor
+
+```go
+func (e *AnsiEscapeSequence) V8FuncBackgroundColor(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncBackgroundIndexedColor" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncBackgroundIndexedColor
+
+```go
+func (e *AnsiEscapeSequence) V8FuncBackgroundIndexedColor(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncColor" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncColor
+
+```go
+func (e *AnsiEscapeSequence) V8FuncColor(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncDisable" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncDisable
+
+```go
+func (e *AnsiEscapeSequence) V8FuncDisable(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncEnable" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncEnable
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEnable(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncEraseEntireScreen" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncEraseEntireScreen
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseEntireScreen(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncEraseFromCursorToEndOfLine" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncEraseFromCursorToEndOfLine
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseFromCursorToEndOfLine(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncEraseFromCursorToEndOfScreen" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncEraseFromCursorToEndOfScreen
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseFromCursorToEndOfScreen(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncEraseFromCursorToStartOfLine" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncEraseFromCursorToStartOfLine
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseFromCursorToStartOfLine(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncEraseFromCursorToStartOfScreen" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncEraseFromCursorToStartOfScreen
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseFromCursorToStartOfScreen(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncEraseInDisplay" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncEraseInDisplay
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseInDisplay(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncEraseInLine" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncEraseInLine
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseInLine(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncEraseLine" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncEraseLine
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseLine(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncEraseSavedLines" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncEraseSavedLines
+
+```go
+func (e *AnsiEscapeSequence) V8FuncEraseSavedLines(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncHome" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncHome
+
+```go
+func (e *AnsiEscapeSequence) V8FuncHome(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncIndexedColor" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncIndexedColor
+
+```go
+func (e *AnsiEscapeSequence) V8FuncIndexedColor(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncMove" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncMove
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMove(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncMoveDown" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncMoveDown
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveDown(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncMoveLeft" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncMoveLeft
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveLeft(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncMoveRight" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncMoveRight
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveRight(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncMoveToStart" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncMoveToStart
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveToStart(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncMoveToStartDown" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncMoveToStartDown
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveToStartDown(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncMoveToStartUp" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncMoveToStartUp
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveToStartUp(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncMoveUp" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncMoveUp
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveUp(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncMoveUpOne" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncMoveUpOne
+
+```go
+func (e *AnsiEscapeSequence) V8FuncMoveUpOne(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncRequestCursorPosition" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncRequestCursorPosition
+
+```go
+func (e *AnsiEscapeSequence) V8FuncRequestCursorPosition(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncRequestCursorPositionSCO" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncRequestCursorPositionSCO
+
+```go
+func (e *AnsiEscapeSequence) V8FuncRequestCursorPositionSCO(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncRestoreCursorPosition" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncRestoreCursorPosition
+
+```go
+func (e *AnsiEscapeSequence) V8FuncRestoreCursorPosition(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncSaveCursorPosition" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncSaveCursorPosition
+
+```go
+func (e *AnsiEscapeSequence) V8FuncSaveCursorPosition(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncSaveCursorPositionSCO" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncSaveCursorPositionSCO
+
+```go
+func (e *AnsiEscapeSequence) V8FuncSaveCursorPositionSCO(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8FuncStrip" />
+
+### func \(\*AnsiEscapeSequence\) V8FuncStrip
+
+```go
+func (e *AnsiEscapeSequence) V8FuncStrip(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundBlack" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundBlack
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBlack(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundBlue" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundBlue
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBlue(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundBrightBlack" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundBrightBlack
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightBlack(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundBrightBlue" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundBrightBlue
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightBlue(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundBrightCyan" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundBrightCyan
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightCyan(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundBrightGreen" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundBrightGreen
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightGreen(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundBrightMagenta" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundBrightMagenta
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightMagenta(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundBrightRed" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundBrightRed
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightRed(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundBrightWhite" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundBrightWhite
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightWhite(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundBrightYellow" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundBrightYellow
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundBrightYellow(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundCyan" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundCyan
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundCyan(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundDefault" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundDefault
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundDefault(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundGreen" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundGreen
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundGreen(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundMagenta" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundMagenta
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundMagenta(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundRed" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundRed
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundRed(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundWhite" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundWhite
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundWhite(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBackgroundYellow" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBackgroundYellow
+
+```go
+func (e *AnsiEscapeSequence) V8GetBackgroundYellow(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBlack" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBlack
+
+```go
+func (e *AnsiEscapeSequence) V8GetBlack(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBlink" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBlink
+
+```go
+func (e *AnsiEscapeSequence) V8GetBlink(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBlinkReset" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBlinkReset
+
+```go
+func (e *AnsiEscapeSequence) V8GetBlinkReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBlue" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBlue
+
+```go
+func (e *AnsiEscapeSequence) V8GetBlue(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBold" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBold
+
+```go
+func (e *AnsiEscapeSequence) V8GetBold(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBoldReset" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBoldReset
+
+```go
+func (e *AnsiEscapeSequence) V8GetBoldReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBrightBlack" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBrightBlack
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightBlack(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBrightBlue" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBrightBlue
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightBlue(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBrightCyan" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBrightCyan
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightCyan(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBrightGreen" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBrightGreen
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightGreen(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBrightMagenta" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBrightMagenta
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightMagenta(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBrightRed" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBrightRed
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightRed(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBrightWhite" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBrightWhite
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightWhite(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetBrightYellow" />
+
+### func \(\*AnsiEscapeSequence\) V8GetBrightYellow
+
+```go
+func (e *AnsiEscapeSequence) V8GetBrightYellow(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetCyan" />
+
+### func \(\*AnsiEscapeSequence\) V8GetCyan
+
+```go
+func (e *AnsiEscapeSequence) V8GetCyan(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetDefault" />
+
+### func \(\*AnsiEscapeSequence\) V8GetDefault
+
+```go
+func (e *AnsiEscapeSequence) V8GetDefault(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetDim" />
+
+### func \(\*AnsiEscapeSequence\) V8GetDim
+
+```go
+func (e *AnsiEscapeSequence) V8GetDim(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetDimReset" />
+
+### func \(\*AnsiEscapeSequence\) V8GetDimReset
+
+```go
+func (e *AnsiEscapeSequence) V8GetDimReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetEnabled" />
+
+### func \(\*AnsiEscapeSequence\) V8GetEnabled
+
+```go
+func (e *AnsiEscapeSequence) V8GetEnabled(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetGreen" />
+
+### func \(\*AnsiEscapeSequence\) V8GetGreen
+
+```go
+func (e *AnsiEscapeSequence) V8GetGreen(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetHidden" />
+
+### func \(\*AnsiEscapeSequence\) V8GetHidden
+
+```go
+func (e *AnsiEscapeSequence) V8GetHidden(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetHiddenReset" />
+
+### func \(\*AnsiEscapeSequence\) V8GetHiddenReset
+
+```go
+func (e *AnsiEscapeSequence) V8GetHiddenReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetItalic" />
+
+### func \(\*AnsiEscapeSequence\) V8GetItalic
+
+```go
+func (e *AnsiEscapeSequence) V8GetItalic(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetItalicReset" />
+
+### func \(\*AnsiEscapeSequence\) V8GetItalicReset
+
+```go
+func (e *AnsiEscapeSequence) V8GetItalicReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetMagenta" />
+
+### func \(\*AnsiEscapeSequence\) V8GetMagenta
+
+```go
+func (e *AnsiEscapeSequence) V8GetMagenta(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetRed" />
+
+### func \(\*AnsiEscapeSequence\) V8GetRed
+
+```go
+func (e *AnsiEscapeSequence) V8GetRed(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetReset" />
+
+### func \(\*AnsiEscapeSequence\) V8GetReset
+
+```go
+func (e *AnsiEscapeSequence) V8GetReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetReverse" />
+
+### func \(\*AnsiEscapeSequence\) V8GetReverse
+
+```go
+func (e *AnsiEscapeSequence) V8GetReverse(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetReverseReset" />
+
+### func \(\*AnsiEscapeSequence\) V8GetReverseReset
+
+```go
+func (e *AnsiEscapeSequence) V8GetReverseReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetStrikethrough" />
+
+### func \(\*AnsiEscapeSequence\) V8GetStrikethrough
+
+```go
+func (e *AnsiEscapeSequence) V8GetStrikethrough(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetStrikethroughReset" />
+
+### func \(\*AnsiEscapeSequence\) V8GetStrikethroughReset
+
+```go
+func (e *AnsiEscapeSequence) V8GetStrikethroughReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetUnderline" />
+
+### func \(\*AnsiEscapeSequence\) V8GetUnderline
+
+```go
+func (e *AnsiEscapeSequence) V8GetUnderline(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetUnderlineReset" />
+
+### func \(\*AnsiEscapeSequence\) V8GetUnderlineReset
+
+```go
+func (e *AnsiEscapeSequence) V8GetUnderlineReset(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetWhite" />
+
+### func \(\*AnsiEscapeSequence\) V8GetWhite
+
+```go
+func (e *AnsiEscapeSequence) V8GetWhite(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.V8GetYellow" />
+
+### func \(\*AnsiEscapeSequence\) V8GetYellow
+
+```go
+func (e *AnsiEscapeSequence) V8GetYellow(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AnsiEscapeSequence.White" />
+
+### func \(\*AnsiEscapeSequence\) White
+
+```go
+func (e *AnsiEscapeSequence) White() *AnsiEscapeSequence
+```
+
+
+
+<a id="AnsiEscapeSequence.Yellow" />
+
+### func \(\*AnsiEscapeSequence\) Yellow
+
+```go
+func (e *AnsiEscapeSequence) Yellow() *AnsiEscapeSequence
+```
+
+
+
+<a id="ReadStream"></a>
+
+## type ReadStream
+
+
+
+```go
+type ReadStream interface {
+    stream.Readable
+    IsRaw() bool
+    IsTTY() bool
+    SetRawMode(in isolates.FunctionArgs, mode bool) (*isolates.Value, error)
+}
+```
+
+<a id="ReadStreamBase"></a>
+
+## type ReadStreamBase
+
+
+
+```go
+type ReadStreamBase struct {
+    *stream.ReadableBase
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewReadStream" />
+
+### func NewReadStream
+
+```go
+func NewReadStream(in isolates.FunctionArgs) (*ReadStreamBase, error)
+```
+
+
+
+<a id="ReadStreamBase.IsRaw" />
+
+### func \(\*ReadStreamBase\) IsRaw
+
+```go
+func (r *ReadStreamBase) IsRaw() bool
+```
+
+
+
+<a id="ReadStreamBase.IsTTY" />
+
+### func \(\*ReadStreamBase\) IsTTY
+
+```go
+func (r *ReadStreamBase) IsTTY() bool
+```
+
+
+
+<a id="ReadStreamBase.SetRawMode" />
+
+### func \(\*ReadStreamBase\) SetRawMode
+
+```go
+func (r *ReadStreamBase) SetRawMode(in isolates.FunctionArgs, mode bool) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadStreamBase.V8FuncSetRawMode" />
+
+### func \(\*ReadStreamBase\) V8FuncSetRawMode
+
+```go
+func (r *ReadStreamBase) V8FuncSetRawMode(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadStreamBase.V8GetIsRaw" />
+
+### func \(\*ReadStreamBase\) V8GetIsRaw
+
+```go
+func (r *ReadStreamBase) V8GetIsRaw(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="ReadStreamBase.V8GetIsTTY" />
+
+### func \(\*ReadStreamBase\) V8GetIsTTY
+
+```go
+func (r *ReadStreamBase) V8GetIsTTY(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WriteStream"></a>
+
+## type WriteStream
+
+
+
+```go
+type WriteStream interface {
+    stream.Writable
+    IsTTY() bool
+    GetWindowSize() ([]int, error)
+    Rows() (int, error)
+    Columns() (int, error)
+}
+```
+
+<a id="WriteStreamBase"></a>
+
+## type WriteStreamBase
+
+
+
+```go
+type WriteStreamBase struct {
+    *stream.WritableBase
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewWriteStream" />
+
+### func NewWriteStream
+
+```go
+func NewWriteStream(in isolates.FunctionArgs) (*WriteStreamBase, error)
+```
+
+
+
+<a id="WriteStreamBase.Clear" />
+
+### func \(\*WriteStreamBase\) Clear
+
+```go
+func (w *WriteStreamBase) Clear() error
+```
+
+
+
+<a id="WriteStreamBase.Columns" />
+
+### func \(\*WriteStreamBase\) Columns
+
+```go
+func (w *WriteStreamBase) Columns() (int, error)
+```
+
+
+
+<a id="WriteStreamBase.GetWindowSize" />
+
+### func \(\*WriteStreamBase\) GetWindowSize
+
+```go
+func (w *WriteStreamBase) GetWindowSize() ([]int, error)
+```
+
+
+
+<a id="WriteStreamBase.IsTTY" />
+
+### func \(\*WriteStreamBase\) IsTTY
+
+```go
+func (w *WriteStreamBase) IsTTY() bool
+```
+
+
+
+<a id="WriteStreamBase.Rows" />
+
+### func \(\*WriteStreamBase\) Rows
+
+```go
+func (w *WriteStreamBase) Rows() (int, error)
+```
+
+
+
+<a id="WriteStreamBase.V8FuncClear" />
+
+### func \(\*WriteStreamBase\) V8FuncClear
+
+```go
+func (w *WriteStreamBase) V8FuncClear(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WriteStreamBase.V8FuncGetWindowSize" />
+
+### func \(\*WriteStreamBase\) V8FuncGetWindowSize
+
+```go
+func (w *WriteStreamBase) V8FuncGetWindowSize(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WriteStreamBase.V8GetColumns" />
+
+### func \(\*WriteStreamBase\) V8GetColumns
+
+```go
+func (w *WriteStreamBase) V8GetColumns(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WriteStreamBase.V8GetIsTTY" />
+
+### func \(\*WriteStreamBase\) V8GetIsTTY
+
+```go
+func (w *WriteStreamBase) V8GetIsTTY(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WriteStreamBase.V8GetRows" />
+
+### func \(\*WriteStreamBase\) V8GetRows
+
+```go
+func (w *WriteStreamBase) V8GetRows(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+

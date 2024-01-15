@@ -3,11 +3,11 @@
 package tty
 
 import (
-  isolates "github.com/grexie/isolates"
   reflect "reflect"
+  isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("tty", "/Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("tty", "ansi.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "ANSI", func (in isolates.FunctionArgs) (*AnsiEscapeSequence, error) {
     return NewAnsiEscapeSequence(), nil
   }); err != nil {

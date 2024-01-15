@@ -1,0 +1,23 @@
+//js:package native/macos/io-kit
+package io_kit
+
+//go:generate go run github.com/grexie/isolates/codegen
+
+/*
+struct IOKit.SBCModePageRigidDiskGeometry
+*/
+
+type SBCModePageRigidDiskGeometry struct {
+  Header ModePageFormatHeader `v8:"header"`
+  NUMBEROFCYLINDERS [3]byte `v8:"nUMBEROFCYLINDERS"`
+  NUMBEROFHEADS byte `v8:"nUMBEROFHEADS"`
+  STARTINGCYLINDERWRITEPRECOMPENSATION [3]byte `v8:"sTARTINGCYLINDERWRITEPRECOMPENSATION"`
+  STARTINGCYLINDERREDUCEDWRITECURRENT [3]byte `v8:"sTARTINGCYLINDERREDUCEDWRITECURRENT"`
+  DEVICESTEPRATE uint16 `v8:"dEVICESTEPRATE"`
+  LANDINGZONECYLINDER [3]byte `v8:"lANDINGZONECYLINDER"`
+  RPL byte `v8:"rPL"`
+  ROTATIONALOFFSET byte `v8:"rOTATIONALOFFSET"`
+  RESERVED byte `v8:"rESERVED"`
+  MEDIUMROTATIONRATE uint16 `v8:"mEDIUMROTATIONRATE"`
+  RESERVED1 [2]byte `v8:"rESERVED1"`
+}

@@ -2,6 +2,8 @@
 
 package stream
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"context"
 	"errors"
@@ -23,6 +25,7 @@ const (
 	ReadableStreamStateResumed
 )
 
+//js:alias ReadableBase
 type Readable interface {
 	Stream
 	io.Reader

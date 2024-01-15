@@ -1,0 +1,769 @@
+---
+package: "github.com/gosolid/solid/pkg/runtime/util"
+language: go
+---
+
+# util
+
+```go
+import "github.com/gosolid/solid/pkg/runtime/util"
+```
+
+## Index
+
+<ul>
+
+
+
+<li parentName="ul"><a href="#Deprecate">
+
+```go
+func Deprecate(fn *isolates.Value, msg ...*isolates.Value) (isolates.Function, error)
+```
+
+</a></li>
+
+
+
+<li parentName="ul"><a href="#Format">
+
+```go
+func Format(ctx context.Context, argsv ...any) (string, error)
+```
+
+</a></li>
+
+
+
+<li parentName="ul"><a href="#FormatWithOptions">
+
+```go
+func FormatWithOptions(ctx context.Context, options any, argsv ...any) (string, error)
+```
+
+</a></li>
+
+
+
+<li parentName="ul"><a href="#Inherits">
+
+```go
+func Inherits(ctx context.Context, constructor *isolates.Value, superConstructor *isolates.Value) (*isolates.Value, error)
+```
+
+</a></li>
+
+
+
+<li parentName="ul"><a href="#Inspect">
+
+```go
+func Inspect(ctx context.Context, object any, args ...any) (string, error)
+```
+
+</a></li>
+
+
+
+<li parentName="ul"><a href="#Promisify">
+
+```go
+func Promisify(ctx context.Context, fn *isolates.Value) (isolates.Function, error)
+```
+
+</a></li>
+
+<li parentName="ul"><a href="#Counter">
+
+```go
+type Counter
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewCounter">
+
+```go
+func NewCounter(size int64, duration time.Duration) *Counter
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.Add">
+
+```go
+func (c *Counter) Add(value int64, now time.Time) *Counter
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.AddDuration">
+
+```go
+func (c *Counter) AddDuration(from time.Time, to time.Time) *Counter
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.AddDurationNow">
+
+```go
+func (c *Counter) AddDurationNow(from time.Time) *Counter
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.AddNow">
+
+```go
+func (c *Counter) AddNow(value int64) *Counter
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.Clone">
+
+```go
+func (c *Counter) Clone(ctx context.Context) (*Counter, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.FloorTime">
+
+```go
+func (c *Counter) FloorTime(now time.Time) time.Time
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.Sub">
+
+```go
+func (c *Counter) Sub(value int64, now time.Time) *Counter
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.Sum">
+
+```go
+func (c *Counter) Sum(duration time.Duration, now time.Time) int64
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.SumAll">
+
+```go
+func (c *Counter) SumAll(now time.Time) int64
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.SumAllDuration">
+
+```go
+func (c *Counter) SumAllDuration(now time.Time) time.Duration
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.SumAllDurationNow">
+
+```go
+func (c *Counter) SumAllDurationNow() time.Duration
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.SumAllNow">
+
+```go
+func (c *Counter) SumAllNow() int64
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.SumDuration">
+
+```go
+func (c *Counter) SumDuration(duration time.Duration, now time.Time) time.Duration
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.SumDurationNow">
+
+```go
+func (c *Counter) SumDurationNow(duration time.Duration) time.Duration
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.SumNow">
+
+```go
+func (c *Counter) SumNow(duration time.Duration) int64
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncAdd">
+
+```go
+func (c *Counter) V8FuncAdd(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncAddDuration">
+
+```go
+func (c *Counter) V8FuncAddDuration(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncAddDurationNow">
+
+```go
+func (c *Counter) V8FuncAddDurationNow(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncAddNow">
+
+```go
+func (c *Counter) V8FuncAddNow(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncClone">
+
+```go
+func (c *Counter) V8FuncClone(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncFloorTime">
+
+```go
+func (c *Counter) V8FuncFloorTime(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncSub">
+
+```go
+func (c *Counter) V8FuncSub(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncSum">
+
+```go
+func (c *Counter) V8FuncSum(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncSumAll">
+
+```go
+func (c *Counter) V8FuncSumAll(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncSumAllDuration">
+
+```go
+func (c *Counter) V8FuncSumAllDuration(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncSumAllDurationNow">
+
+```go
+func (c *Counter) V8FuncSumAllDurationNow(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncSumAllNow">
+
+```go
+func (c *Counter) V8FuncSumAllNow(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncSumDuration">
+
+```go
+func (c *Counter) V8FuncSumDuration(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncSumDurationNow">
+
+```go
+func (c *Counter) V8FuncSumDurationNow(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Counter.V8FuncSumNow">
+
+```go
+func (c *Counter) V8FuncSumNow(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#Import">
+
+```go
+type Import
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#InspectOptions">
+
+```go
+type InspectOptions
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Inspector">
+
+```go
+type Inspector
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewInspector">
+
+```go
+func NewInspector(in isolates.FunctionArgs) (*Inspector, error)
+```
+
+</a></li>
+</ul></li>
+
+</ul>
+
+<a id="Deprecate" />
+
+## func Deprecate
+
+```go
+func Deprecate(fn *isolates.Value, msg ...*isolates.Value) (isolates.Function, error)
+```
+
+
+
+<a id="Format" />
+
+## func Format
+
+```go
+func Format(ctx context.Context, argsv ...any) (string, error)
+```
+
+
+
+<a id="FormatWithOptions" />
+
+## func FormatWithOptions
+
+```go
+func FormatWithOptions(ctx context.Context, options any, argsv ...any) (string, error)
+```
+
+
+
+<a id="Inherits" />
+
+## func Inherits
+
+```go
+func Inherits(ctx context.Context, constructor *isolates.Value, superConstructor *isolates.Value) (*isolates.Value, error)
+```
+
+
+
+<a id="Inspect" />
+
+## func Inspect
+
+```go
+func Inspect(ctx context.Context, object any, args ...any) (string, error)
+```
+
+
+
+<a id="Promisify" />
+
+## func Promisify
+
+```go
+func Promisify(ctx context.Context, fn *isolates.Value) (isolates.Function, error)
+```
+
+
+
+<a id="Counter"></a>
+
+## type Counter
+
+
+
+```go
+type Counter struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewCounter" />
+
+### func NewCounter
+
+```go
+func NewCounter(size int64, duration time.Duration) *Counter
+```
+
+
+
+<a id="Counter.Add" />
+
+### func \(\*Counter\) Add
+
+```go
+func (c *Counter) Add(value int64, now time.Time) *Counter
+```
+
+
+
+<a id="Counter.AddDuration" />
+
+### func \(\*Counter\) AddDuration
+
+```go
+func (c *Counter) AddDuration(from time.Time, to time.Time) *Counter
+```
+
+
+
+<a id="Counter.AddDurationNow" />
+
+### func \(\*Counter\) AddDurationNow
+
+```go
+func (c *Counter) AddDurationNow(from time.Time) *Counter
+```
+
+
+
+<a id="Counter.AddNow" />
+
+### func \(\*Counter\) AddNow
+
+```go
+func (c *Counter) AddNow(value int64) *Counter
+```
+
+
+
+<a id="Counter.Clone" />
+
+### func \(\*Counter\) Clone
+
+```go
+func (c *Counter) Clone(ctx context.Context) (*Counter, error)
+```
+
+
+
+<a id="Counter.FloorTime" />
+
+### func \(\*Counter\) FloorTime
+
+```go
+func (c *Counter) FloorTime(now time.Time) time.Time
+```
+
+
+
+<a id="Counter.Sub" />
+
+### func \(\*Counter\) Sub
+
+```go
+func (c *Counter) Sub(value int64, now time.Time) *Counter
+```
+
+
+
+<a id="Counter.Sum" />
+
+### func \(\*Counter\) Sum
+
+```go
+func (c *Counter) Sum(duration time.Duration, now time.Time) int64
+```
+
+
+
+<a id="Counter.SumAll" />
+
+### func \(\*Counter\) SumAll
+
+```go
+func (c *Counter) SumAll(now time.Time) int64
+```
+
+
+
+<a id="Counter.SumAllDuration" />
+
+### func \(\*Counter\) SumAllDuration
+
+```go
+func (c *Counter) SumAllDuration(now time.Time) time.Duration
+```
+
+
+
+<a id="Counter.SumAllDurationNow" />
+
+### func \(\*Counter\) SumAllDurationNow
+
+```go
+func (c *Counter) SumAllDurationNow() time.Duration
+```
+
+
+
+<a id="Counter.SumAllNow" />
+
+### func \(\*Counter\) SumAllNow
+
+```go
+func (c *Counter) SumAllNow() int64
+```
+
+
+
+<a id="Counter.SumDuration" />
+
+### func \(\*Counter\) SumDuration
+
+```go
+func (c *Counter) SumDuration(duration time.Duration, now time.Time) time.Duration
+```
+
+
+
+<a id="Counter.SumDurationNow" />
+
+### func \(\*Counter\) SumDurationNow
+
+```go
+func (c *Counter) SumDurationNow(duration time.Duration) time.Duration
+```
+
+
+
+<a id="Counter.SumNow" />
+
+### func \(\*Counter\) SumNow
+
+```go
+func (c *Counter) SumNow(duration time.Duration) int64
+```
+
+
+
+<a id="Counter.V8FuncAdd" />
+
+### func \(\*Counter\) V8FuncAdd
+
+```go
+func (c *Counter) V8FuncAdd(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Counter.V8FuncAddDuration" />
+
+### func \(\*Counter\) V8FuncAddDuration
+
+```go
+func (c *Counter) V8FuncAddDuration(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Counter.V8FuncAddDurationNow" />
+
+### func \(\*Counter\) V8FuncAddDurationNow
+
+```go
+func (c *Counter) V8FuncAddDurationNow(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Counter.V8FuncAddNow" />
+
+### func \(\*Counter\) V8FuncAddNow
+
+```go
+func (c *Counter) V8FuncAddNow(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Counter.V8FuncClone" />
+
+### func \(\*Counter\) V8FuncClone
+
+```go
+func (c *Counter) V8FuncClone(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Counter.V8FuncFloorTime" />
+
+### func \(\*Counter\) V8FuncFloorTime
+
+```go
+func (c *Counter) V8FuncFloorTime(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Counter.V8FuncSub" />
+
+### func \(\*Counter\) V8FuncSub
+
+```go
+func (c *Counter) V8FuncSub(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Counter.V8FuncSum" />
+
+### func \(\*Counter\) V8FuncSum
+
+```go
+func (c *Counter) V8FuncSum(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Counter.V8FuncSumAll" />
+
+### func \(\*Counter\) V8FuncSumAll
+
+```go
+func (c *Counter) V8FuncSumAll(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Counter.V8FuncSumAllDuration" />
+
+### func \(\*Counter\) V8FuncSumAllDuration
+
+```go
+func (c *Counter) V8FuncSumAllDuration(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Counter.V8FuncSumAllDurationNow" />
+
+### func \(\*Counter\) V8FuncSumAllDurationNow
+
+```go
+func (c *Counter) V8FuncSumAllDurationNow(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Counter.V8FuncSumAllNow" />
+
+### func \(\*Counter\) V8FuncSumAllNow
+
+```go
+func (c *Counter) V8FuncSumAllNow(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Counter.V8FuncSumDuration" />
+
+### func \(\*Counter\) V8FuncSumDuration
+
+```go
+func (c *Counter) V8FuncSumDuration(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Counter.V8FuncSumDurationNow" />
+
+### func \(\*Counter\) V8FuncSumDurationNow
+
+```go
+func (c *Counter) V8FuncSumDurationNow(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Counter.V8FuncSumNow" />
+
+### func \(\*Counter\) V8FuncSumNow
+
+```go
+func (c *Counter) V8FuncSumNow(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Import"></a>
+
+## type Import
+
+
+
+```go
+type Import struct{}
+```
+
+<a id="InspectOptions"></a>
+
+## type InspectOptions
+
+
+
+```go
+type InspectOptions struct {
+    ShowHidden       bool `v8:"showHidden"`
+    Depth            int  `v8:"depth"`
+    Colors           bool `v8:"colors"`
+    CustomInspect    bool `v8:"customInspect"`
+    ShowProxy        bool `v8:"showProxy"`
+    MaxArrayLength   int  `v8:"maxArrayLength"`
+    MaxStringLength  int  `v8:"maxStringLength"`
+    BreakLength      int  `v8:"breakLength"`
+    Compact          any  `v8:"compact"`
+    Sorted           any  `v8:"sorted"`
+    Getters          any  `v8:"getters"`
+    NumericSeparator bool `v8:"numericSeparator"`
+}
+```
+
+<a id="Inspector"></a>
+
+## type Inspector
+
+
+
+```go
+type Inspector struct {
+    *stream.DuplexBase
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewInspector" />
+
+### func NewInspector
+
+```go
+func NewInspector(in isolates.FunctionArgs) (*Inspector, error)
+```
+
+
+

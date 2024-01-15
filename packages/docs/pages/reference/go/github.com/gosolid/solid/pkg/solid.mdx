@@ -1,0 +1,1076 @@
+---
+package: "github.com/gosolid/solid/pkg/solid"
+language: go
+---
+
+# solid
+
+```go
+import "github.com/gosolid/solid/pkg/solid"
+```
+
+## Index
+
+<ul>
+
+<li parentName="ul"><a href="#Process">
+
+```go
+type Process
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewProcess">
+
+```go
+func NewProcess(t *WorkerTask) *Process
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.Argv">
+
+```go
+func (c *Process) Argv() []string
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.Cwd">
+
+```go
+func (c *Process) Cwd() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.Env">
+
+```go
+func (c *Process) Env() map[string]string
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.Exit">
+
+```go
+func (c *Process) Exit(exitCode int) error
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.NextTick">
+
+```go
+func (c *Process) NextTick(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.Platform">
+
+```go
+func (c *Process) Platform() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.Stderr">
+
+```go
+func (c *Process) Stderr() stream.Writable
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.Stdin">
+
+```go
+func (c *Process) Stdin() stream.Readable
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.Stdout">
+
+```go
+func (c *Process) Stdout() stream.Writable
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.Task">
+
+```go
+func (c *Process) Task() *WorkerTask
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.V8Construct">
+
+```go
+func (p *Process) V8Construct(in isolates.FunctionArgs)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.V8FuncCwd">
+
+```go
+func (c *Process) V8FuncCwd(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.V8FuncExit">
+
+```go
+func (c *Process) V8FuncExit(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.V8FuncNextTick">
+
+```go
+func (c *Process) V8FuncNextTick(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.V8GetArgv">
+
+```go
+func (c *Process) V8GetArgv(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.V8GetEnv">
+
+```go
+func (c *Process) V8GetEnv(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.V8GetPlatform">
+
+```go
+func (c *Process) V8GetPlatform(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.V8GetStderr">
+
+```go
+func (c *Process) V8GetStderr(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.V8GetStdin">
+
+```go
+func (c *Process) V8GetStdin(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.V8GetStdout">
+
+```go
+func (c *Process) V8GetStdout(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.V8GetTask">
+
+```go
+func (c *Process) V8GetTask(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.V8GetVersions">
+
+```go
+func (c *Process) V8GetVersions(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#Process.Versions">
+
+```go
+func (c *Process) Versions() *Versions
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#TaskOptions">
+
+```go
+type TaskOptions
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Ticker">
+
+```go
+type Ticker
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Versions">
+
+```go
+type Versions
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#WorkerTask">
+
+```go
+type WorkerTask
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewTask">
+
+```go
+func NewTask(options TaskOptions) (*WorkerTask, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.ClearInterval">
+
+```go
+func (c *WorkerTask) ClearInterval(ticker int64)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.ClearTimeout">
+
+```go
+func (c *WorkerTask) ClearTimeout(timer int64)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.Clone">
+
+```go
+func (t *WorkerTask) Clone() (*WorkerTask, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.ExitCode">
+
+```go
+func (t *WorkerTask) ExitCode() int
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.GetExecutionContext">
+
+```go
+func (t *WorkerTask) GetExecutionContext() context.Context
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.GetIsolate">
+
+```go
+func (c *WorkerTask) GetIsolate() *isolates.Isolate
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.OnTerminate">
+
+```go
+func (t *WorkerTask) OnTerminate(callback func() error) func()
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.Ref">
+
+```go
+func (c *WorkerTask) Ref()
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.SetExitCode">
+
+```go
+func (t *WorkerTask) SetExitCode(exitCode int)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.SetInterval">
+
+```go
+func (c *WorkerTask) SetInterval(ctx context.Context, callback *isolates.Value, duration time.Duration) (int64, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.SetTimeout">
+
+```go
+func (c *WorkerTask) SetTimeout(callback *isolates.Value, duration time.Duration) (int64, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.Start">
+
+```go
+func (t *WorkerTask) Start() error
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.Stats">
+
+```go
+func (c *WorkerTask) Stats(ctx context.Context) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.Stop">
+
+```go
+func (t *WorkerTask) Stop() error
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.Terminate">
+
+```go
+func (c *WorkerTask) Terminate()
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.TimeCounter">
+
+```go
+func (c *WorkerTask) TimeCounter(ctx context.Context) (*util.Counter, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.Unref">
+
+```go
+func (c *WorkerTask) Unref()
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.V8FuncClearInterval">
+
+```go
+func (c *WorkerTask) V8FuncClearInterval(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.V8FuncClearTimeout">
+
+```go
+func (c *WorkerTask) V8FuncClearTimeout(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.V8FuncCreateTask">
+
+```go
+func (c *WorkerTask) V8FuncCreateTask(taskFS fs.FS, requires []string, taskPath string) (*WorkerTask, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.V8FuncSetImmediate">
+
+```go
+func (c *WorkerTask) V8FuncSetImmediate(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.V8FuncSetInterval">
+
+```go
+func (c *WorkerTask) V8FuncSetInterval(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.V8FuncSetTimeout">
+
+```go
+func (c *WorkerTask) V8FuncSetTimeout(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.V8FuncWait">
+
+```go
+func (t *WorkerTask) V8FuncWait(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.V8GetExitCode">
+
+```go
+func (t *WorkerTask) V8GetExitCode(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.V8GetStats">
+
+```go
+func (c *WorkerTask) V8GetStats(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.V8GetTimeCounter">
+
+```go
+func (c *WorkerTask) V8GetTimeCounter(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#WorkerTask.Wait">
+
+```go
+func (t *WorkerTask) Wait(ctx context.Context) (int, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#WorkerTaskStats">
+
+```go
+type WorkerTaskStats
+```
+
+</a><ul>
+<li parentName="ul"><a href="#NewWorkerTaskStats">
+
+```go
+func NewWorkerTaskStats() *WorkerTaskStats
+```
+
+</a></li>
+</ul></li>
+
+</ul>
+
+<a id="Process"></a>
+
+## type Process
+
+
+
+```go
+type Process struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewProcess" />
+
+### func NewProcess
+
+```go
+func NewProcess(t *WorkerTask) *Process
+```
+
+
+
+<a id="Process.Argv" />
+
+### func \(\*Process\) Argv
+
+```go
+func (c *Process) Argv() []string
+```
+
+
+
+<a id="Process.Cwd" />
+
+### func \(\*Process\) Cwd
+
+```go
+func (c *Process) Cwd() string
+```
+
+
+
+<a id="Process.Env" />
+
+### func \(\*Process\) Env
+
+```go
+func (c *Process) Env() map[string]string
+```
+
+
+
+<a id="Process.Exit" />
+
+### func \(\*Process\) Exit
+
+```go
+func (c *Process) Exit(exitCode int) error
+```
+
+
+
+<a id="Process.NextTick" />
+
+### func \(\*Process\) NextTick
+
+```go
+func (c *Process) NextTick(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Process.Platform" />
+
+### func \(\*Process\) Platform
+
+```go
+func (c *Process) Platform() string
+```
+
+
+
+<a id="Process.Stderr" />
+
+### func \(\*Process\) Stderr
+
+```go
+func (c *Process) Stderr() stream.Writable
+```
+
+
+
+<a id="Process.Stdin" />
+
+### func \(\*Process\) Stdin
+
+```go
+func (c *Process) Stdin() stream.Readable
+```
+
+
+
+<a id="Process.Stdout" />
+
+### func \(\*Process\) Stdout
+
+```go
+func (c *Process) Stdout() stream.Writable
+```
+
+
+
+<a id="Process.Task" />
+
+### func \(\*Process\) Task
+
+```go
+func (c *Process) Task() *WorkerTask
+```
+
+
+
+<a id="Process.V8Construct" />
+
+### func \(\*Process\) V8Construct
+
+```go
+func (p *Process) V8Construct(in isolates.FunctionArgs)
+```
+
+
+
+<a id="Process.V8FuncCwd" />
+
+### func \(\*Process\) V8FuncCwd
+
+```go
+func (c *Process) V8FuncCwd(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Process.V8FuncExit" />
+
+### func \(\*Process\) V8FuncExit
+
+```go
+func (c *Process) V8FuncExit(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Process.V8FuncNextTick" />
+
+### func \(\*Process\) V8FuncNextTick
+
+```go
+func (c *Process) V8FuncNextTick(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Process.V8GetArgv" />
+
+### func \(\*Process\) V8GetArgv
+
+```go
+func (c *Process) V8GetArgv(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Process.V8GetEnv" />
+
+### func \(\*Process\) V8GetEnv
+
+```go
+func (c *Process) V8GetEnv(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Process.V8GetPlatform" />
+
+### func \(\*Process\) V8GetPlatform
+
+```go
+func (c *Process) V8GetPlatform(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Process.V8GetStderr" />
+
+### func \(\*Process\) V8GetStderr
+
+```go
+func (c *Process) V8GetStderr(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Process.V8GetStdin" />
+
+### func \(\*Process\) V8GetStdin
+
+```go
+func (c *Process) V8GetStdin(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Process.V8GetStdout" />
+
+### func \(\*Process\) V8GetStdout
+
+```go
+func (c *Process) V8GetStdout(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Process.V8GetTask" />
+
+### func \(\*Process\) V8GetTask
+
+```go
+func (c *Process) V8GetTask(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Process.V8GetVersions" />
+
+### func \(\*Process\) V8GetVersions
+
+```go
+func (c *Process) V8GetVersions(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="Process.Versions" />
+
+### func \(\*Process\) Versions
+
+```go
+func (c *Process) Versions() *Versions
+```
+
+
+
+<a id="TaskOptions"></a>
+
+## type TaskOptions
+
+
+
+```go
+type TaskOptions struct {
+    FS       fs.FS
+    Requires []string
+    Script   string
+    Stdin    io.ReadCloser
+    Stdout   io.WriteCloser
+    Stderr   io.WriteCloser
+    Env      map[string]string
+}
+```
+
+<a id="Ticker"></a>
+
+## type Ticker
+
+
+
+```go
+type Ticker struct {
+    *time.Ticker
+    StopC chan bool
+}
+```
+
+<a id="Versions"></a>
+
+## type Versions
+
+
+
+```go
+type Versions struct {
+    Node string `v8:"node"`
+}
+```
+
+<a id="WorkerTask"></a>
+
+## type WorkerTask
+
+
+
+```go
+type WorkerTask struct {
+    FS fs.FS `v8:"fs"`
+    // contains filtered or unexported fields
+}
+```
+
+<a id="NewTask" />
+
+### func NewTask
+
+```go
+func NewTask(options TaskOptions) (*WorkerTask, error)
+```
+
+
+
+<a id="WorkerTask.ClearInterval" />
+
+### func \(\*WorkerTask\) ClearInterval
+
+```go
+func (c *WorkerTask) ClearInterval(ticker int64)
+```
+
+
+
+<a id="WorkerTask.ClearTimeout" />
+
+### func \(\*WorkerTask\) ClearTimeout
+
+```go
+func (c *WorkerTask) ClearTimeout(timer int64)
+```
+
+
+
+<a id="WorkerTask.Clone" />
+
+### func \(\*WorkerTask\) Clone
+
+```go
+func (t *WorkerTask) Clone() (*WorkerTask, error)
+```
+
+
+
+<a id="WorkerTask.ExitCode" />
+
+### func \(\*WorkerTask\) ExitCode
+
+```go
+func (t *WorkerTask) ExitCode() int
+```
+
+
+
+<a id="WorkerTask.GetExecutionContext" />
+
+### func \(\*WorkerTask\) GetExecutionContext
+
+```go
+func (t *WorkerTask) GetExecutionContext() context.Context
+```
+
+
+
+<a id="WorkerTask.GetIsolate" />
+
+### func \(\*WorkerTask\) GetIsolate
+
+```go
+func (c *WorkerTask) GetIsolate() *isolates.Isolate
+```
+
+
+
+<a id="WorkerTask.OnTerminate" />
+
+### func \(\*WorkerTask\) OnTerminate
+
+```go
+func (t *WorkerTask) OnTerminate(callback func() error) func()
+```
+
+
+
+<a id="WorkerTask.Ref" />
+
+### func \(\*WorkerTask\) Ref
+
+```go
+func (c *WorkerTask) Ref()
+```
+
+
+
+<a id="WorkerTask.SetExitCode" />
+
+### func \(\*WorkerTask\) SetExitCode
+
+```go
+func (t *WorkerTask) SetExitCode(exitCode int)
+```
+
+
+
+<a id="WorkerTask.SetInterval" />
+
+### func \(\*WorkerTask\) SetInterval
+
+```go
+func (c *WorkerTask) SetInterval(ctx context.Context, callback *isolates.Value, duration time.Duration) (int64, error)
+```
+
+
+
+<a id="WorkerTask.SetTimeout" />
+
+### func \(\*WorkerTask\) SetTimeout
+
+```go
+func (c *WorkerTask) SetTimeout(callback *isolates.Value, duration time.Duration) (int64, error)
+```
+
+
+
+<a id="WorkerTask.Start" />
+
+### func \(\*WorkerTask\) Start
+
+```go
+func (t *WorkerTask) Start() error
+```
+
+
+
+<a id="WorkerTask.Stats" />
+
+### func \(\*WorkerTask\) Stats
+
+```go
+func (c *WorkerTask) Stats(ctx context.Context) (*isolates.Value, error)
+```
+
+
+
+<a id="WorkerTask.Stop" />
+
+### func \(\*WorkerTask\) Stop
+
+```go
+func (t *WorkerTask) Stop() error
+```
+
+
+
+<a id="WorkerTask.Terminate" />
+
+### func \(\*WorkerTask\) Terminate
+
+```go
+func (c *WorkerTask) Terminate()
+```
+
+
+
+<a id="WorkerTask.TimeCounter" />
+
+### func \(\*WorkerTask\) TimeCounter
+
+```go
+func (c *WorkerTask) TimeCounter(ctx context.Context) (*util.Counter, error)
+```
+
+
+
+<a id="WorkerTask.Unref" />
+
+### func \(\*WorkerTask\) Unref
+
+```go
+func (c *WorkerTask) Unref()
+```
+
+
+
+<a id="WorkerTask.V8FuncClearInterval" />
+
+### func \(\*WorkerTask\) V8FuncClearInterval
+
+```go
+func (c *WorkerTask) V8FuncClearInterval(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WorkerTask.V8FuncClearTimeout" />
+
+### func \(\*WorkerTask\) V8FuncClearTimeout
+
+```go
+func (c *WorkerTask) V8FuncClearTimeout(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WorkerTask.V8FuncCreateTask" />
+
+### func \(\*WorkerTask\) V8FuncCreateTask
+
+```go
+func (c *WorkerTask) V8FuncCreateTask(taskFS fs.FS, requires []string, taskPath string) (*WorkerTask, error)
+```
+
+
+
+<a id="WorkerTask.V8FuncSetImmediate" />
+
+### func \(\*WorkerTask\) V8FuncSetImmediate
+
+```go
+func (c *WorkerTask) V8FuncSetImmediate(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WorkerTask.V8FuncSetInterval" />
+
+### func \(\*WorkerTask\) V8FuncSetInterval
+
+```go
+func (c *WorkerTask) V8FuncSetInterval(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WorkerTask.V8FuncSetTimeout" />
+
+### func \(\*WorkerTask\) V8FuncSetTimeout
+
+```go
+func (c *WorkerTask) V8FuncSetTimeout(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WorkerTask.V8FuncWait" />
+
+### func \(\*WorkerTask\) V8FuncWait
+
+```go
+func (t *WorkerTask) V8FuncWait(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WorkerTask.V8GetExitCode" />
+
+### func \(\*WorkerTask\) V8GetExitCode
+
+```go
+func (t *WorkerTask) V8GetExitCode(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WorkerTask.V8GetStats" />
+
+### func \(\*WorkerTask\) V8GetStats
+
+```go
+func (c *WorkerTask) V8GetStats(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WorkerTask.V8GetTimeCounter" />
+
+### func \(\*WorkerTask\) V8GetTimeCounter
+
+```go
+func (c *WorkerTask) V8GetTimeCounter(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="WorkerTask.Wait" />
+
+### func \(\*WorkerTask\) Wait
+
+```go
+func (t *WorkerTask) Wait(ctx context.Context) (int, error)
+```
+
+
+
+<a id="WorkerTaskStats"></a>
+
+## type WorkerTaskStats
+
+
+
+```go
+type WorkerTaskStats struct {
+    Contexts                int           `v8:"contexts"`
+    Values                  int           `v8:"values"`
+    Receivers               int           `v8:"receivers"`
+    ComputeDuration         time.Duration `v8:"computeDuration"`
+    ComputeDuration5        time.Duration `v8:"computeDuration5"`
+    ComputeDuration15       time.Duration `v8:"computeDuration15"`
+    ComputeDuration30       time.Duration `v8:"computeDuration30"`
+    ComputeDuration60       time.Duration `v8:"computeDuration60"`
+    ComputeDuration120      time.Duration `v8:"computeDuration120"`
+    DoesZapGarbage          bool          `v8:"doesZapGarbage"`
+    HeapSizeLimit           uint64        `v8:"heapSizeLimit"`
+    MallocedMemory          uint64        `v8:"mallocedMemory"`
+    PeakMallocedMemory      uint64        `v8:"peakMallocedMemory"`
+    TotalAvailableSize      uint64        `v8:"totalAvailableSize"`
+    TotalHeapSize           uint64        `v8:"totalHeapSize"`
+    TotalHeapSizeExecutable uint64        `v8:"totalHeapSizeExecutable"`
+    TotalPhysicalSize       uint64        `v8:"totalPhysicalSize"`
+    UsedHeapSize            uint64        `v8:"usedHeapSize"`
+}
+```
+
+<a id="NewWorkerTaskStats" />
+
+### func NewWorkerTaskStats
+
+```go
+func NewWorkerTaskStats() *WorkerTaskStats
+```
+
+
+

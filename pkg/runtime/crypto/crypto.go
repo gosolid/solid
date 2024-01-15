@@ -8,11 +8,14 @@ import (
 	"crypto/sha512"
 	"hash"
 	"hash/crc32"
+
+	"github.com/gosolid/solid/pkg/runtime/buffer"
 )
+
+var _ buffer.Buffer
 
 //go:generate go run github.com/grexie/isolates/codegen
 
-//js:class Hash
 type Hash struct {
 	algorithm string
 	hash      hash.Hash
@@ -64,6 +67,7 @@ func (h *Hash) Write(b []byte) (int, error) {
 }
 
 //js:method digest
+//js:return buffer.Buffer
 func (h *Hash) Sum(b []byte) []byte {
 	return h.hash.Sum(b)
 }

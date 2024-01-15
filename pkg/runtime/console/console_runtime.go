@@ -7,7 +7,7 @@ import (
   isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("console", "/Users/tim/src/grexie/solid/pkg/runtime/console/console.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+var _ = isolates.RegisterRuntime("console", "console.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "Console", func (in isolates.FunctionArgs) (*ConsoleBase, error) {
     return NewConsole(in)
   }); err != nil {

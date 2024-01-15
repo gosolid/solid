@@ -2,6 +2,8 @@
 
 package fs
 
+//go:generate go run github.com/grexie/isolates/codegen
+
 import (
 	"context"
 	"embed"
@@ -11,16 +13,19 @@ import (
 	"mime"
 	"path"
 
+	"github.com/gosolid/solid/pkg/runtime/buffer"
 	"github.com/grexie/isolates"
 )
+
+var _ buffer.Buffer
 
 var _ File = &embedfile{}
 var _ filev8 = &embedfile{}
 var _ FS = &embedfs{}
 var _ fsv8 = &embedfs{}
 
-//js:class EmbeddedFile
 type embedfile struct {
+	*filebase
 	fs   *embedfs
 	file gofs.File
 }
@@ -78,6 +83,7 @@ func (fs *embedfs) ReadDir(ctx context.Context, path string) ([]string, error) {
 
 //js:method readFileSync
 //js:callback-method readFile
+//js:return buffer.Buffer
 func (fs *embedfs) ReadFile(ctx context.Context, path string) ([]byte, error) {
 	if mount, _, err := fs.mounts.Resolve(ctx, path); err != nil && !IsNotExists(err) {
 		return nil, err
@@ -105,7 +111,7 @@ func (fs *embedfs) Open(ctx context.Context, path string) (FileDescriptor, error
 		return 0, err
 	} else {
 
-		return NewFileDescriptor(ctx, &embedfile{fs, file})
+		return NewFileDescriptor(ctx, &embedfile{&filebase{}, fs, file})
 	}
 }
 
@@ -194,7 +200,6 @@ func (f *embedfile) Close(ctx context.Context) error {
 	return f.file.Close()
 }
 
-//js:method createReadStream
 func (f *embedfile) ReadStream(ctx context.Context) (ReadStream, error) {
 	if stream, err := isolates.For(ctx).New(NewReadStream, f.file); err != nil {
 		return nil, err
@@ -205,6 +210,7 @@ func (f *embedfile) ReadStream(ctx context.Context) (ReadStream, error) {
 
 //js:method readAllSync
 //js:callback-method readAll
+//js:return buffer.Buffer
 func (f *embedfile) ReadAll(ctx context.Context) ([]byte, error) {
 	if reader, err := f.ReadStream(ctx); err != nil {
 		return nil, err

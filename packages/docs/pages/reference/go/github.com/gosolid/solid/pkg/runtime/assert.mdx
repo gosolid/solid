@@ -1,0 +1,461 @@
+---
+package: "github.com/gosolid/solid/pkg/runtime/assert"
+language: go
+---
+
+# assert
+
+```go
+import "github.com/gosolid/solid/pkg/runtime/assert"
+```
+
+## Index
+
+<ul>
+
+- [Constants](<#Constants>)
+
+
+
+<li parentName="ul"><a href="#Assert">
+
+```go
+func Assert() error
+```
+
+</a></li>
+
+
+
+<li parentName="ul"><a href="#IsAssertionError">
+
+```go
+func IsAssertionError(err error) bool
+```
+
+</a></li>
+
+
+
+<li parentName="ul"><a href="#NotStrictEqual">
+
+```go
+func NotStrictEqual(actual any, expected any, message ...any) error
+```
+
+</a></li>
+
+<li parentName="ul"><a href="#AssertionError">
+
+```go
+type AssertionError
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#AssertionErrorBase">
+
+```go
+type AssertionErrorBase
+```
+
+</a><ul>
+<li parentName="ul"><a href="#AssertionErrorBase.Actual">
+
+```go
+func (e *AssertionErrorBase) Actual() any
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.Code">
+
+```go
+func (e *AssertionErrorBase) Code() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.Error">
+
+```go
+func (e *AssertionErrorBase) Error() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.Expected">
+
+```go
+func (e *AssertionErrorBase) Expected() any
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.GeneratedMessage">
+
+```go
+func (e *AssertionErrorBase) GeneratedMessage() bool
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.Message">
+
+```go
+func (e *AssertionErrorBase) Message() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.Name">
+
+```go
+func (e *AssertionErrorBase) Name() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.Operator">
+
+```go
+func (e *AssertionErrorBase) Operator() *string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.String">
+
+```go
+func (e *AssertionErrorBase) String() string
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.V8FuncToString">
+
+```go
+func (e *AssertionErrorBase) V8FuncToString(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.V8GetActual">
+
+```go
+func (e *AssertionErrorBase) V8GetActual(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.V8GetCode">
+
+```go
+func (e *AssertionErrorBase) V8GetCode(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.V8GetExpected">
+
+```go
+func (e *AssertionErrorBase) V8GetExpected(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.V8GetGeneratedMessage">
+
+```go
+func (e *AssertionErrorBase) V8GetGeneratedMessage(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.V8GetMessage">
+
+```go
+func (e *AssertionErrorBase) V8GetMessage(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.V8GetName">
+
+```go
+func (e *AssertionErrorBase) V8GetName(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+<li parentName="ul"><a href="#AssertionErrorBase.V8GetOperator">
+
+```go
+func (e *AssertionErrorBase) V8GetOperator(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+</a></li>
+</ul></li><li parentName="ul"><a href="#AssertionErrorOptions">
+
+```go
+type AssertionErrorOptions
+```
+
+</a><ul>
+</ul></li><li parentName="ul"><a href="#Import">
+
+```go
+type Import
+```
+
+</a><ul>
+</ul></li>
+
+</ul>
+
+<a id="Constants" />
+
+## Constants
+
+<a name="AssertionErrorName"></a>
+
+```go
+const (
+    AssertionErrorName string = "AssertionError"
+    AssertionErrorCode        = "ERR_ASSERTION"
+)
+```
+
+<a id="Assert" />
+
+## func Assert
+
+```go
+func Assert() error
+```
+
+
+
+<a id="IsAssertionError" />
+
+## func IsAssertionError
+
+```go
+func IsAssertionError(err error) bool
+```
+
+
+
+<a id="NotStrictEqual" />
+
+## func NotStrictEqual
+
+```go
+func NotStrictEqual(actual any, expected any, message ...any) error
+```
+
+
+
+<a id="AssertionError"></a>
+
+## type AssertionError
+
+
+
+```go
+type AssertionError interface {
+    isolates.Error
+    Actual() *isolates.Value
+    Expected() *isolates.Value
+    Operator() *string
+    GeneratedMessage() bool
+}
+```
+
+<a id="AssertionErrorBase"></a>
+
+## type AssertionErrorBase
+
+
+
+```go
+type AssertionErrorBase struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="AssertionErrorBase.Actual" />
+
+### func \(\*AssertionErrorBase\) Actual
+
+```go
+func (e *AssertionErrorBase) Actual() any
+```
+
+
+
+<a id="AssertionErrorBase.Code" />
+
+### func \(\*AssertionErrorBase\) Code
+
+```go
+func (e *AssertionErrorBase) Code() string
+```
+
+
+
+<a id="AssertionErrorBase.Error" />
+
+### func \(\*AssertionErrorBase\) Error
+
+```go
+func (e *AssertionErrorBase) Error() string
+```
+
+
+
+<a id="AssertionErrorBase.Expected" />
+
+### func \(\*AssertionErrorBase\) Expected
+
+```go
+func (e *AssertionErrorBase) Expected() any
+```
+
+
+
+<a id="AssertionErrorBase.GeneratedMessage" />
+
+### func \(\*AssertionErrorBase\) GeneratedMessage
+
+```go
+func (e *AssertionErrorBase) GeneratedMessage() bool
+```
+
+
+
+<a id="AssertionErrorBase.Message" />
+
+### func \(\*AssertionErrorBase\) Message
+
+```go
+func (e *AssertionErrorBase) Message() string
+```
+
+
+
+<a id="AssertionErrorBase.Name" />
+
+### func \(\*AssertionErrorBase\) Name
+
+```go
+func (e *AssertionErrorBase) Name() string
+```
+
+
+
+<a id="AssertionErrorBase.Operator" />
+
+### func \(\*AssertionErrorBase\) Operator
+
+```go
+func (e *AssertionErrorBase) Operator() *string
+```
+
+
+
+<a id="AssertionErrorBase.String" />
+
+### func \(\*AssertionErrorBase\) String
+
+```go
+func (e *AssertionErrorBase) String() string
+```
+
+
+
+<a id="AssertionErrorBase.V8FuncToString" />
+
+### func \(\*AssertionErrorBase\) V8FuncToString
+
+```go
+func (e *AssertionErrorBase) V8FuncToString(in isolates.FunctionArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AssertionErrorBase.V8GetActual" />
+
+### func \(\*AssertionErrorBase\) V8GetActual
+
+```go
+func (e *AssertionErrorBase) V8GetActual(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AssertionErrorBase.V8GetCode" />
+
+### func \(\*AssertionErrorBase\) V8GetCode
+
+```go
+func (e *AssertionErrorBase) V8GetCode(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AssertionErrorBase.V8GetExpected" />
+
+### func \(\*AssertionErrorBase\) V8GetExpected
+
+```go
+func (e *AssertionErrorBase) V8GetExpected(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AssertionErrorBase.V8GetGeneratedMessage" />
+
+### func \(\*AssertionErrorBase\) V8GetGeneratedMessage
+
+```go
+func (e *AssertionErrorBase) V8GetGeneratedMessage(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AssertionErrorBase.V8GetMessage" />
+
+### func \(\*AssertionErrorBase\) V8GetMessage
+
+```go
+func (e *AssertionErrorBase) V8GetMessage(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AssertionErrorBase.V8GetName" />
+
+### func \(\*AssertionErrorBase\) V8GetName
+
+```go
+func (e *AssertionErrorBase) V8GetName(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AssertionErrorBase.V8GetOperator" />
+
+### func \(\*AssertionErrorBase\) V8GetOperator
+
+```go
+func (e *AssertionErrorBase) V8GetOperator(in isolates.GetterArgs) (*isolates.Value, error)
+```
+
+
+
+<a id="AssertionErrorOptions"></a>
+
+## type AssertionErrorOptions
+
+
+
+```go
+type AssertionErrorOptions struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a id="Import"></a>
+
+## type Import
+
+
+
+```go
+type Import interface{}
+```
+

@@ -1,0 +1,27 @@
+//js:package native/ios/metal
+package metal
+
+//go:generate go run github.com/grexie/isolates/codegen
+
+import (
+  "github.com/gosolid/solid/pkg/runtime/native/ios/objc"
+  "fmt"
+)
+
+/*
+interface Metal.MTLAttributeDescriptorArray : objc.NSObject
+*/
+
+type MTLAttributeDescriptorArray struct {
+  *objc.NSObject
+
+}
+
+func (r *MTLAttributeDescriptorArray) ObjectAtIndexedSubscript() (any, error) {
+  return nil, fmt.Errorf("unimplemented")
+}
+
+func (r *MTLAttributeDescriptorArray) SetObject() (any, error) {
+  return nil, fmt.Errorf("unimplemented")
+}
+
