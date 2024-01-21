@@ -47,7 +47,7 @@ describe('http.request', () => {
             let i = 0;
             const next = () => {
                 console.info('calling res.write');
-                res.write(bytes.slice(i, 1024), null, (err) => {
+                res.write(bytes.slice(i, 1024), 'utf8', (err) => {
                     console.info('callback', err)
                 });
                 
