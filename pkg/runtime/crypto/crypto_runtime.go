@@ -3,8 +3,8 @@
 package crypto
 
 import (
-  reflect "reflect"
   isolates "github.com/grexie/isolates"
+  reflect "reflect"
 )
 
 var _ = isolates.RegisterRuntime("native:@grexie/workers/crypto", "crypto.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {

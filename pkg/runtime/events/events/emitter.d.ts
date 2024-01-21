@@ -23,27 +23,27 @@ declare module "events" {
   once(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 106 @column 0 */
   emit(  ): void;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 156 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 154 @column 0 */
   eventNames(  ): string[];
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 174 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 172 @column 0 */
   getMaxListeners(  ): number;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 179 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 177 @column 0 */
   setMaxListeners(  ): void;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 184 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 182 @column 0 */
   listenerCount(  ): number;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 211 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 209 @column 0 */
   rawListeners(  ): any[];
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 211 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 209 @column 0 */
   rawListeners(  ): any[];
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 233 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 231 @column 0 */
   off(  ): void;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 233 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 231 @column 0 */
   off(  ): void;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 266 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 264 @column 0 */
   prependListener(  ): void;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 288 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 286 @column 0 */
   prependListenerOnce(  ): void;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 310 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/events/emitter.go @line 308 @column 0 */
   removeAllListeners(  ): void;
   }
   export default EventEmitter;

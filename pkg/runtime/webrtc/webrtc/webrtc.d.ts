@@ -52,8 +52,8 @@ declare module "webrtc" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/webrtc/webrtc.go @line 438 @column 0 */
   write(  ): number;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/webrtc/webrtc.go @line 386 @column 0 */
-    readonly isOpen: boolean;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/webrtc/webrtc.go @line 386 @column 0 */
     readonly label: string;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/webrtc/webrtc.go @line 386 @column 0 */
+    readonly isOpen: boolean;
   }
 }

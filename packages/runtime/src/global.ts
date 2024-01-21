@@ -1,6 +1,7 @@
 import { task } from "task";
 import console from "console";
 import { Buffer } from "buffer";
+import crypto from 'crypto/web';
 
 Object.assign(global, {
   console,
@@ -10,6 +11,7 @@ Object.assign(global, {
   clearTimeout: task.clearTimeout.bind(task),
   setInterval: task.setInterval.bind(task),
   clearInterval: task.clearInterval.bind(task),
+  crypto: crypto,
   // clearImmediate: nativeTask.clearImmediate.bind(nativeTask),
 });
 

@@ -13,6 +13,7 @@ import (
 	"github.com/grexie/isolates"
 )
 
+//js:class
 type Buffer struct {
 	buffer *isolates.Value
 }
@@ -27,14 +28,43 @@ type bufferModule struct {
 
 //js:constructor Buffer
 //js:export Buffer
-func NewBuffer(in isolates.FunctionArgs) *Buffer {
-	return &Buffer{}
+func NewBuffer(in isolates.FunctionArgs) (*Buffer, error) {
+	if global, err := in.Context.Global(in.ExecutionContext); err != nil {
+		return nil, err
+	} else if prototype, err := in.This.GetPrototype(in.ExecutionContext); err != nil {
+		return nil, err
+	} else if Uint8Array, err := global.Get(in.ExecutionContext, "Uint8Array"); err != nil {
+		return nil, err
+	} else if Object, err := global.Get(in.ExecutionContext, "Object"); err != nil {
+		return nil, err
+	} else if this, err := Uint8Array.New(in.ExecutionContext, in.Args[0]); err != nil {
+		return nil, err
+	} else if buffer, err := this.Get(in.ExecutionContext, "buffer"); err != nil {
+		return nil, err
+	} else if _, err := Object.CallMethod(in.ExecutionContext, "setPrototypeOf", this, prototype); err != nil {
+		return nil, err
+	} else {
+		in.ReplaceThis(this)
+		return &Buffer{buffer}, nil
+	}
 }
 
 //js:method createBufferFunction
 //js:export-instance Buffer
 func createBufferFunction(in isolates.RuntimeFunctionArgs) (*isolates.Value, error) {
 	if Buffer, err := in.Exports.Get(in.ExecutionContext, "Buffer"); err != nil {
+		return nil, err
+	} else if global, err := in.Context.Global(in.ExecutionContext); err != nil {
+		return nil, err
+	} else if Uint8Array, err := global.Get(in.ExecutionContext, "Uint8Array"); err != nil {
+		return nil, err
+	} else if Uint8ArrayPrototype, err := Uint8Array.Get(in.ExecutionContext, "prototype"); err != nil {
+		return nil, err
+	} else if Object, err := global.Get(in.ExecutionContext, "Object"); err != nil {
+		return nil, err
+	} else if prototype, err := Buffer.Get(in.ExecutionContext, "prototype"); err != nil {
+		return nil, err
+	} else if _, err := Object.CallMethod(in.ExecutionContext, "setPrototypeOf", prototype, Uint8ArrayPrototype); err != nil {
 		return nil, err
 	} else if _, err := in.Context.AssignAll(in.ExecutionContext, Buffer, &bufferStatic{}); err != nil {
 		return nil, err
@@ -49,12 +79,11 @@ func (b *Buffer) V8Construct(in isolates.FunctionArgs) (*Buffer, error) {
 	return b, nil
 }
 
-//js:get
+//js:get buffer
 func (b *Buffer) Buffer() *isolates.Value {
 	return b.buffer
 }
 
-//js:get
 func (b *Buffer) Length(ctx context.Context) (int, error) {
 	return b.buffer.GetByteLength(ctx)
 }
@@ -112,21 +141,38 @@ func (b *bufferStatic) ByteLength(ctx context.Context, buffer *Buffer) (int, err
 func (s *bufferStatic) From(ctx context.Context, args ...any) (*Buffer, error) {
 	if args, err := isolates.For(ctx).Context().CreateAll(ctx, args...); err != nil {
 		return nil, err
-	} else if len(args) >= 1 && args[0].IsKind(isolates.KindArray) {
-		if b, err := args[0].Unmarshal(ctx, reflect.TypeOf([]byte{})); err != nil {
+	} else if len(args) >= 1 && (args[0].IsKind(isolates.KindArrayBufferView) || args[0].IsKind(isolates.KindArrayBuffer)) {
+		if b, err := args[0].Bytes(ctx); err != nil {
 			return nil, err
-		} else if buffer, err := isolates.For(ctx).Context().CreateWithoutMarshallers(ctx, b.Interface().([]byte)); err != nil {
+		} else if buffer, err := isolates.For(ctx).New(NewBuffer, len(b)); err != nil {
+			return nil, err
+		} else if err := buffer.(*Buffer).buffer.SetBytes(ctx, b); err != nil {
 			return nil, err
 		} else {
-			return &Buffer{buffer}, nil
+			return buffer.(*Buffer), nil
+		}
+	} else if len(args) >= 1 && args[0].IsKind(isolates.KindArray) {
+		if bytes, err := args[0].Unmarshal(ctx, reflect.TypeOf([]byte{})); err != nil {
+			return nil, err
+		} else {
+			b := bytes.Interface().([]byte)
+			if buffer, err := isolates.For(ctx).New(NewBuffer, len(b)); err != nil {
+				return nil, err
+			} else if err := buffer.(*Buffer).Buffer().SetBytes(ctx, b); err != nil {
+				return nil, err
+			} else {
+				return buffer.(*Buffer), nil
+			}
 		}
 	} else if len(args) >= 1 && args[0].IsKind(isolates.KindString) {
 		if s, err := args[0].StringValue(ctx); err != nil {
 			return nil, err
-		} else if buffer, err := isolates.For(ctx).Context().CreateWithoutMarshallers(ctx, []byte(s)); err != nil {
+		} else if buffer, err := isolates.For(ctx).New(NewBuffer, len([]byte(s))); err != nil {
+			return nil, err
+		} else if err := buffer.(*Buffer).Buffer().SetBytes(ctx, []byte(s)); err != nil {
 			return nil, err
 		} else {
-			return &Buffer{buffer}, nil
+			return buffer.(*Buffer), nil
 		}
 	} else {
 		return nil, fmt.Errorf("%s is not a valid argument to Buffer.from", args[0])
@@ -153,9 +199,11 @@ func (b *bufferModule) MaxStringLength() int {
 }
 
 var _ = isolates.AddMarshaller(reflect.TypeOf([]byte{}), func(ctx context.Context, value []byte) (*Buffer, error) {
-	if buffer, err := isolates.For(ctx).Context().CreateWithoutMarshallers(ctx, value); err != nil {
+	if buffer, err := isolates.For(ctx).New(NewBuffer, len(value)); err != nil {
+		return nil, err
+	} else if err := buffer.(*Buffer).buffer.SetBytes(ctx, value); err != nil {
 		return nil, err
 	} else {
-		return &Buffer{buffer}, nil
+		return buffer.(*Buffer), nil
 	}
 })

@@ -3,8 +3,8 @@
 package assert
 
 import (
-  reflect "reflect"
   isolates "github.com/grexie/isolates"
+  reflect "reflect"
 )
 
 var _ = isolates.RegisterRuntime("assert", "errors.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {

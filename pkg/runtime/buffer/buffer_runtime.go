@@ -9,7 +9,7 @@ import (
 
 var _ = isolates.RegisterRuntime("buffer", "buffer.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "Buffer", func (in isolates.FunctionArgs) (*Buffer, error) {
-    return NewBuffer(in), nil
+    return NewBuffer(in)
   }); err != nil {
     return nil, err
   } else if err := in.Args[1].Set(in.ExecutionContext, "Buffer", constructor); err != nil {
@@ -51,14 +51,6 @@ rin := isolates.RuntimeFunctionArgs{FunctionArgs: in, Module: Module, Exports: E
 func (b *Buffer) V8GetBuffer(in isolates.GetterArgs) (*isolates.Value, error) {
   result := b.Buffer()
   return in.Context.Create(in.ExecutionContext, result)
-}
-
-func (b *Buffer) V8GetLength(in isolates.GetterArgs) (*isolates.Value, error) {
-  if result, err := b.Length(in.ExecutionContext); err != nil {
-    return nil, err
-  } else {
-    return in.Context.Create(in.ExecutionContext, result)
-  }
 }
 
 func (b *Buffer) V8FuncSlice(in isolates.FunctionArgs) (*isolates.Value, error) {

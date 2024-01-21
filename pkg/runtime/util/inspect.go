@@ -432,7 +432,7 @@ func serializeObject(ctx context.Context, object *isolates.Value, context serial
 	out.WriteString(context.syntax("object"))
 
 	if len(constructors) > 0 {
-		if name, err := constructors[0].Get(ctx, "name"); err != nil {
+		if name, err := constructors[0].Get(ctx, "name"); err != nil || name.IsNil() {
 			return "", err
 		} else {
 			out.WriteString(" ")

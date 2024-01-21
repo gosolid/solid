@@ -12,7 +12,7 @@
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/local.go @line 3 @column 0 */
 declare module "fs" {
-  import type { File, Stats } from "fs";
+  import type { File, Stats, FileDescriptor } from "fs";
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/local.go @line 38 @column 0 */
   class LocalFileSystem extends File {
@@ -31,9 +31,9 @@ declare module "fs" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/local.go @line 111 @column 0 */
   createReadStream(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/local.go @line 127 @column 0 */
-  openSync(  ): Stats;
+  openSync(  ): FileDescriptor;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/local.go @line 127 @column 0 */
-  open(  ): Stats;
+  open(  ): FileDescriptor;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/local.go @line 149 @column 0 */
   existsSync(  ): boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/local.go @line 149 @column 0 */
@@ -41,11 +41,11 @@ declare module "fs" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/local.go @line 165 @column 0 */
   statSync(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/local.go @line 165 @column 0 */
-  stat(  ): Stats;
+  stat(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/local.go @line 193 @column 0 */
   lstatSync(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/local.go @line 193 @column 0 */
-  lstat(  ): File;
+  lstat(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/local.go @line 221 @column 0 */
   realpath(  ): string;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/local.go @line 221 @column 0 */

@@ -6,6 +6,7 @@ import (
 	"github.com/gosolid/solid/pkg/runtime/buffer"
 	"github.com/gosolid/solid/pkg/runtime/console"
 	"github.com/gosolid/solid/pkg/runtime/crypto"
+	crypto_web "github.com/gosolid/solid/pkg/runtime/crypto/web"
 	"github.com/gosolid/solid/pkg/runtime/events"
 	"github.com/gosolid/solid/pkg/runtime/fs"
 	"github.com/gosolid/solid/pkg/runtime/http"
@@ -23,6 +24,7 @@ import (
 
 type Import interface{}
 
+var _ crypto_web.Import
 var _ assert.Import
 var _ buffer.Buffer
 var _ crypto.Hash

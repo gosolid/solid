@@ -13,7 +13,7 @@
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 3 @column 0 */
 declare module "fs" {
   import type { Buffer } from "buffer";
-  import type { Stats, FileDescriptor, File } from "fs";
+  import type { Stats } from "fs";
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 28 @column 0 */
   class File {
@@ -48,9 +48,9 @@ declare module "fs" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 94 @column 0 */
   readFile(  ): Buffer;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 106 @column 0 */
-  openSync(  ): File;
+  openSync(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 106 @column 0 */
-  open(  ): FileDescriptor;
+  open(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 118 @column 0 */
   closeSync(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 118 @column 0 */
@@ -68,7 +68,7 @@ declare module "fs" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 153 @column 0 */
   lstatSync(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 153 @column 0 */
-  lstat(  ): File;
+  lstat(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 165 @column 0 */
   accessSync(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 165 @column 0 */

@@ -18,6 +18,8 @@ declare module "assert" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/assert/errors.go @line 71 @column 0 */
   toString(  ): string;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/assert/errors.go @line 43 @column 0 */
+    readonly generatedMessage: boolean;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/assert/errors.go @line 43 @column 0 */
     readonly message: string;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/assert/errors.go @line 43 @column 0 */
     readonly name: string;
@@ -29,8 +31,6 @@ declare module "assert" {
     readonly operator: string;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/assert/errors.go @line 43 @column 0 */
     readonly code: string;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/assert/errors.go @line 43 @column 0 */
-    readonly generatedMessage: boolean;
   }
   export { AssertionError };
 }

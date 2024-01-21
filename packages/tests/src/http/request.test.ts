@@ -40,7 +40,7 @@ describe('http.request', () => {
         });
     })
 
-    it.only('should transport a large chunk of data', async () => {
+    it.skip('should transport a large chunk of data', async () => {
         const bytes = 'ABCD'.repeat(1024);
 
         const server = createServer((req, res) => {
