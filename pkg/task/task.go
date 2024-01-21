@@ -1,5 +1,5 @@
 //js:package task
-package solid
+package task
 
 //go:generate go run github.com/grexie/isolates/codegen
 

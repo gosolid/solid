@@ -26,6 +26,14 @@ var _ = isolates.RegisterRuntime("http", "messages.go", func (in isolates.Functi
     return nil, err
   }
 
+  if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "ClientResponse", func (in isolates.FunctionArgs) (*ClientResponseBase, error) {
+    return NewClientResponse(in)
+  }); err != nil {
+    return nil, err
+  } else if err := in.Args[1].Set(in.ExecutionContext, "ClientResponse", constructor); err != nil {
+    return nil, err
+  }
+
   if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "OutgoingMessage", func (in isolates.FunctionArgs) (*OutgoingMessageBase, error) {
     return NewOutgoingMessage(in)
   }); err != nil {
@@ -39,6 +47,14 @@ var _ = isolates.RegisterRuntime("http", "messages.go", func (in isolates.Functi
   }); err != nil {
     return nil, err
   } else if err := in.Args[1].Set(in.ExecutionContext, "ServerResponse", constructor); err != nil {
+    return nil, err
+  }
+
+  if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "ClientRequest", func (in isolates.FunctionArgs) (*ClientRequestBase, error) {
+    return NewClientRequest(in)
+  }); err != nil {
+    return nil, err
+  } else if err := in.Args[1].Set(in.ExecutionContext, "ClientRequest", constructor); err != nil {
     return nil, err
   }
 
@@ -329,6 +345,16 @@ func (r *ServerRequestBase) V8GetUrl(in isolates.GetterArgs) (*isolates.Value, e
   return in.Context.Create(in.ExecutionContext, result)
 }
 
+func (r *ClientResponseBase) V8GetStatusCode(in isolates.GetterArgs) (*isolates.Value, error) {
+  result := r.StatusCode()
+  return in.Context.Create(in.ExecutionContext, result)
+}
+
+func (r *ClientResponseBase) V8GetStatusMessage(in isolates.GetterArgs) (*isolates.Value, error) {
+  result := r.StatusMessage()
+  return in.Context.Create(in.ExecutionContext, result)
+}
+
 func (r *ServerResponseBase) V8GetSocket(in isolates.GetterArgs) (*isolates.Value, error) {
   result := r.Socket()
   return in.Context.Create(in.ExecutionContext, result)
@@ -379,4 +405,78 @@ func (r *ServerResponseBase) V8GetStatusCode(in isolates.GetterArgs) (*isolates.
 func (r *ServerResponseBase) V8GetStatusMessage(in isolates.GetterArgs) (*isolates.Value, error) {
   result := r.StatusMessage()
   return in.Context.Create(in.ExecutionContext, result)
+}
+
+func (r *ClientRequestBase) V8GetSocket(in isolates.GetterArgs) (*isolates.Value, error) {
+  result := r.Socket()
+  return in.Context.Create(in.ExecutionContext, result)
+}
+
+func (r *ClientRequestBase) V8FuncFlushHeaders(in isolates.FunctionArgs) (*isolates.Value, error) {
+  if err := r.FlushHeaders(); err != nil {
+    return nil, err
+  } else {
+    return nil, nil
+  }
+}
+
+func (r *ClientRequestBase) V8GetHost(in isolates.GetterArgs) (*isolates.Value, error) {
+  result := r.Host()
+  return in.Context.Create(in.ExecutionContext, result)
+}
+
+func (r *ClientRequestBase) V8GetMaxHeadersCount(in isolates.GetterArgs) (*isolates.Value, error) {
+  result := r.MaxHeadersCount()
+  return in.Context.Create(in.ExecutionContext, result)
+}
+
+func (r *ClientRequestBase) V8GetMethod(in isolates.GetterArgs) (*isolates.Value, error) {
+  result := r.Method()
+  return in.Context.Create(in.ExecutionContext, result)
+}
+
+func (r *ClientRequestBase) V8GetPath(in isolates.GetterArgs) (*isolates.Value, error) {
+  result := r.Path()
+  return in.Context.Create(in.ExecutionContext, result)
+}
+
+func (r *ClientRequestBase) V8GetProtocol(in isolates.GetterArgs) (*isolates.Value, error) {
+  result := r.Protocol()
+  return in.Context.Create(in.ExecutionContext, result)
+}
+
+func (r *ClientRequestBase) V8GetReusedSocket(in isolates.GetterArgs) (*isolates.Value, error) {
+  result := r.ReusedSocket()
+  return in.Context.Create(in.ExecutionContext, result)
+}
+
+func (r *ClientRequestBase) V8FuncSetNoDelay(in isolates.FunctionArgs) (*isolates.Value, error) {
+  var args0 bool
+  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&args0).Elem()); __err != nil {
+    return nil, __err
+  } else {
+    args0 = v.Interface().(bool)
+  }
+
+  r.SetNoDelay(args0)
+  return nil, nil
+}
+
+func (r *ClientRequestBase) V8FuncSetSocketKeepAlive(in isolates.FunctionArgs) (*isolates.Value, error) {
+  var args0 bool
+  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&args0).Elem()); __err != nil {
+    return nil, __err
+  } else {
+    args0 = v.Interface().(bool)
+  }
+
+  var args1 time.Duration
+  if v, __err := in.Arg(in.ExecutionContext, 1).Unmarshal(in.ExecutionContext, reflect.TypeOf(&args1).Elem()); __err != nil {
+    return nil, __err
+  } else {
+    args1 = v.Interface().(time.Duration)
+  }
+
+  r.SetSocketKeepAlive(args0, args1)
+  return nil, nil
 }

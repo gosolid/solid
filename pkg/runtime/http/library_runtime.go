@@ -48,3 +48,7 @@ rin := isolates.RuntimeFunctionArgs{FunctionArgs: in, Module: Module, Exports: E
   return nil, nil
 })
 
+func (h *HttpBase) V8GetGlobalAgent(in isolates.GetterArgs) (*isolates.Value, error) {
+  result := h.GlobalAgent()
+  return in.Context.Create(in.ExecutionContext, result)
+}

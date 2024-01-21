@@ -134,50 +134,63 @@ func (s *ServerBase) onConnection(in isolates.FunctionArgs) (*isolates.Value, er
 		defer socket.Destroy(in.ExecutionContext, nil)
 
 		for {
-			if req, err := s.context.New(in.ExecutionContext, NewServerRequest, socket); err != nil {
-				if err == io.EOF {
+			parsed := make(chan bool)
+			if socket.Closed() {
+				break
+			} else if req, err := s.context.New(in.ExecutionContext, NewServerRequest, socket); err != nil {
+				if isolates.IsError(in.ExecutionContext, io.EOF, err) {
 					break
 				} else {
 					s.EmitError(in.ExecutionContext, err)
 					return
 				}
-			} else if req, ok := req.(ServerRequest); !ok {
-				s.EmitError(in.ExecutionContext, errors.New("invalid server request"))
-				return
-			} else if req.IsUpgrade() {
-				s.Emit(in.ExecutionContext, "upgrade", req, socket, []byte{})
-				return
-			} else if res, err := req.Response(in.ExecutionContext); err != nil {
-				s.EmitError(in.ExecutionContext, err)
-				return
-			} else if _, err := s.context.Create(in.ExecutionContext, func(in isolates.FunctionArgs) (*isolates.Value, error) {
-				var err error
-				if len(in.Args) > 0 {
-					err = in.Arg(in.ExecutionContext, 0).ToError(in.ExecutionContext)
-				}
-
-				if err == nil {
-					res.WriteHead(404, "Not Found", http.Header{"Content-Type": {"text/plain"}})
-					res.Write([]byte("404 Not Found\n"))
-					res.End(in.ExecutionContext)
-				} else {
-					res.WriteHead(500, "Internal Server Error", http.Header{"Content-Type": {"text/plain"}})
-					res.Write([]byte(fmt.Sprintf("500 Internal Server Error\n\n%s", err)))
-					res.End(in.ExecutionContext)
-				}
+			} else if onParse, err := isolates.For(in.ExecutionContext).Context().Create(in.ExecutionContext, func(in isolates.FunctionArgs) (*isolates.Value, error) {
+				parsed <- true
 				return nil, nil
 			}); err != nil {
 				s.EmitError(in.ExecutionContext, err)
-				return
+			} else if err := req.(ServerRequest).AddListenerOnce(in.ExecutionContext, "parsed", onParse); err != nil {
+				s.EmitError(in.ExecutionContext, err)
 			} else {
-				in.Background(func(in isolates.FunctionArgs) {
-					if err := s.Emit(in.ExecutionContext, "request", req, res); err != nil {
+				<-parsed
+				if req, ok := req.(ServerRequest); !ok {
+					s.EmitError(in.ExecutionContext, errors.New("invalid server request"))
+					return
+				} else if req.IsUpgrade() {
+					s.Emit(in.ExecutionContext, "upgrade", req, socket, []byte{})
+					return
+				} else if res, err := req.Response(in.ExecutionContext); err != nil {
+					s.EmitError(in.ExecutionContext, err)
+					return
+				} else if _, err := s.context.Create(in.ExecutionContext, func(in isolates.FunctionArgs) (*isolates.Value, error) {
+					var err error
+					if len(in.Args) > 0 {
+						err = in.Arg(in.ExecutionContext, 0).ToError(in.ExecutionContext)
+					}
+
+					if err == nil {
+						res.WriteHead(404, "Not Found", http.Header{"Content-Type": {"text/plain"}})
+						res.Write([]byte("404 Not Found\n"))
+						res.End(in.ExecutionContext)
+					} else {
+						res.WriteHead(500, "Internal Server Error", http.Header{"Content-Type": {"text/plain"}})
+						res.Write([]byte(fmt.Sprintf("500 Internal Server Error\n\n%s", err)))
+						res.End(in.ExecutionContext)
+					}
+					return nil, nil
+				}); err != nil {
+					s.EmitError(in.ExecutionContext, err)
+					return
+				} else {
+					in.Background(func(in isolates.FunctionArgs) {
+						if err := s.Emit(in.ExecutionContext, "request", req, res); err != nil {
+							s.EmitError(in.ExecutionContext, err)
+						}
+					})
+
+					if err := res.Wait(); err != nil {
 						s.EmitError(in.ExecutionContext, err)
 					}
-				})
-
-				if err := res.Wait(); err != nil {
-					s.EmitError(in.ExecutionContext, err)
 				}
 			}
 		}

@@ -18,7 +18,7 @@ import (
 	"syscall"
 
 	"github.com/gosolid/solid/pkg/common"
-	"github.com/gosolid/solid/pkg/solid"
+	solid "github.com/gosolid/solid/pkg/task"
 	"github.com/grexie/isolates"
 	"github.com/hashicorp/yamux"
 )

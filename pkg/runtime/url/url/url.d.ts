@@ -18,7 +18,8 @@ declare module "url" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/url/url.go @line 46 @column 0 */
   toString(  ): string;
   }
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/url/url.go @line 60 @column 0 */
+  export { URL };
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/url/url.go @line 59 @column 0 */
   function pathToFileURL(  ): URL;
   export { pathToFileURL };
 }

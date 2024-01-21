@@ -45,7 +45,7 @@ func createBufferFunction(in isolates.RuntimeFunctionArgs) (*isolates.Value, err
 	}
 }
 
-func (b Buffer) V8Construct(in isolates.FunctionArgs) (Buffer, error) {
+func (b *Buffer) V8Construct(in isolates.FunctionArgs) (*Buffer, error) {
 	return b, nil
 }
 
@@ -57,6 +57,28 @@ func (b *Buffer) Buffer() *isolates.Value {
 //js:get
 func (b *Buffer) Length(ctx context.Context) (int, error) {
 	return b.buffer.GetByteLength(ctx)
+}
+
+//js:method
+func (b *Buffer) Slice(ctx context.Context, start int, end int) (*Buffer, error) {
+	if b1, err := b.buffer.Bytes(ctx); err != nil {
+		return nil, err
+	} else {
+		b2 := make([]byte, end-start)
+		copy(b2, b1[start:end])
+
+		if bufferv, err := isolates.For(ctx).Context().Create(ctx, b2); err != nil {
+			return nil, err
+		} else if bufferv.SetBytes(ctx, b2); err != nil {
+			return nil, err
+		} else if bufferrv, err := bufferv.Unmarshal(ctx, reflect.TypeOf(&Buffer{})); err != nil {
+			return nil, err
+		} else {
+			buffer := bufferrv.Interface().(*Buffer)
+
+			return buffer, nil
+		}
+	}
 }
 
 //js:method

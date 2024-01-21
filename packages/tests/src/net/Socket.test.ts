@@ -29,9 +29,7 @@ describe('net.Socket', () => {
     })
 
     it('should connect to listening socket', async () => {
-        const server = createServer((socket) => {
-            console.info(socket);
-        })
+        const server = createServer();
 
 
         await new Promise<void>((resolve, reject) => {
@@ -42,30 +40,50 @@ describe('net.Socket', () => {
             })
         });
 
-        server.on('connection', conn => {
-            conn.on('data', (chunk) => console.info(chunk));
-            conn.write('EHLO');
-            conn.resume();
-        })
+        
 
-        const conn = connect(3000, 'localhost', () => {
-            console.info("HERE")
-        });
+        const conn = connect(3000, 'localhost');
 
-        conn.on('data', (chunk) => {
-            console.info(chunk)
-        })
+        
+        await Promise.all([
+            new Promise<void>((resolve, reject) => {
+                server.on('connection', conn => {
+                    conn.once('data', (chunk) => {
+                        if (chunk.toString() === 'EHLO') {
+                            resolve();
+                        } else {
+                            reject(new Error('invalid response received'));
+                        }
+                    });
+                    conn.resume();
+                    conn.write('HELO');
+                    conn.end();
+                })
+            }),
+            new Promise<void>((resolve, reject) => {
+                conn.once('error', (err) => {
+                    reject(err);
+                })
 
-        await new Promise<void>((resolve, reject) => {
-            conn.on('error', (err) => {
-                reject(err);
-            })
+                conn.once('connect', () => {
+                    resolve();
+                })
+            }),
+            new Promise<void>((resolve, reject) => {
+                conn.once('error', err => reject(err));
 
-            conn.on('connect', () => {
-                resolve();
-            })
-        })
+                conn.once('data', (chunk) => {
+                    if (chunk.toString() === 'HELO') {
+                        conn.write('EHLO');
+                        resolve();
+                    } else {
+                        reject(new Error('invalid request received'));
+                    }
+                })
 
+                conn.resume();
+            }),
+        ])
 
         await new Promise<void>((resolve, reject) => {
             server.once('error', (err) => {

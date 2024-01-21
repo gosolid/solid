@@ -19,9 +19,9 @@ declare module "tty" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/readstream.go @line 79 @column 0 */
   setRawMode(  ): any;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/readstream.go @line 33 @column 0 */
-    readonly isTTY: boolean;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/readstream.go @line 33 @column 0 */
     readonly isRaw: boolean;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/readstream.go @line 33 @column 0 */
+    readonly isTTY: boolean;
   }
   export { ReadStream };
 }

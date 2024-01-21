@@ -6,6 +6,7 @@ package net
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"github.com/grexie/isolates"
 )
@@ -17,6 +18,7 @@ var _ Net = &NetBase{}
 type Net interface {
 	Server() *isolates.Value
 	Socket() *isolates.Value
+	Connect(ctx context.Context, network string, address string) (*isolates.Value, error)
 	Listen(ctx context.Context, server Server, network string, address string) (*isolates.Value, error)
 }
 
@@ -72,7 +74,14 @@ func NewNet(in isolates.FunctionArgs) (*NetBase, error) {
 	} else if err := in.This.Set(in.ExecutionContext, "Socket", Socket); err != nil {
 		return nil, err
 	} else if createConnection, err := in.Context.CreateWithName(in.ExecutionContext, "createConnection", func(in isolates.FunctionArgs) (*isolates.Value, error) {
-		return Socket.NewValue(in.ExecutionContext, in.Args...)
+		if port, err := in.Arg(in.ExecutionContext, 0).Int64(in.ExecutionContext); err != nil {
+			return nil, err
+		} else if host, err := in.Arg(in.ExecutionContext, 1).StringValue(in.ExecutionContext); err != nil {
+			return nil, err
+		} else {
+			address := fmt.Sprintf("%s:%d", host, port)
+			return net.connect.Call(in.ExecutionContext, net, "tcp", address)
+		}
 	}); err != nil {
 		return nil, err
 	} else if err := in.This.Set(in.ExecutionContext, "createConnection", createConnection); err != nil {
@@ -96,4 +105,8 @@ func (n *NetBase) Socket() *isolates.Value {
 
 func (n *NetBase) Listen(ctx context.Context, server Server, network, address string) (*isolates.Value, error) {
 	return n.listen.Call(ctx, server, network, address)
+}
+
+func (n *NetBase) Connect(ctx context.Context, network, address string) (*isolates.Value, error) {
+	return n.connect.Call(ctx, n, network, address)
 }

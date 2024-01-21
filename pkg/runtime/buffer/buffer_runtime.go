@@ -61,6 +61,28 @@ func (b *Buffer) V8GetLength(in isolates.GetterArgs) (*isolates.Value, error) {
   }
 }
 
+func (b *Buffer) V8FuncSlice(in isolates.FunctionArgs) (*isolates.Value, error) {
+  var start int
+  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&start).Elem()); __err != nil {
+    return nil, __err
+  } else {
+    start = v.Interface().(int)
+  }
+
+  var end int
+  if v, __err := in.Arg(in.ExecutionContext, 1).Unmarshal(in.ExecutionContext, reflect.TypeOf(&end).Elem()); __err != nil {
+    return nil, __err
+  } else {
+    end = v.Interface().(int)
+  }
+
+  if result, err := b.Slice(in.ExecutionContext, start, end); err != nil {
+    return nil, err
+  } else {
+    return in.Context.Create(in.ExecutionContext, result)
+  }
+}
+
 func (b *Buffer) V8FuncToString(in isolates.FunctionArgs) (*isolates.Value, error) {
   if result, err := b.ToString(in.ExecutionContext); err != nil {
     return nil, err

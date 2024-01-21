@@ -129,15 +129,15 @@ func (r *ReadableBase) V8FuncUnpipe(in isolates.FunctionArgs) (*isolates.Value, 
 }
 
 func (r *ReadableBase) V8FuncUnshift(in isolates.FunctionArgs) (*isolates.Value, error) {
-  args0 := in.Arg(in.ExecutionContext, 0)
-  var args1 *BufferEncoding
-  if v, __err := in.Arg(in.ExecutionContext, 1).Unmarshal(in.ExecutionContext, reflect.TypeOf(&args1).Elem()); __err != nil {
+  chunk := in.Arg(in.ExecutionContext, 0)
+  var encoding *BufferEncoding
+  if v, __err := in.Arg(in.ExecutionContext, 1).Unmarshal(in.ExecutionContext, reflect.TypeOf(&encoding).Elem()); __err != nil {
     return nil, __err
   } else if v != nil {
-    args1 = v.Interface().(*BufferEncoding)
+    encoding = v.Interface().(*BufferEncoding)
   }
 
-  if err := r.Unshift(in.ExecutionContext, args0, args1); err != nil {
+  if err := r.Unshift(in.ExecutionContext, chunk, encoding); err != nil {
     return nil, err
   } else {
     return nil, nil

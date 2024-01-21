@@ -8,9 +8,11 @@ import (
 )
 
 var _ = isolates.RegisterRuntime("url", "url.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
-  if _, err := in.Context.CreateWithName(in.ExecutionContext, "URL", func (in isolates.FunctionArgs) (*URL, error) {
+  if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "URL", func (in isolates.FunctionArgs) (*URL, error) {
     return NewURL(in)
   }); err != nil {
+    return nil, err
+  } else if err := in.Args[1].Set(in.ExecutionContext, "URL", constructor); err != nil {
     return nil, err
   }
 

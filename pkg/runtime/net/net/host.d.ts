@@ -14,20 +14,22 @@
 declare module "net" {
   import type { Socket, Net } from "net";
 
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 64 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 159 @column 0 */
   class HostNetOptions {
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 28 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 93 @column 0 */
+  connect(  ): Socket;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 123 @column 0 */
   listen(  ): Socket;
   }
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 74 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 170 @column 0 */
   function createHostNet(  ): Net;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 85 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 181 @column 0 */
   class HostSocketOptions {
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 107 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 203 @column 0 */
   localAddress(  ): Socket;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 116 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 212 @column 0 */
   remoteAddress(  ): Socket;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 125 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 221 @column 0 */
   final(  ): void;
   }
 }

@@ -1,4 +1,4 @@
-package solid
+package task
 
 import (
 	"context"

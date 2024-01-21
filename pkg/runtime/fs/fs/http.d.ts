@@ -12,7 +12,7 @@
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 3 @column 0 */
 declare module "fs" {
-  import type { ReadStream, Stats, File } from "fs";
+  import type { File, Stats } from "fs";
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 37 @column 0 */
   class HttpFileSystem extends File {
@@ -23,15 +23,15 @@ declare module "fs" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 57 @column 0 */
   readdir(  ): string[];
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 70 @column 0 */
-  readFileSync(  ): File;
+  readFileSync(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 70 @column 0 */
-  readFile(  ): File;
+  readFile(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 87 @column 0 */
-  createReadStream(  ): ReadStream;
+  createReadStream(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 105 @column 0 */
   openSync(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 105 @column 0 */
-  open(  ): File;
+  open(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 127 @column 0 */
   closeSync(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 127 @column 0 */
@@ -43,11 +43,11 @@ declare module "fs" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 138 @column 0 */
   exists(  ): boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 154 @column 0 */
-  statSync(  ): File;
+  statSync(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 154 @column 0 */
   stat(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 182 @column 0 */
-  lstatSync(  ): Stats;
+  lstatSync(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 182 @column 0 */
   lstat(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 188 @column 0 */

@@ -3,9 +3,9 @@
 package http
 
 import (
-  isolates "github.com/grexie/isolates"
   time "time"
   reflect "reflect"
+  isolates "github.com/grexie/isolates"
 )
 
 var _ = isolates.RegisterRuntime("http", "server.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {

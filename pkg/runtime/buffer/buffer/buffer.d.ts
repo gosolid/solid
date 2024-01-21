@@ -16,6 +16,8 @@ declare module "buffer" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 30 @column 0 */
   class Buffer {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 63 @column 0 */
+  slice(  ): Buffer;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 85 @column 0 */
   toString(  ): string;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 30 @column 0 */
     readonly buffer: any;

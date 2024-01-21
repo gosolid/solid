@@ -3,9 +3,9 @@
 package net
 
 import (
-  isolates "github.com/grexie/isolates"
   stream "github.com/gosolid/solid/pkg/runtime/stream"
   reflect "reflect"
+  isolates "github.com/grexie/isolates"
 )
 
 var _ = isolates.RegisterRuntime("net", "host.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
@@ -40,6 +40,35 @@ var _ = isolates.RegisterRuntime("net", "host.go", func (in isolates.FunctionArg
 
   return nil, nil
 })
+
+func (n *HostNetOptions) V8FuncConnect(in isolates.FunctionArgs) (*isolates.Value, error) {
+  var net Net
+  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&net).Elem()); __err != nil {
+    return nil, __err
+  } else {
+    net = v.Interface().(Net)
+  }
+
+  var network string
+  if v, __err := in.Arg(in.ExecutionContext, 1).Unmarshal(in.ExecutionContext, reflect.TypeOf(&network).Elem()); __err != nil {
+    return nil, __err
+  } else {
+    network = v.Interface().(string)
+  }
+
+  var address string
+  if v, __err := in.Arg(in.ExecutionContext, 2).Unmarshal(in.ExecutionContext, reflect.TypeOf(&address).Elem()); __err != nil {
+    return nil, __err
+  } else {
+    address = v.Interface().(string)
+  }
+
+  if result, err := n.Connect(in, net, network, address); err != nil {
+    return nil, err
+  } else {
+    return in.Context.Create(in.ExecutionContext, result)
+  }
+}
 
 func (n *HostNetOptions) V8FuncListen(in isolates.FunctionArgs) (*isolates.Value, error) {
   var server Server

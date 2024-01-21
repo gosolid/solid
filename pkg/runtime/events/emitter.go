@@ -143,12 +143,10 @@ func (e *EventEmitterBase) Emit(ctx context.Context, eventName string, args ...a
 }
 
 func (e *EventEmitterBase) EmitError(ctx context.Context, err error) error {
-	isolates.For(ctx).Debug("emit error", err)
 	return e.Emit(ctx, "error", err)
 }
 
 func (e *EventEmitterBase) EmitErrorValue(ctx context.Context, err *isolates.Value) error {
-	isolates.For(ctx).Debug("emit error", err)
 	return e.Emit(ctx, "error", err)
 }
 

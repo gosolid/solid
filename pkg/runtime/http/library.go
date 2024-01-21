@@ -5,6 +5,8 @@ package http
 //go:generate go run github.com/grexie/isolates/codegen
 
 import (
+	"reflect"
+
 	"github.com/gosolid/solid/pkg/runtime/net"
 	isolates "github.com/grexie/isolates"
 )
@@ -13,11 +15,14 @@ import (
 type Http interface {
 	Net() net.Net
 	Server() *isolates.Value
+	Agent() *isolates.Value
 }
 
 type HttpBase struct {
-	net    net.Net
-	server *isolates.Value
+	net         net.Net
+	server      *isolates.Value
+	agent       *isolates.Value
+	globalAgent Agent
 }
 
 //js:constructor Http
@@ -37,6 +42,9 @@ func NewHttp(in isolates.FunctionArgs) (*HttpBase, error) {
 		net: n,
 	}
 
+	in.This.SetReceiver(in.ExecutionContext, reflect.ValueOf(http))
+	in.This.RebindAll(in.ExecutionContext)
+
 	if Server, err := in.Context.CreateConstructorWithName(in.ExecutionContext, "Server", func(in isolates.FunctionArgs) (*ServerBase, error) {
 		return newServer(in, http)
 	}); err != nil {
@@ -52,6 +60,27 @@ func NewHttp(in isolates.FunctionArgs) (*HttpBase, error) {
 	} else {
 		http.server = Server
 	}
+
+	if _Agent, err := in.Context.CreateConstructorWithName(in.ExecutionContext, "Agent", func(in isolates.FunctionArgs) (*AgentBase, error) {
+		return newAgent(in, http)
+	}); err != nil {
+		return nil, err
+	} else if err := in.This.Set(in.ExecutionContext, "Agent", _Agent); err != nil {
+		return nil, err
+	} else if globalAgentv, err := _Agent.New(in.ExecutionContext); err != nil {
+		return nil, err
+	} else if globalAgentrv, err := globalAgentv.Unmarshal(in.ExecutionContext, reflect.TypeOf(&AgentBase{})); err != nil {
+		return nil, err
+	} else {
+		http.agent = _Agent
+		http.globalAgent = globalAgentrv.Interface().(Agent)
+	}
+
+	// if request, err := in.This.BindMethod(in.ExecutionContext, "request"); err != nil {
+	// 	return nil, err
+	// } else if err := in.This.Set(in.ExecutionContext, "request", request); err != nil {
+	// 	return nil, err
+	// }
 
 	return http, nil
 }
@@ -78,4 +107,13 @@ func (h *HttpBase) Net() net.Net {
 
 func (h *HttpBase) Server() *isolates.Value {
 	return h.server
+}
+
+func (h *HttpBase) Agent() *isolates.Value {
+	return h.agent
+}
+
+//js:get
+func (h *HttpBase) GlobalAgent() Agent {
+	return h.globalAgent
 }

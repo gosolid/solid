@@ -47,6 +47,8 @@ type Readable interface {
 	SetEncoding(BufferEncoding) (*isolates.Value, error)
 	Unpipe(context.Context, *isolates.Value) (*isolates.Value, error)
 	Unshift(context.Context, *isolates.Value, *BufferEncoding) error
+	Backlog() []*isolates.Value
+	SetBacklog(backlog []*isolates.Value)
 	Wrap(context.Context, *isolates.Value) (*isolates.Value, error)
 	Compose(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
 	Iterator(context.Context, *isolates.Value) (*isolates.Value, error)
@@ -75,9 +77,10 @@ type Pipe interface {
 
 type ReadableBase struct {
 	*StreamBase
-	mutex sync.Mutex
-	state ReadableStreamState
-	pipes []Pipe
+	mutex   sync.Mutex
+	state   ReadableStreamState
+	pipes   []Pipe
+	backlog []*isolates.Value
 }
 
 type Reader struct {
@@ -423,8 +426,20 @@ func (r *ReadableBase) Unpipe(ctx context.Context, destination *isolates.Value) 
 }
 
 //js:method
-func (r *ReadableBase) Unshift(context.Context, *isolates.Value, *BufferEncoding) error {
-	return errors.New("not implemented")
+func (r *ReadableBase) Unshift(ctx context.Context, chunk *isolates.Value, encoding *BufferEncoding) error {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	r.backlog = append([]*isolates.Value{chunk}, r.backlog...)
+	return nil
+}
+
+func (r *ReadableBase) Backlog() []*isolates.Value {
+	return r.backlog
+}
+
+func (r *ReadableBase) SetBacklog(backlog []*isolates.Value) {
+	r.backlog = backlog
 }
 
 //js:method
@@ -514,12 +529,12 @@ func (r *ReadableBase) Push(ctx context.Context, chunk *isolates.Value, encoding
 
 //js:method
 func (c *Reader) Construct(in isolates.FunctionArgs, this Stream, callback *isolates.Value) error {
-	if buffer, err := isolates.For(in.ExecutionContext).Context().Create(in.ExecutionContext, make([]byte, 1024)); err != nil {
-		return this.EmitError(in.ExecutionContext, err)
-	} else if b, err := buffer.Bytes(in.ExecutionContext); err != nil {
+	bytes := make([]byte, 1024)
+
+	if buffer, err := isolates.For(in.ExecutionContext).Context().Create(in.ExecutionContext, bytes); err != nil {
 		return this.EmitError(in.ExecutionContext, err)
 	} else {
-		c.b = b
+		c.b = bytes
 		c.buffer = buffer
 		c.mutex.Unlock()
 
@@ -534,14 +549,51 @@ func (c *Reader) Construct(in isolates.FunctionArgs, this Stream, callback *isol
 //js:method
 func (c *Reader) Read(in isolates.FunctionArgs, this Readable) error {
 	in.Background(func(in isolates.FunctionArgs) {
-		for {
+		for !this.IsPaused() {
+			var n int
+			var err error
+
 			c.mutex.Lock()
-			if n, err := c.Reader.Read(c.b); err != nil && n == 0 {
+			backlog := this.Backlog()
+
+			if len(backlog) > 0 {
+				chunk := backlog[0]
+				backlog = backlog[1:]
+				this.SetBacklog(backlog)
+
+				if arrayBuffer, err := chunk.Get(in.ExecutionContext, "buffer"); err != nil {
+					this.EmitError(in.ExecutionContext, err)
+					c.mutex.Unlock()
+					break
+				} else if b, err := arrayBuffer.Bytes(in.ExecutionContext); err != nil {
+					this.EmitError(in.ExecutionContext, err)
+					c.mutex.Unlock()
+					break
+				} else {
+					n = copy(c.b, b)
+
+					if n < len(b) {
+						if surplus, err := in.Context.Create(in.ExecutionContext, b[n:]); err != nil {
+							this.SetBacklog(append([]*isolates.Value{surplus}, backlog...))
+						}
+					}
+				}
+			} else if n, err = c.Reader.Read(c.b); err != nil && n == 0 {
 				if err == io.EOF {
 					this.Destroy(in.ExecutionContext, nil)
 				} else {
 					this.EmitError(in.ExecutionContext, err)
 				}
+				c.mutex.Unlock()
+				break
+			}
+
+			if arrayBuffer, err := c.buffer.Get(in.ExecutionContext, "buffer"); err != nil {
+				this.EmitError(in.ExecutionContext, err)
+				c.mutex.Unlock()
+				break
+			} else if err := arrayBuffer.SetBytes(in.ExecutionContext, c.b); err != nil {
+				this.EmitError(in.ExecutionContext, err)
 				c.mutex.Unlock()
 				break
 			} else if slice, err := c.buffer.CallMethod(in.ExecutionContext, "slice", 0, n); err != nil {
@@ -562,6 +614,7 @@ func (c *Reader) Read(in isolates.FunctionArgs, this Readable) error {
 				c.mutex.Unlock()
 				break
 			}
+
 			c.mutex.Unlock()
 		}
 	})

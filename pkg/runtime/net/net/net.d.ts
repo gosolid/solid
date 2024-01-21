@@ -13,7 +13,7 @@
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/net.go @line 2 @column 0 */
 declare module "net" {
 
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/net.go @line 33 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/net.go @line 35 @column 0 */
   class Net {
   }
   export { Net };

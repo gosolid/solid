@@ -70,6 +70,8 @@ type ClientRequest interface {
 	ReusedSocket() bool
 	SetNoDelay(bool)
 	SetSocketKeepAlive(bool, time.Duration)
+
+	Wait() error
 }
 
 type IncomingMessage interface {

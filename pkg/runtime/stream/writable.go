@@ -189,17 +189,27 @@ func (w *WritableBase) End(ctx context.Context, args ...any) error {
 		}
 	}
 
-	if chunk != nil {
-		if _, err := w.This.CallMethod(ctx, "_write", chunk, encoding, func(in isolates.FunctionArgs) (*isolates.Value, error) {
-			return nil, final()
-		}); err != nil {
-			return err
+	err = func() error {
+		if chunk != nil {
+			if _, err := w.This.CallMethod(ctx, "_write", chunk, encoding, func(in isolates.FunctionArgs) (*isolates.Value, error) {
+				return nil, final()
+			}); err != nil {
+				return err
+			} else {
+				return nil
+			}
+		} else {
+			return final()
 		}
-	} else {
-		return final()
+	}()
+
+	w.SetState(StreamStateClosed)
+
+	if callback != nil {
+		_, err = callback.Call(ctx, w.This, err)
 	}
 
-	return nil
+	return err
 }
 
 //js:method
@@ -354,6 +364,12 @@ func (c *Writer) Write(in isolates.FunctionArgs, this Writable, chunk *isolates.
 			return nil
 		} else {
 			b = []byte(s)
+		}
+	}
+
+	if chunk.IsKind(isolates.KindObject) {
+		if arrayBuffer, err := chunk.Get(in.ExecutionContext, "buffer"); err == nil && arrayBuffer.IsKind(isolates.KindArrayBuffer) {
+			chunk = arrayBuffer
 		}
 	}
 

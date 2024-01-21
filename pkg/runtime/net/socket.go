@@ -20,10 +20,24 @@ type SocketBase struct {
 	*stream.DuplexBase
 }
 
+type IPFamily int
+
+const (
+	AnyFamily IPFamily = 0
+	IPv4      IPFamily = 4
+	IPv6      IPFamily = 6
+)
+
+type ConnectOptions struct {
+	Port         int       `v8:"port"`
+	Host         *string   `v8:"host"`
+	LocalAddress *string   `v8:"localAddress"`
+	LocalPort    *int      `v8:"localPort"`
+	Family       *IPFamily `v8:"family"`
+}
+
 func newSocket(in isolates.FunctionArgs, net *NetBase) (*SocketBase, error) {
-	if args, err := in.WithArgs(); err != nil {
-		return nil, err
-	} else if DuplexBase, err := stream.NewDuplex(args); err != nil {
+	if DuplexBase, err := stream.NewDuplex(in); err != nil {
 		return nil, err
 	} else {
 		socket := &SocketBase{DuplexBase: DuplexBase}
