@@ -80,7 +80,7 @@ func NewWritableWithStream(in isolates.FunctionArgs, StreamBase *StreamBase) (*W
 		StreamBase: StreamBase,
 	}
 
-	if len(in.Args) > 0 {
+	if len(in.Args) > 0 && !in.Args[0].IsNil() {
 		options := in.Args[0]
 
 		if write, err := options.Get(in.ExecutionContext, "write"); err != nil {

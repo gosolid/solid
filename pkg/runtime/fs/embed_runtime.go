@@ -102,7 +102,12 @@ func (fs *embedfs) V8FuncReadFileSync(in isolates.FunctionArgs) (*isolates.Value
     path = v.Interface().(string)
   }
 
-  if result, err := fs.ReadFile(in.ExecutionContext, path); err != nil {
+  options := make([]any, len(in.Args)-1)
+  for i, arg := range in.Args[1:] {
+    options[i] = arg
+  }
+
+  if result, err := fs.ReadFile(in.ExecutionContext, path, options...); err != nil {
     return nil, err
   } else {
     return in.Context.Create(in.ExecutionContext, result)
@@ -122,7 +127,12 @@ func (fs *embedfs) V8FuncReadFile(in isolates.FunctionArgs) (*isolates.Value, er
       path = v.Interface().(string)
     }
 
-      if result, err := fs.ReadFile(in.ExecutionContext, path); err != nil {
+  options := make([]any, len(in.Args)-1)
+  for i, arg := range in.Args[1:] {
+    options[i] = arg
+  }
+
+      if result, err := fs.ReadFile(in.ExecutionContext, path, options...); err != nil {
         resolver.Reject(in.ExecutionContext, err)
       } else if result, err := in.Context.Create(in.ExecutionContext, result); err != nil {
         resolver.Reject(in.ExecutionContext, err)

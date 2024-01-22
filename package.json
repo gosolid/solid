@@ -8,7 +8,9 @@
     "codegen": "yarn workspace @types/gosolid__solid codegen:clean && npm run -s codegen:go && yarn workspace @types/gosolid__solid codegen",
     "codegen:go": "go list ./... | GOTSROOT=$(pwd) GOTSLIB=$(pwd)/packages/types/lib xargs go generate",
     "docgen": "yarn workspace @types/gosolid__solid docgen:clean && npm run -s docgen:go && yarn workspace @types/gosolid__solid docgen",
-    "docgen:go": "go list ./... github.com/grexie/isolates | xargs gomarkdoc"
+    "docgen:go": "go list ./... github.com/grexie/isolates | xargs gomarkdoc",
+    "test": "yarn workspace @grexie/workers-test start",
+    "test:node": "yarn workspace @grexie/workers-test start:node"
   },
   "devDependencies": {
     "@grexie/monorepo": "^1.0.12",

@@ -8,6 +8,28 @@ import (
 
 var _ = isolates.RegisterRuntime("assert", "assert.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
   {
+    fnName := "equal"
+    if fn, err := in.Context.CreateFunction(in.ExecutionContext, &fnName, func (in isolates.FunctionArgs) (*isolates.Value, error) {
+  actual := in.Arg(in.ExecutionContext, 0)
+      expected := in.Arg(in.ExecutionContext, 1)
+      message := make([]any, len(in.Args)-2)
+      for i, arg := range in.Args[2:] {
+        message[i] = arg
+      }
+
+      if err := Equal(actual, expected, message...); err != nil {
+        return nil, err
+      } else {
+        return nil, nil
+      }
+    }); err != nil {
+      return nil, err
+    } else if err := in.Args[1].Set(in.ExecutionContext, "equal", fn); err != nil {
+      return nil, err
+    }
+  }
+
+  {
     fnName := "notStrictEqual"
     if fn, err := in.Context.CreateFunction(in.ExecutionContext, &fnName, func (in isolates.FunctionArgs) (*isolates.Value, error) {
   actual := in.Arg(in.ExecutionContext, 0)

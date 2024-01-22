@@ -101,14 +101,20 @@ func NewDefaultHttp(in isolates.RuntimeFunctionArgs) (Http, error) {
 	}
 }
 
+//js:export net
+//js:get
 func (h *HttpBase) Net() net.Net {
 	return h.net
 }
 
+//js:export Server
+//js:get
 func (h *HttpBase) Server() *isolates.Value {
 	return h.server
 }
 
+//js:export Agent
+//js:get
 func (h *HttpBase) Agent() *isolates.Value {
 	return h.agent
 }

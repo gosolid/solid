@@ -220,7 +220,7 @@ var reLineStart = regexp.MustCompile("^\\s+")
 func serializeError(ctx context.Context, object *isolates.Value, context serializeContext) (string, error) {
 	if stack, err := object.Get(ctx, "stack"); err != nil {
 		return "", err
-	} else if stack.IsKind(isolates.KindString) {
+	} else if !stack.IsNil() && stack.IsKind(isolates.KindString) {
 		var out strings.Builder
 
 		lines := strings.Split(stack.String(), "\n")

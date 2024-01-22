@@ -7,6 +7,12 @@ package assert
 type Import interface{}
 
 //js:method
+//js:export equal
+func Equal(actual any, expected any, message ...any) error {
+	return nil
+}
+
+//js:method
 //js:export notStrictEqual
 func NotStrictEqual(actual any, expected any, message ...any) error {
 	return nil

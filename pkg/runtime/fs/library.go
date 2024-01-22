@@ -26,7 +26,7 @@ type FileMode gofs.FileMode
 //js:alias fs
 type FS interface {
 	ReadDir(ctx context.Context, path string) ([]string, error)
-	ReadFile(ctx context.Context, path string) ([]byte, error)
+	ReadFile(ctx context.Context, path string, options ...any) (any, error)
 	ReadStream(ctx context.Context, path string) (ReadStream, error)
 	Open(ctx context.Context, path string) (FileDescriptor, error)
 	Close(ctx context.Context, fd FileDescriptor) error

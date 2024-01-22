@@ -91,14 +91,42 @@ func (f *fs) RealPath(ctx context.Context, p string) (string, error) {
 //js:method readFileSync
 //js:callback-method readFile
 //js:return buffer.Buffer
-func (fs *fs) ReadFile(ctx context.Context, path string) ([]byte, error) {
+func (fs *fs) ReadFile(ctx context.Context, path string, options ...any) (any, error) {
 	if mount, _, err := fs.mounts.Resolve(ctx, path); err != nil && !IsNotExists(err) {
 		return nil, err
 	} else if !IsNotExists(err) {
-		return mount.fs.ReadFile(ctx, mount.path)
+		return mount.fs.ReadFile(ctx, mount.path, options...)
 	}
 
 	return nil, NewFSError(ctx, ENOENT, fmt.Sprintf("%s does not exist", path))
+}
+
+func parseReadFileOptions(ctx context.Context, options []any) (*buffer.BufferEncoding, error) {
+	var encoding *buffer.BufferEncoding
+
+	if optionsv, err := isolates.For(ctx).Context().CreateAll(ctx, options...); err != nil {
+		return nil, err
+	} else if len(optionsv) >= 1 && optionsv[0].IsKind(isolates.KindString) {
+		if _e, err := optionsv[0].StringValue(ctx); err != nil {
+			return nil, err
+		} else {
+			e := buffer.BufferEncoding(_e)
+			encoding = &e
+		}
+	} else if len(optionsv) >= 1 && optionsv[0].IsKind(isolates.KindObject) {
+		if encodingv, err := optionsv[0].Get(ctx, "encoding"); err != nil {
+			return nil, err
+		} else if !encodingv.IsNil() {
+			if _e, err := encodingv.StringValue(ctx); err != nil {
+				return nil, err
+			} else {
+				e := buffer.BufferEncoding(_e)
+				encoding = &e
+			}
+		}
+	}
+
+	return encoding, nil
 }
 
 //js:method openSync

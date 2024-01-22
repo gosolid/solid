@@ -3,24 +3,70 @@
 package crypto
 
 import (
-  isolates "github.com/grexie/isolates"
+  buffer "github.com/gosolid/solid/pkg/runtime/buffer"
   reflect "reflect"
+  isolates "github.com/grexie/isolates"
 )
 
-var _ = isolates.RegisterRuntime("native:@grexie/workers/crypto", "crypto.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
-  if constructor, err := in.Context.CreateWithName(in.ExecutionContext, "Hash", func (in isolates.FunctionArgs) (*Hash, error) {
-    var _algorithm string
-    if v, err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&_algorithm).Elem()); err != nil {
-      return nil, err
-    } else {
-      _algorithm = v.Interface().(string)
-    }
+var _ = isolates.RegisterRuntime("crypto", "crypto.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
+  {
+    fnName := "createHash"
+    if fn, err := in.Context.CreateFunction(in.ExecutionContext, &fnName, func (in isolates.FunctionArgs) (*isolates.Value, error) {
+  var algorithm string
+      if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&algorithm).Elem()); __err != nil {
+        return nil, __err
+      } else {
+        algorithm = v.Interface().(string)
+      }
 
-    return NewHash(_algorithm)
-  }); err != nil {
-    return nil, err
-  } else if err := in.Args[1].Set(in.ExecutionContext, "Hash", constructor); err != nil {
-    return nil, err
+      if result, err := CreateHash(in.ExecutionContext, algorithm); err != nil {
+        return nil, err
+      } else {
+        return in.Context.Create(in.ExecutionContext, result)
+      }
+    }); err != nil {
+      return nil, err
+    } else if err := in.Args[1].Set(in.ExecutionContext, "createHash", fn); err != nil {
+      return nil, err
+    }
+  }
+
+  {
+    fnName := "createHmac"
+    if fn, err := in.Context.CreateFunction(in.ExecutionContext, &fnName, func (in isolates.FunctionArgs) (*isolates.Value, error) {
+  var algorithm string
+      if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&algorithm).Elem()); __err != nil {
+        return nil, __err
+      } else {
+        algorithm = v.Interface().(string)
+      }
+
+      key := in.Arg(in.ExecutionContext, 1)
+      if result, err := CreateHmac(in.ExecutionContext, algorithm, key); err != nil {
+        return nil, err
+      } else {
+        return in.Context.Create(in.ExecutionContext, result)
+      }
+    }); err != nil {
+      return nil, err
+    } else if err := in.Args[1].Set(in.ExecutionContext, "createHmac", fn); err != nil {
+      return nil, err
+    }
+  }
+
+  {
+    fnName := "randomBytes"
+    if fn, err := in.Context.CreateFunction(in.ExecutionContext, &fnName, func (in isolates.FunctionArgs) (*isolates.Value, error) {
+      if result, err := RandomBytes(in.ExecutionContext); err != nil {
+        return nil, err
+      } else {
+        return in.Context.Create(in.ExecutionContext, result)
+      }
+    }); err != nil {
+      return nil, err
+    } else if err := in.Args[1].Set(in.ExecutionContext, "randomBytes", fn); err != nil {
+      return nil, err
+    }
   }
 
   return nil, nil
@@ -32,14 +78,8 @@ func (h *Hash) V8GetAlgorithm(in isolates.GetterArgs) (*isolates.Value, error) {
 }
 
 func (h *Hash) V8FuncUpdate(in isolates.FunctionArgs) (*isolates.Value, error) {
-  var b []byte
-  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&b).Elem()); __err != nil {
-    return nil, __err
-  } else if v != nil {
-    b = v.Interface().([]byte)
-  }
-
-  if result, err := h.Write(b); err != nil {
+  b := in.Arg(in.ExecutionContext, 0)
+  if result, err := h.Update(in.ExecutionContext, b); err != nil {
     return nil, err
   } else {
     return in.Context.Create(in.ExecutionContext, result)
@@ -47,13 +87,16 @@ func (h *Hash) V8FuncUpdate(in isolates.FunctionArgs) (*isolates.Value, error) {
 }
 
 func (h *Hash) V8FuncDigest(in isolates.FunctionArgs) (*isolates.Value, error) {
-  var b []byte
-  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&b).Elem()); __err != nil {
+  var encoding *buffer.BufferEncoding
+  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&encoding).Elem()); __err != nil {
     return nil, __err
   } else if v != nil {
-    b = v.Interface().([]byte)
+    encoding = v.Interface().(*buffer.BufferEncoding)
   }
 
-  result := h.Sum(b)
-  return in.Context.Create(in.ExecutionContext, result)
+  if result, err := h.Sum(encoding); err != nil {
+    return nil, err
+  } else {
+    return in.Context.Create(in.ExecutionContext, result)
+  }
 }

@@ -10,10 +10,13 @@ import (
 	"github.com/gosolid/solid/pkg/runtime/events"
 	"github.com/gosolid/solid/pkg/runtime/fs"
 	"github.com/gosolid/solid/pkg/runtime/http"
+	"github.com/gosolid/solid/pkg/runtime/https"
 	"github.com/gosolid/solid/pkg/runtime/net"
 	"github.com/gosolid/solid/pkg/runtime/os"
+	"github.com/gosolid/solid/pkg/runtime/punycode"
 	"github.com/gosolid/solid/pkg/runtime/repl"
 	"github.com/gosolid/solid/pkg/runtime/stream"
+	"github.com/gosolid/solid/pkg/runtime/tls"
 	"github.com/gosolid/solid/pkg/runtime/tty"
 	"github.com/gosolid/solid/pkg/runtime/url"
 	"github.com/gosolid/solid/pkg/runtime/util"
@@ -24,6 +27,9 @@ import (
 
 type Import interface{}
 
+var _ https.Import
+var _ punycode.Import
+var _ tls.Import
 var _ crypto_web.Import
 var _ assert.Import
 var _ buffer.Buffer
@@ -50,7 +56,7 @@ func AddRuntime() error {
 	f.Mount("/", fs.NewEmbedFS(&runtime.FS), "/lib")
 
 	// isolates.RegisterRuntimeLibrary("@grexie/workers/console", fs, "/console.js")
-	isolates.RegisterRuntimeLibrary("crypto", f, "/crypto.js")
+	// isolates.RegisterRuntimeLibrary("crypto", f, "/crypto.js")
 	// isolates.RegisterRuntimeLibrary("os", fs, "/os.js")
 	isolates.RegisterRuntimeLibrary("path", f, "/path.js")
 	isolates.RegisterRuntimeLibrary("@grexie/workers/stream", f, "/stream/index.js")

@@ -13,17 +13,17 @@
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 3 @column 0 */
 declare module "fs" {
   import type { Buffer } from "buffer";
-  import type { Stats } from "fs";
+  import type { Stats, FileDescriptor } from "fs";
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 28 @column 0 */
   class File {
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 228 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 256 @column 0 */
   close(  ): void;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 228 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 256 @column 0 */
   closeSync(  ): void;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 235 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 263 @column 0 */
   readAllSync(  ): Buffer;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 235 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 263 @column 0 */
   readAll(  ): Buffer;
   }
   export { File };
@@ -47,31 +47,31 @@ declare module "fs" {
   readFileSync(  ): Buffer;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 94 @column 0 */
   readFile(  ): Buffer;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 106 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 134 @column 0 */
   openSync(  ): Stats;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 106 @column 0 */
-  open(  ): File;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 118 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 134 @column 0 */
+  open(  ): FileDescriptor;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 146 @column 0 */
   closeSync(  ): void;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 118 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 146 @column 0 */
   close(  ): void;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 123 @column 0 */
-  file(  ): File;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 129 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 151 @column 0 */
+  file(  ): Stats;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 157 @column 0 */
   existsSync(  ): boolean;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 129 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 157 @column 0 */
   exists(  ): boolean;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 141 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 169 @column 0 */
   statSync(  ): File;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 141 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 169 @column 0 */
   stat(  ): Stats;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 153 @column 0 */
-  lstatSync(  ): Stats;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 153 @column 0 */
-  lstat(  ): Stats;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 165 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 181 @column 0 */
+  lstatSync(  ): File;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 181 @column 0 */
+  lstat(  ): File;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 193 @column 0 */
   accessSync(  ): void;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 165 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 193 @column 0 */
   access(  ): void;
   }
   export { FileSystem };

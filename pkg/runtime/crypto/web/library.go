@@ -4,6 +4,7 @@ package web
 import (
 	"context"
 	"crypto/rand"
+	"fmt"
 
 	isolates "github.com/grexie/isolates"
 )
@@ -26,4 +27,10 @@ func GetRandomValues(ctx context.Context, arrayBufferView *isolates.Value) (*iso
 			return arrayBufferView, nil
 		}
 	}
+}
+
+//js:export createHmac
+//js:method createHmac
+func CreateHmac(ctx context.Context) (*isolates.Value, error) {
+	return nil, fmt.Errorf("hmac not implemented")
 }

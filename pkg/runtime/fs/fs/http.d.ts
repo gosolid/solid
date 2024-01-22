@@ -12,47 +12,48 @@
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 3 @column 0 */
 declare module "fs" {
-  import type { Stats, FileDescriptor, File } from "fs";
+  import type { File, Stats } from "fs";
+  import type { Buffer } from "buffer";
 
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 37 @column 0 */
-  class HttpFileSystem extends Stats {
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 42 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 38 @column 0 */
+  class HttpFileSystem extends File {
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 43 @column 0 */
   toString(  ): string;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 57 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 58 @column 0 */
   readdirSync(  ): string[];
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 57 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 58 @column 0 */
   readdir(  ): string[];
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 70 @column 0 */
-  readFileSync(  ): Stats;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 70 @column 0 */
-  readFile(  ): Stats;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 87 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 71 @column 0 */
+  readFileSync(  ): Buffer;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 71 @column 0 */
+  readFile(  ): Buffer;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 102 @column 0 */
   createReadStream(  ): Stats;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 105 @column 0 */
-  openSync(  ): FileDescriptor;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 105 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 120 @column 0 */
+  openSync(  ): File;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 120 @column 0 */
   open(  ): Stats;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 127 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 142 @column 0 */
   closeSync(  ): void;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 127 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 142 @column 0 */
   close(  ): void;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 132 @column 0 */
-  file(  ): Stats;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 138 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 147 @column 0 */
+  file(  ): File;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 153 @column 0 */
   existsSync(  ): boolean;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 138 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 153 @column 0 */
   exists(  ): boolean;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 154 @column 0 */
-  statSync(  ): Stats;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 154 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 169 @column 0 */
+  statSync(  ): File;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 169 @column 0 */
   stat(  ): Stats;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 182 @column 0 */
-  lstatSync(  ): File;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 182 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 197 @column 0 */
+  lstatSync(  ): Stats;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 197 @column 0 */
   lstat(  ): File;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 188 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 203 @column 0 */
   realpath(  ): string;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 188 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/http.go @line 203 @column 0 */
   realpathSync(  ): string;
   }
   export { HttpFileSystem };

@@ -147,6 +147,14 @@ func (c *Process) V8FuncNextTick(in isolates.FunctionArgs) (*isolates.Value, err
   }
 }
 
+func (c *Process) V8GetVersion(in isolates.GetterArgs) (*isolates.Value, error) {
+  if result, err := c.Version(); err != nil {
+    return nil, err
+  } else {
+    return in.Context.Create(in.ExecutionContext, result)
+  }
+}
+
 func (c *Process) V8FuncExit(in isolates.FunctionArgs) (*isolates.Value, error) {
   var exitCode int
   if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&exitCode).Elem()); __err != nil {

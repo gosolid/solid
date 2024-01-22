@@ -23,6 +23,21 @@ var _ = isolates.RegisterRuntime("crypto/web", "library.go", func (in isolates.F
     }
   }
 
+  {
+    fnName := "createHmac"
+    if fn, err := in.Context.CreateFunction(in.ExecutionContext, &fnName, func (in isolates.FunctionArgs) (*isolates.Value, error) {
+      if result, err := CreateHmac(in.ExecutionContext); err != nil {
+        return nil, err
+      } else {
+        return in.Context.Create(in.ExecutionContext, result)
+      }
+    }); err != nil {
+      return nil, err
+    } else if err := in.Args[1].Set(in.ExecutionContext, "createHmac", fn); err != nil {
+      return nil, err
+    }
+  }
+
   return nil, nil
 })
 

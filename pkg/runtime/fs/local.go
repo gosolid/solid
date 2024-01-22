@@ -14,6 +14,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/gosolid/solid/pkg/runtime/buffer"
 	isolates "github.com/grexie/isolates"
 )
 
@@ -87,14 +88,16 @@ func (fs *localfs) ReadDir(ctx context.Context, path string) ([]string, error) {
 //js:method readFileSync
 //js:callback-method readFile
 //js:return buffer.Buffer
-func (fs *localfs) ReadFile(ctx context.Context, path string) ([]byte, error) {
+func (fs *localfs) ReadFile(ctx context.Context, path string, options ...any) (any, error) {
 	if mount, _, err := fs.mounts.Resolve(ctx, path); err != nil && !IsNotExists(err) {
 		return nil, err
 	} else if !IsNotExists(err) {
-		return mount.fs.ReadFile(ctx, mount.path)
+		return mount.fs.ReadFile(ctx, mount.path, options...)
 	}
 
-	if p, err := fs.joinPath(path); err != nil {
+	if encoding, err := parseReadFileOptions(ctx, options); err != nil {
+		return nil, err
+	} else if p, err := fs.joinPath(path); err != nil {
 		return nil, err
 	} else if bytes, err := os.ReadFile(p); err != nil {
 		if os.IsNotExist(err) {
@@ -103,6 +106,17 @@ func (fs *localfs) ReadFile(ctx context.Context, path string) ([]byte, error) {
 			return nil, err
 		}
 	} else {
+		if encoding != nil {
+			if b, err := isolates.For(ctx).New(buffer.NewBuffer, len(bytes)); err != nil {
+				return nil, err
+			} else if err := b.(*buffer.Buffer).Buffer().SetBytes(ctx, bytes); err != nil {
+				return nil, err
+			} else if s, err := b.(*buffer.Buffer).ToString(ctx, encoding); err != nil {
+				return nil, err
+			} else {
+				return s, nil
+			}
+		}
 		return bytes, nil
 	}
 }

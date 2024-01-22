@@ -27,23 +27,23 @@ declare module "stream" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/writable.go @line 310 @column 0 */
   write(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/writable.go @line 67 @column 0 */
-    readonly writableCorked: number;
+    readonly writableLength: number;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/writable.go @line 67 @column 0 */
     readonly writableNeedDrain: boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/writable.go @line 67 @column 0 */
     readonly writableObjectMode: boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/writable.go @line 67 @column 0 */
-    readonly writableAborted: boolean;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/writable.go @line 67 @column 0 */
     readonly writableEnded: boolean;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/writable.go @line 67 @column 0 */
-    readonly writableFinished: boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/writable.go @line 67 @column 0 */
     readonly writableHighWaterMark: number;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/writable.go @line 67 @column 0 */
-    readonly writableLength: number;
+    readonly writableCorked: number;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/writable.go @line 67 @column 0 */
+    readonly writableFinished: boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/writable.go @line 67 @column 0 */
     readonly writable: boolean;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/writable.go @line 67 @column 0 */
+    readonly writableAborted: boolean;
   }
   export { Writable };
 }

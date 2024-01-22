@@ -122,7 +122,7 @@ func NewReadableWithStream(in isolates.FunctionArgs, StreamBase *StreamBase) (*R
 		state:      ReadableStreamStatePaused,
 	}
 
-	if len(in.Args) > 0 {
+	if len(in.Args) > 0 && !in.Args[0].IsNil() {
 		options := in.Args[0]
 
 		if read, err := options.Get(in.ExecutionContext, "read"); err != nil {

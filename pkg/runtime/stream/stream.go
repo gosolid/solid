@@ -73,7 +73,7 @@ func NewStream(in isolates.FunctionArgs) (*StreamBase, error) {
 
 	hasConstruct := false
 
-	if len(in.Args) > 0 {
+	if len(in.Args) > 0 && !in.Args[0].IsNil() {
 		options := in.Args[0]
 
 		if construct, err := options.Get(in.ExecutionContext, "construct"); err != nil {

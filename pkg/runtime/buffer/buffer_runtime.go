@@ -53,19 +53,71 @@ func (b *Buffer) V8GetBuffer(in isolates.GetterArgs) (*isolates.Value, error) {
   return in.Context.Create(in.ExecutionContext, result)
 }
 
-func (b *Buffer) V8FuncSlice(in isolates.FunctionArgs) (*isolates.Value, error) {
-  var start int
-  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&start).Elem()); __err != nil {
+func (b *Buffer) V8FuncReadUInt32BE(in isolates.FunctionArgs) (*isolates.Value, error) {
+  var offset int
+  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&offset).Elem()); __err != nil {
     return nil, __err
   } else {
-    start = v.Interface().(int)
+    offset = v.Interface().(int)
   }
 
-  var end int
-  if v, __err := in.Arg(in.ExecutionContext, 1).Unmarshal(in.ExecutionContext, reflect.TypeOf(&end).Elem()); __err != nil {
+  if result, err := b.ReadUInt32BE(in.ExecutionContext, offset); err != nil {
+    return nil, err
+  } else {
+    return in.Context.Create(in.ExecutionContext, result)
+  }
+}
+
+func (b *Buffer) V8FuncWriteUInt32BE(in isolates.FunctionArgs) (*isolates.Value, error) {
+  var value uint32
+  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&value).Elem()); __err != nil {
     return nil, __err
   } else {
-    end = v.Interface().(int)
+    value = v.Interface().(uint32)
+  }
+
+  var offset int
+  if v, __err := in.Arg(in.ExecutionContext, 1).Unmarshal(in.ExecutionContext, reflect.TypeOf(&offset).Elem()); __err != nil {
+    return nil, __err
+  } else {
+    offset = v.Interface().(int)
+  }
+
+  if result, err := b.WriteUInt32BE(in.ExecutionContext, value, offset); err != nil {
+    return nil, err
+  } else {
+    return in.Context.Create(in.ExecutionContext, result)
+  }
+}
+
+func (s *bufferStatic) V8FuncConcat(in isolates.FunctionArgs) (*isolates.Value, error) {
+  var buffers []*isolates.Value
+  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&buffers).Elem()); __err != nil {
+    return nil, __err
+  } else if v != nil {
+    buffers = v.Interface().([]*isolates.Value)
+  }
+
+  if result, err := s.Concat(in.ExecutionContext, buffers); err != nil {
+    return nil, err
+  } else {
+    return in.Context.Create(in.ExecutionContext, result)
+  }
+}
+
+func (b *Buffer) V8FuncSlice(in isolates.FunctionArgs) (*isolates.Value, error) {
+  var start *int
+  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&start).Elem()); __err != nil {
+    return nil, __err
+  } else if v != nil {
+    start = v.Interface().(*int)
+  }
+
+  var end *int
+  if v, __err := in.Arg(in.ExecutionContext, 1).Unmarshal(in.ExecutionContext, reflect.TypeOf(&end).Elem()); __err != nil {
+    return nil, __err
+  } else if v != nil {
+    end = v.Interface().(*int)
   }
 
   if result, err := b.Slice(in.ExecutionContext, start, end); err != nil {
@@ -76,7 +128,14 @@ func (b *Buffer) V8FuncSlice(in isolates.FunctionArgs) (*isolates.Value, error) 
 }
 
 func (b *Buffer) V8FuncToString(in isolates.FunctionArgs) (*isolates.Value, error) {
-  if result, err := b.ToString(in.ExecutionContext); err != nil {
+  var encoding *BufferEncoding
+  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&encoding).Elem()); __err != nil {
+    return nil, __err
+  } else if v != nil {
+    encoding = v.Interface().(*BufferEncoding)
+  }
+
+  if result, err := b.ToString(in.ExecutionContext, encoding); err != nil {
     return nil, err
   } else {
     return in.Context.Create(in.ExecutionContext, result)
@@ -92,6 +151,36 @@ func (b *bufferStatic) V8FuncAlloc(in isolates.FunctionArgs) (*isolates.Value, e
   }
 
   if result, err := b.Alloc(in.ExecutionContext, size); err != nil {
+    return nil, err
+  } else {
+    return in.Context.Create(in.ExecutionContext, result)
+  }
+}
+
+func (b *bufferStatic) V8FuncAllocUnsafe(in isolates.FunctionArgs) (*isolates.Value, error) {
+  var size int
+  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&size).Elem()); __err != nil {
+    return nil, __err
+  } else {
+    size = v.Interface().(int)
+  }
+
+  if result, err := b.AllocUnsafe(in.ExecutionContext, size); err != nil {
+    return nil, err
+  } else {
+    return in.Context.Create(in.ExecutionContext, result)
+  }
+}
+
+func (b *bufferStatic) V8FuncAllocUnsafeSlow(in isolates.FunctionArgs) (*isolates.Value, error) {
+  var size int
+  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&size).Elem()); __err != nil {
+    return nil, __err
+  } else {
+    size = v.Interface().(int)
+  }
+
+  if result, err := b.AllocUnsafeSlow(in.ExecutionContext, size); err != nil {
     return nil, err
   } else {
     return in.Context.Create(in.ExecutionContext, result)

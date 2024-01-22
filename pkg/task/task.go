@@ -489,6 +489,11 @@ func (c *Process) NextTick(in isolates.FunctionArgs) (*isolates.Value, error) {
 	return nil, nil
 }
 
+//js:get
+func (c *Process) Version() (string, error) {
+	return "20.0", nil
+}
+
 //js:method
 func (c *Process) Exit(exitCode int) error {
 	c.task.exitCode = exitCode

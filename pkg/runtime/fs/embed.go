@@ -84,16 +84,29 @@ func (fs *embedfs) ReadDir(ctx context.Context, path string) ([]string, error) {
 //js:method readFileSync
 //js:callback-method readFile
 //js:return buffer.Buffer
-func (fs *embedfs) ReadFile(ctx context.Context, path string) ([]byte, error) {
+func (fs *embedfs) ReadFile(ctx context.Context, path string, options ...any) (any, error) {
 	if mount, _, err := fs.mounts.Resolve(ctx, path); err != nil && !IsNotExists(err) {
 		return nil, err
 	} else if !IsNotExists(err) {
-		return mount.fs.ReadFile(ctx, mount.path)
+		return mount.fs.ReadFile(ctx, mount.path, options...)
 	}
 
-	if bytes, err := fs.embed.ReadFile(path[1:]); err != nil {
+	if encoding, err := parseReadFileOptions(ctx, options); err != nil {
+		return nil, err
+	} else if bytes, err := fs.embed.ReadFile(path[1:]); err != nil {
 		return nil, err
 	} else {
+		if encoding != nil {
+			if b, err := isolates.For(ctx).New(buffer.NewBuffer, len(bytes)); err != nil {
+				return nil, err
+			} else if err := b.(*buffer.Buffer).Buffer().SetBytes(ctx, bytes); err != nil {
+				return nil, err
+			} else if s, err := b.(*buffer.Buffer).ToString(ctx, encoding); err != nil {
+				return nil, err
+			} else {
+				return s, nil
+			}
+		}
 		return bytes, nil
 	}
 }

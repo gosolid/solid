@@ -5,12 +5,26 @@ package buffer
 //go:generate go run github.com/grexie/isolates/codegen
 
 import (
+	"bytes"
 	"context"
+	"encoding/base64"
+	"encoding/binary"
+	"encoding/hex"
 	"fmt"
 	"math"
 	"reflect"
 
 	"github.com/grexie/isolates"
+)
+
+type BufferEncoding string
+
+const (
+	Ascii  BufferEncoding = "ascii"
+	Utf8   BufferEncoding = "utf8"
+	Hex    BufferEncoding = "hex"
+	Base64 BufferEncoding = "base64"
+	Raw    BufferEncoding = "raw"
 )
 
 //js:class
@@ -89,12 +103,87 @@ func (b *Buffer) Length(ctx context.Context) (int, error) {
 }
 
 //js:method
-func (b *Buffer) Slice(ctx context.Context, start int, end int) (*Buffer, error) {
+func (b *Buffer) ReadUInt32BE(ctx context.Context, offset int) (uint32, error) {
+	if b, err := b.buffer.Bytes(ctx); err != nil {
+		return 0, err
+	} else {
+		i := binary.BigEndian.Uint32(b[offset : offset+4])
+		return i, nil
+	}
+}
+
+//js:method
+func (b *Buffer) WriteUInt32BE(ctx context.Context, value uint32, offset int) (*Buffer, error) {
+	if bufb, err := b.buffer.Bytes(ctx); err != nil {
+		return nil, err
+	} else {
+		var buf bytes.Buffer
+		binary.Write(&buf, binary.BigEndian, value)
+		copy(bufb[offset:offset+4], buf.Bytes())
+
+		if err := b.buffer.SetBytes(ctx, bufb); err != nil {
+			return nil, err
+		} else {
+			return b, nil
+		}
+	}
+}
+
+//js:method
+func (s *bufferStatic) Concat(ctx context.Context, buffers []*isolates.Value) (*Buffer, error) {
+	bytes := make([]byte, 0)
+	for i := 0; i < len(buffers); i++ {
+		if b, err := buffers[i].Unmarshal(ctx, reflect.TypeOf(&Buffer{})); err != nil {
+			return nil, err
+		} else {
+			buffer := b.Interface().(*Buffer)
+			if bufferBytes, err := buffer.buffer.Bytes(ctx); err != nil {
+				return nil, err
+			} else {
+				bytes = append(bytes, bufferBytes...)
+			}
+		}
+	}
+
+	if buffer, err := isolates.For(ctx).New(NewBuffer, len(bytes)); err != nil {
+		return nil, err
+	} else if err := buffer.(*Buffer).buffer.SetBytes(ctx, bytes); err != nil {
+		return nil, err
+	} else {
+		return buffer.(*Buffer), nil
+	}
+}
+
+//js:method
+func (b *Buffer) Slice(ctx context.Context, start *int, end *int) (*Buffer, error) {
 	if b1, err := b.buffer.Bytes(ctx); err != nil {
 		return nil, err
 	} else {
-		b2 := make([]byte, end-start)
-		copy(b2, b1[start:end])
+		if end == nil || *end > len(b1) {
+			e := len(b1)
+			end = &e
+		}
+		if *end < 0 {
+			e := len(b1) - *end
+			end = &e
+		}
+
+		if start == nil {
+			s := 0
+			start = &s
+		}
+		if *start < 0 {
+			s := len(b1) + *start
+			start = &s
+
+		}
+		if *start > len(b1) {
+			s := len(b1)
+			start = &s
+		}
+
+		b2 := make([]byte, *end-*start)
+		copy(b2, b1[*start:*end])
 
 		if bufferv, err := isolates.For(ctx).Context().Create(ctx, b2); err != nil {
 			return nil, err
@@ -111,11 +200,19 @@ func (b *Buffer) Slice(ctx context.Context, start int, end int) (*Buffer, error)
 }
 
 //js:method
-func (b *Buffer) ToString(ctx context.Context) (string, error) {
+func (b *Buffer) ToString(ctx context.Context, encoding *BufferEncoding) (string, error) {
 	if bytes, err := b.buffer.Bytes(ctx); err != nil {
 		return "", err
 	} else {
-		return string(bytes), nil
+		if encoding == nil || *encoding == Utf8 || *encoding == "utf-8" || *encoding == Ascii || *encoding == Raw {
+			return string(bytes), nil
+		} else if *encoding == Hex {
+			return hex.EncodeToString(bytes), nil
+		} else if *encoding == Base64 {
+			return base64.RawStdEncoding.EncodeToString(bytes), nil
+		} else {
+			return "", fmt.Errorf("invalid encoding: %s", *encoding)
+		}
 	}
 }
 
@@ -125,10 +222,28 @@ func (b *bufferStatic) V8Construct(in isolates.FunctionArgs) (*bufferStatic, err
 
 //js:method
 func (b *bufferStatic) Alloc(ctx context.Context, size int) (*Buffer, error) {
-	if buffer, err := isolates.For(ctx).Context().Create(ctx, make([]byte, size)); err != nil {
+	if buffer, err := isolates.For(ctx).New(NewBuffer, size); err != nil {
 		return nil, err
 	} else {
-		return &Buffer{buffer}, nil
+		return buffer.(*Buffer), nil
+	}
+}
+
+//js:method
+func (b *bufferStatic) AllocUnsafe(ctx context.Context, size int) (*Buffer, error) {
+	if buffer, err := isolates.For(ctx).New(NewBuffer, size); err != nil {
+		return nil, err
+	} else {
+		return buffer.(*Buffer), nil
+	}
+}
+
+//js:method
+func (b *bufferStatic) AllocUnsafeSlow(ctx context.Context, size int) (*Buffer, error) {
+	if buffer, err := isolates.For(ctx).New(NewBuffer, size); err != nil {
+		return nil, err
+	} else {
+		return buffer.(*Buffer), nil
 	}
 }
 
@@ -167,12 +282,48 @@ func (s *bufferStatic) From(ctx context.Context, args ...any) (*Buffer, error) {
 	} else if len(args) >= 1 && args[0].IsKind(isolates.KindString) {
 		if s, err := args[0].StringValue(ctx); err != nil {
 			return nil, err
-		} else if buffer, err := isolates.For(ctx).New(NewBuffer, len([]byte(s))); err != nil {
-			return nil, err
-		} else if err := buffer.(*Buffer).Buffer().SetBytes(ctx, []byte(s)); err != nil {
-			return nil, err
 		} else {
-			return buffer.(*Buffer), nil
+			var encoding *BufferEncoding
+			if len(args) >= 2 && args[1].IsKind(isolates.KindString) {
+				if e, err := args[1].StringValue(ctx); err != nil {
+					return nil, err
+				} else {
+					s := BufferEncoding(e)
+					encoding = &s
+				}
+			}
+
+			if encoding == nil || *encoding == Utf8 {
+				if buffer, err := isolates.For(ctx).New(NewBuffer, len([]byte(s))); err != nil {
+					return nil, err
+				} else if err := buffer.(*Buffer).Buffer().SetBytes(ctx, []byte(s)); err != nil {
+					return nil, err
+				} else {
+					return buffer.(*Buffer), nil
+				}
+			} else if *encoding == Hex {
+				if b, err := hex.DecodeString(s); err != nil {
+					return nil, err
+				} else if buffer, err := isolates.For(ctx).New(NewBuffer, len(b)); err != nil {
+					return nil, err
+				} else if err := buffer.(*Buffer).Buffer().SetBytes(ctx, b); err != nil {
+					return nil, err
+				} else {
+					return buffer.(*Buffer), nil
+				}
+			} else if *encoding == Base64 {
+				if b, err := base64.RawStdEncoding.DecodeString(s); err != nil {
+					return nil, err
+				} else if buffer, err := isolates.For(ctx).New(NewBuffer, len(b)); err != nil {
+					return nil, err
+				} else if err := buffer.(*Buffer).Buffer().SetBytes(ctx, b); err != nil {
+					return nil, err
+				} else {
+					return buffer.(*Buffer), nil
+				}
+			} else {
+				return nil, fmt.Errorf("invalid encoding: %s", *encoding)
+			}
 		}
 	} else {
 		return nil, fmt.Errorf("%s is not a valid argument to Buffer.from", args[0])
@@ -181,7 +332,13 @@ func (s *bufferStatic) From(ctx context.Context, args ...any) (*Buffer, error) {
 
 //js:method isBuffer
 func (b *bufferStatic) IsBuffer(ctx context.Context, value any) (bool, error) {
-	return false, nil
+	if v, err := isolates.For(ctx).Context().Create(ctx, value); err != nil {
+		return false, err
+	} else if !v.Receiver(ctx).IsValid() || !v.Receiver(ctx).CanConvert(reflect.TypeOf(&Buffer{})) {
+		return false, nil
+	} else {
+		return true, nil
+	}
 }
 
 func (b *bufferModule) V8Construct(in isolates.FunctionArgs) (*bufferModule, error) {

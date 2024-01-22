@@ -14,9 +14,12 @@
 declare module "assert" {
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/assert/assert.go @line 11 @column 0 */
+  function equal(  ): void;
+  export { equal };
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/assert/assert.go @line 17 @column 0 */
   function notStrictEqual(  ): void;
   export { notStrictEqual };
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/assert/assert.go @line 18 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/assert/assert.go @line 24 @column 0 */
   function assert(  ): void;
   export default assert;
 }

@@ -14,7 +14,7 @@
 declare module "stream" {
   import type { Duplex } from "stream";
 
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/transform.go @line 22 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/transform.go @line 27 @column 0 */
   class Transform extends Duplex {
   }
   export { Transform };
