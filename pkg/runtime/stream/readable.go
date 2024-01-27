@@ -9,7 +9,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"sync"
 
 	"github.com/grexie/isolates"
@@ -83,6 +82,9 @@ type ReadableBase struct {
 	pipes   []Pipe
 	buffer []*isolates.Value
 	readable bool
+	reading bool
+	draining bool
+	emittedEnd bool
 }
 
 type Reader struct {
@@ -137,6 +139,10 @@ func NewReadableWithStream(in isolates.FunctionArgs, StreamBase *StreamBase) (*R
 			}
 		}
 	}
+
+	in.Context.AddMicrotask(in.ExecutionContext, func(in isolates.FunctionArgs) error {
+		return readable.ReadV8(in.ExecutionContext, 1024)
+	})
 
 	return readable, nil
 }
@@ -258,17 +264,28 @@ func (r *ReadableBase) IsPaused() bool {
 
 //js:method
 func (r *ReadableBase) Pause(context.Context) {
-	log.Println("PAUSE")
 	r.SetReadableStateConditional(ReadableStreamStateResumed, ReadableStreamStatePaused)
 }
 
 //js:method
 func (r *ReadableBase) Resume(ctx context.Context) {
-	log.Println("RESUME")
-	if r.StreamBase.state == StreamStateReady && r.SetReadableStateConditional(ReadableStreamStatePaused, ReadableStreamStateResumed) {
+	if r.SetReadableStateConditional(ReadableStreamStatePaused, ReadableStreamStateResumed) {
 		isolates.For(ctx).Background(func(ctx context.Context) {
-			if err := r.ReadV8(ctx, 1024); err != nil {
-				r.EmitError(ctx, err)
+			for !r.IsPaused() && len(r.buffer) > 0 {
+				chunk := r.buffer[0]
+				r.buffer = r.buffer[1:]
+				r.Emit(ctx, "data", chunk)
+			}
+			if (r.StreamBase.state == StreamStateNew || r.StreamBase.state == StreamStateReady) {
+				if err := r.ReadV8(ctx, 1024); err != nil {
+					r.EmitError(ctx, err)
+				}
+			} else if len(r.buffer) == 0 && r.Closed() && !r.emittedEnd {
+				r.emittedEnd = true
+				if r.IsPaused() {
+					r.Emit(ctx, "readable")
+				}
+				r.Emit(ctx, "end")
 			}
 		})
 	}
@@ -283,12 +300,20 @@ func (r *ReadableBase) ReadChunk(ctx context.Context) (*isolates.Value, error) {
 		return nil, err
 	} else if r.state == ReadableStreamStateResumed {
 		return null, nil
-	} else if len(r.buffer) == 0 {
-		return null, nil	
 	} else {
-		chunk := r.buffer[0]
-		r.buffer = r.buffer[1:]
-		return chunk, nil
+		if len(r.buffer) == 0 && !r.Closed() {
+			if err := r.ReadV8(ctx, 1024); err != nil {
+				return nil, err
+			}
+		}
+
+		if len(r.buffer) != 0 {
+			chunk := r.buffer[0]
+			r.buffer = r.buffer[1:]
+			return chunk, nil
+		} else {
+			return null, nil
+		}
 	}
 }
 
@@ -347,11 +372,29 @@ func (r *ReadableBase) Pipe(ctx context.Context, destination *isolates.Value, op
 }
 
 func (r *ReadableBase) ReadV8(ctx context.Context, size int) error {
+	r.mutex.Lock()
+	if r.reading {
+		r.mutex.Unlock()
+		return nil
+	} else {
+		r.reading = true
+		defer func() {
+			r.mutex.Lock()
+			defer r.mutex.Unlock()
+			r.reading = false
+		}()
+		r.mutex.Unlock()
+	}
+
 	if _, err := r.This.CallMethod(ctx, "_read", size); err != nil {
 		return err
-	} else {
-		return nil
 	}
+
+	// isolates.For(ctx).Background(func(ctx context.Context) {
+	// 	r.drainReadableBuffer(ctx)
+	// })
+
+	return nil
 }
 
 //js:get
@@ -389,7 +432,7 @@ func (r *ReadableBase) ReadableFlowing() bool {
 
 //js:get
 func (r *ReadableBase) ReadableHighWaterMark() int {
-	return 0
+	return 5
 }
 
 //js:get
@@ -541,24 +584,65 @@ func (r *ReadableBase) Reduce(context.Context, *isolates.Value, *isolates.Value,
 	return nil, errors.New("not implemented")
 }
 
+func (r *ReadableBase) drainReadableBuffer(ctx context.Context) error {
+	r.mutex.Lock()
+	if r.draining {
+		r.mutex.Unlock()
+		return nil
+	} else {
+		r.draining = true
+		defer func() {
+			r.mutex.Lock()
+			defer r.mutex.Unlock()
+			r.draining = false
+		}()
+		r.mutex.Unlock()
+	}
+
+	for len(r.buffer) > 0 && !r.IsPaused() {
+		r.mutex.Lock()
+		chunk := r.buffer[0]
+		r.buffer = r.buffer[1:]
+		r.mutex.Unlock()
+		r.Emit(ctx, "data", chunk)
+	}
+
+	r.mutex.Lock()
+	if len(r.buffer) == 0 && !r.IsPaused() && !r.Closed() {
+		r.mutex.Unlock()
+		isolates.For(ctx).Background(func(ctx context.Context) {
+			r.ReadV8(ctx, 1024)
+		})
+	} else {
+		r.mutex.Unlock()
+	}
+
+	return nil
+}
+
 //js:method
 func (r *ReadableBase) Push(ctx context.Context, chunk *isolates.Value, encoding *BufferEncoding) (bool, error) {
 	if chunk.IsNil() {
 		r.SetStateConditional(StreamStateReady, StreamStateClosed)
-		r.Emit(ctx, "readable")
-		r.Emit(ctx, "end")
+		if len(r.buffer) == 0 && !r.emittedEnd {
+			r.emittedEnd = true
+			r.Emit(ctx, "readable")
+			r.Emit(ctx, "end")
+		}
 	} else {
 		r.mutex.Lock()
 		if r.state == ReadableStreamStateResumed {
+			r.buffer = append(r.buffer, chunk)
 			r.mutex.Unlock()
-			r.Emit(ctx, "data", chunk)
+			// TODO call a microtask that drains the buffer, if the microtask doesn't exist
+			// TODO when the microtask buffer is depleted, call readv8 again
 		} else {
 			r.buffer = append(r.buffer, chunk)
 			r.mutex.Unlock()
 			r.Emit(ctx, "readable")
 		}
 	}
-	return !r.Closed() && !r.Destroyed() && !r.IsPaused() && r.Errored() == nil, nil
+	return !r.Closed() && !r.Destroyed() && !r.IsPaused() && r.Errored() == nil && len(r.buffer) < r.ReadableHighWaterMark(), nil
 }
 
 /*********************

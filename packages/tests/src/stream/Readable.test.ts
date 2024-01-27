@@ -75,7 +75,7 @@ describe.only('stream.Readable', () => {
     readableStream.push(null);
   });
 
-  it.only('should handle pause and resume correctly', done => {
+  it('should handle pause and resume correctly', done => {
     const dataChunks = ['chunk1', 'chunk2', 'chunk3'];
 
     const readableStream = new Readable({
@@ -90,7 +90,6 @@ describe.only('stream.Readable', () => {
     let receivedData = '';
 
     readableStream.on('data', chunk => {
-      console.info('data', chunk);
       receivedData += chunk.toString();
       readableStream.pause();
       setTimeout(() => {
@@ -99,8 +98,12 @@ describe.only('stream.Readable', () => {
     });
 
     readableStream.on('end', () => {
-      expect(receivedData).to.equal(dataChunks.join(''));
-      done();
+      try {
+        expect(receivedData).to.equal(dataChunks.join(''));
+        done();
+      } catch (err) {
+        done(err);
+      }
     });
 
     readableStream.resume();
@@ -119,8 +122,6 @@ describe.only('stream.Readable', () => {
       expect(error).to.equal(customError);
       done();
     });
-
-    readableStream.resume();
   });
 
   it('should handle empty stream', done => {
@@ -204,6 +205,8 @@ describe.only('stream.Readable', () => {
     });
 
     readableStream.on('close', done);
+
+    readableStream.resume();
   });
 
   it('should emit error event when source has an error', done => {
@@ -260,6 +263,8 @@ describe.only('stream.Readable', () => {
       expect(consumer2Data).to.equal('data');
       done();
     });
+
+    readableStream.resume();
   });
 
   it('should handle object mode', done => {
@@ -281,6 +286,8 @@ describe.only('stream.Readable', () => {
       expect(receivedData).to.deep.equal({ key: 'value' });
       done();
     });
+
+    objectStream.resume();
   });
 
   it('should handle large amounts of data without memory issues', function (done) {
@@ -293,6 +300,7 @@ describe.only('stream.Readable', () => {
     let i = 0;
     const readableStream = new Readable({
       read() {
+        console.info('calling read');
         // Push the large data in chunks
         for (; i < largeData.length; i += 1024) {
           if (!this.push(largeData.slice(i, i + 1024))) {

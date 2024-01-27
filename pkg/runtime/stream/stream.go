@@ -122,6 +122,8 @@ func NewStream(in isolates.FunctionArgs) (*StreamBase, error) {
 
 			return nil
 		})
+	} else {
+		stream.SetState(StreamStateReady)
 	}
 
 	return stream, nil
@@ -173,7 +175,7 @@ func (s *StreamBase) Destroy(ctx context.Context, err *isolates.Value) error {
 			return nil, nil
 		} else {
 			s.SetState(StreamStateDestroyed)
-			s.Emit(in.ExecutionContext, "end")
+			s.Emit(in.ExecutionContext, "close")
 			return nil, nil
 		}
 	}); err != nil {
@@ -190,8 +192,9 @@ func (s *StreamBase) Destroy(ctx context.Context, err *isolates.Value) error {
 		} else {
 			return nil
 		}
+	} else if _, err := callback.Call(ctx, s.This); err != nil {
+		return err
 	} else {
-		s.SetState(StreamStateDestroyed)
 		return nil
 	}
 }
