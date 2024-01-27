@@ -13,7 +13,7 @@
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 3 @column 0 */
 declare module "fs" {
   import type { Buffer } from "buffer";
-  import type { Stats, FileDescriptor } from "fs";
+  import type { Stats, File } from "fs";
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 28 @column 0 */
   class File {
@@ -34,7 +34,7 @@ declare module "fs" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 47 @column 0 */
   mount(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 53 @column 0 */
-  createReadStream(  ): Stats;
+  createReadStream(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 65 @column 0 */
   readdirSync(  ): string[];
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 65 @column 0 */
@@ -48,9 +48,9 @@ declare module "fs" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 94 @column 0 */
   readFile(  ): Buffer;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 134 @column 0 */
-  openSync(  ): Stats;
+  openSync(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 134 @column 0 */
-  open(  ): FileDescriptor;
+  open(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 146 @column 0 */
   closeSync(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 146 @column 0 */
@@ -64,9 +64,9 @@ declare module "fs" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 169 @column 0 */
   statSync(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 169 @column 0 */
-  stat(  ): Stats;
+  stat(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 181 @column 0 */
-  lstatSync(  ): File;
+  lstatSync(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 181 @column 0 */
   lstat(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 193 @column 0 */

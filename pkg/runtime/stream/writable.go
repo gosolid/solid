@@ -180,10 +180,16 @@ func (w *WritableBase) End(ctx context.Context, args ...any) error {
 	}
 
 	final := func() error {
-		if _, err := w.This.CallMethod(ctx, "_final", func(in isolates.FunctionArgs) (*isolates.Value, error) {
-			return nil, nil
-		}); err != nil {
-			return err
+		if final, err := w.This.Get(ctx, "_final"); err != nil {
+			return nil
+		} else if final.IsKind(isolates.KindFunction) {
+			if _, err := w.This.CallMethod(ctx, "_final", func(in isolates.FunctionArgs) (*isolates.Value, error) {
+				return nil, nil
+			}); err != nil {
+				return err
+			} else {
+				return nil
+			}
 		} else {
 			return nil
 		}

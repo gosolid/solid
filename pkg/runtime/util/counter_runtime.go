@@ -3,9 +3,9 @@
 package util
 
 import (
-  reflect "reflect"
   isolates "github.com/grexie/isolates"
   time "time"
+  reflect "reflect"
 )
 
 var _ = isolates.RegisterRuntime("util", "counter.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {

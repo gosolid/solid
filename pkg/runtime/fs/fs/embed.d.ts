@@ -12,15 +12,15 @@
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 3 @column 0 */
 declare module "fs" {
-  import type { Stats, File } from "fs";
   import type { Buffer } from "buffer";
+  import type { File, FileDescriptor, Stats } from "fs";
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 40 @column 0 */
-  class EmbeddedFileSystem extends Stats {
+  class EmbeddedFileSystem extends File {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 45 @column 0 */
   toString(  ): string;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 50 @column 0 */
-  createReadStream(  ): Stats;
+  createReadStream(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 66 @column 0 */
   readdirSync(  ): string[];
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 66 @column 0 */
@@ -32,13 +32,13 @@ declare module "fs" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 116 @column 0 */
   openSync(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 116 @column 0 */
-  open(  ): File;
+  open(  ): FileDescriptor;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 133 @column 0 */
   closeSync(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 133 @column 0 */
   close(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 138 @column 0 */
-  file(  ): File;
+  file(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 144 @column 0 */
   existsSync(  ): boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 144 @column 0 */
@@ -50,7 +50,7 @@ declare module "fs" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 190 @column 0 */
   lstatSync(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 190 @column 0 */
-  lstat(  ): File;
+  lstat(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 202 @column 0 */
   realpath(  ): string;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/embed.go @line 202 @column 0 */

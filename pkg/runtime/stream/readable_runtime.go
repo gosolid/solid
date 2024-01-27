@@ -34,6 +34,14 @@ func (r *ReadableBase) V8FuncResume(in isolates.FunctionArgs) (*isolates.Value, 
   return nil, nil
 }
 
+func (r *ReadableBase) V8FuncRead(in isolates.FunctionArgs) (*isolates.Value, error) {
+  if result, err := r.ReadChunk(in.ExecutionContext); err != nil {
+    return nil, err
+  } else {
+    return in.Context.Create(in.ExecutionContext, result)
+  }
+}
+
 func (r *ReadableBase) V8FuncPipe(in isolates.FunctionArgs) (*isolates.Value, error) {
   destination := in.Arg(in.ExecutionContext, 0)
   options := in.Arg(in.ExecutionContext, 1)
@@ -41,21 +49,6 @@ func (r *ReadableBase) V8FuncPipe(in isolates.FunctionArgs) (*isolates.Value, er
     return nil, err
   } else {
     return in.Context.Create(in.ExecutionContext, result)
-  }
-}
-
-func (r *ReadableBase) V8FuncReadV8(in isolates.FunctionArgs) (*isolates.Value, error) {
-  var size int
-  if v, __err := in.Arg(in.ExecutionContext, 0).Unmarshal(in.ExecutionContext, reflect.TypeOf(&size).Elem()); __err != nil {
-    return nil, __err
-  } else {
-    size = v.Interface().(int)
-  }
-
-  if err := r.ReadV8(in.ExecutionContext, size); err != nil {
-    return nil, err
-  } else {
-    return nil, nil
   }
 }
 

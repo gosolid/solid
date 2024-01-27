@@ -22,11 +22,11 @@ declare module "stream" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/stream.go @line 160 @column 0 */
   destroy(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/stream.go @line 65 @column 0 */
-    readonly closed: boolean;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/stream.go @line 65 @column 0 */
     readonly destroyed: boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/stream.go @line 65 @column 0 */
     readonly errored: any;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/stream.go @line 65 @column 0 */
+    readonly closed: boolean;
   }
   export { Stream };
   export default Stream;

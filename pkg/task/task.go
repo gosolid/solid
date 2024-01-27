@@ -254,6 +254,12 @@ func (c *WorkerTask) start(ctx context.Context) error {
 				return err
 			}
 
+			if webCrypto, err := in.Require.Call(in.ExecutionContext, nil, "crypto/web"); err != nil {
+				return err
+			} else if err := global.Set(in.ExecutionContext, "crypto", webCrypto); err != nil {
+				return err
+			}
+
 			for _, require := range c.requires {
 				if _, err := in.Require.Call(in.ExecutionContext, nil, require); err != nil {
 					return err
@@ -491,7 +497,7 @@ func (c *Process) NextTick(in isolates.FunctionArgs) (*isolates.Value, error) {
 
 //js:get
 func (c *Process) Version() (string, error) {
-	return "20.0", nil
+	return "v20.0", nil
 }
 
 //js:method

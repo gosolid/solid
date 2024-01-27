@@ -59,11 +59,18 @@ describe('http.Server', () => {
             new Promise<void>((resolve, reject) => {
                 conn.once('error', err => reject(err));
 
+                const chunks: Buffer[] = [];
+
                 conn.once('data', (chunk) => {
-                    if (chunk.toString() === 'HTTP/1.0 200 OK\r\n\r\nhello world') {
+                    chunks.push(chunk);
+                })
+
+                conn.on('end', () => {
+                    const data = Buffer.concat(chunks).toString().split(/\r\n/g);
+                    if (data[0] === 'HTTP/1.1 200 OK' && data[data.length - 1] === 'hello world') {
                         resolve();
                     } else {
-                        reject(new Error('invalid response received: ' + chunk.toString()));
+                        reject(new Error('invalid response received: ' + data.join('\r\n')));
                     }
                 })
 
@@ -117,11 +124,18 @@ describe('http.Server', () => {
             new Promise<void>((resolve, reject) => {
                 conn.once('error', err => reject(err));
 
+                const chunks: Buffer[] = [];
+
                 conn.once('data', (chunk) => {
-                    if (chunk.toString() === 'HTTP/1.0 200 OK\r\n\r\nhello world') {
+                    chunks.push(chunk);
+                })
+
+                conn.on('end', () => {
+                    const data = Buffer.concat(chunks).toString().split(/\r\n/g);
+                    if (data[0] === 'HTTP/1.1 200 OK' && data[data.length - 1] === 'hello world') {
                         resolve();
                     } else {
-                        reject(new Error('invalid response received: ' + chunk.toString()));
+                        reject(new Error('invalid response received: ' + data.join('\r\n')));
                     }
                 })
 

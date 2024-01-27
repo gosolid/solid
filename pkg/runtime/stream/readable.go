@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"sync"
 
 	"github.com/grexie/isolates"
@@ -47,8 +48,8 @@ type Readable interface {
 	SetEncoding(BufferEncoding) (*isolates.Value, error)
 	Unpipe(context.Context, *isolates.Value) (*isolates.Value, error)
 	Unshift(context.Context, *isolates.Value, *BufferEncoding) error
-	Backlog() []*isolates.Value
-	SetBacklog(backlog []*isolates.Value)
+	Buffer() []*isolates.Value
+	SetBuffer(buffer []*isolates.Value)
 	Wrap(context.Context, *isolates.Value) (*isolates.Value, error)
 	Compose(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
 	Iterator(context.Context, *isolates.Value) (*isolates.Value, error)
@@ -80,7 +81,8 @@ type ReadableBase struct {
 	mutex   sync.Mutex
 	state   ReadableStreamState
 	pipes   []Pipe
-	backlog []*isolates.Value
+	buffer []*isolates.Value
+	readable bool
 }
 
 type Reader struct {
@@ -256,17 +258,37 @@ func (r *ReadableBase) IsPaused() bool {
 
 //js:method
 func (r *ReadableBase) Pause(context.Context) {
+	log.Println("PAUSE")
 	r.SetReadableStateConditional(ReadableStreamStateResumed, ReadableStreamStatePaused)
 }
 
 //js:method
 func (r *ReadableBase) Resume(ctx context.Context) {
-	if r.SetReadableStateConditional(ReadableStreamStatePaused, ReadableStreamStateResumed) {
+	log.Println("RESUME")
+	if r.StreamBase.state == StreamStateReady && r.SetReadableStateConditional(ReadableStreamStatePaused, ReadableStreamStateResumed) {
 		isolates.For(ctx).Background(func(ctx context.Context) {
 			if err := r.ReadV8(ctx, 1024); err != nil {
 				r.EmitError(ctx, err)
 			}
 		})
+	}
+}
+
+//js:method read
+func (r *ReadableBase) ReadChunk(ctx context.Context) (*isolates.Value, error) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	if null, err := isolates.For(ctx).Context().Null(ctx); err != nil {
+		return nil, err
+	} else if r.state == ReadableStreamStateResumed {
+		return null, nil
+	} else if len(r.buffer) == 0 {
+		return null, nil	
+	} else {
+		chunk := r.buffer[0]
+		r.buffer = r.buffer[1:]
+		return chunk, nil
 	}
 }
 
@@ -324,7 +346,6 @@ func (r *ReadableBase) Pipe(ctx context.Context, destination *isolates.Value, op
 	return destination, nil
 }
 
-//js:method
 func (r *ReadableBase) ReadV8(ctx context.Context, size int) error {
 	if _, err := r.This.CallMethod(ctx, "_read", size); err != nil {
 		return err
@@ -335,7 +356,10 @@ func (r *ReadableBase) ReadV8(ctx context.Context, size int) error {
 
 //js:get
 func (r *ReadableBase) Readable() bool {
-	return true
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	return len(r.buffer) > 0
 }
 
 //js:get
@@ -430,16 +454,16 @@ func (r *ReadableBase) Unshift(ctx context.Context, chunk *isolates.Value, encod
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
 
-	r.backlog = append([]*isolates.Value{chunk}, r.backlog...)
+	r.buffer = append([]*isolates.Value{chunk}, r.buffer...)
 	return nil
 }
 
-func (r *ReadableBase) Backlog() []*isolates.Value {
-	return r.backlog
+func (r *ReadableBase) Buffer() []*isolates.Value {
+	return r.buffer
 }
 
-func (r *ReadableBase) SetBacklog(backlog []*isolates.Value) {
-	r.backlog = backlog
+func (r *ReadableBase) SetBuffer(buffer []*isolates.Value) {
+	r.buffer = buffer
 }
 
 //js:method
@@ -519,7 +543,21 @@ func (r *ReadableBase) Reduce(context.Context, *isolates.Value, *isolates.Value,
 
 //js:method
 func (r *ReadableBase) Push(ctx context.Context, chunk *isolates.Value, encoding *BufferEncoding) (bool, error) {
-	r.Emit(ctx, "data", chunk)
+	if chunk.IsNil() {
+		r.SetStateConditional(StreamStateReady, StreamStateClosed)
+		r.Emit(ctx, "readable")
+		r.Emit(ctx, "end")
+	} else {
+		r.mutex.Lock()
+		if r.state == ReadableStreamStateResumed {
+			r.mutex.Unlock()
+			r.Emit(ctx, "data", chunk)
+		} else {
+			r.buffer = append(r.buffer, chunk)
+			r.mutex.Unlock()
+			r.Emit(ctx, "readable")
+		}
+	}
 	return !r.Closed() && !r.Destroyed() && !r.IsPaused() && r.Errored() == nil, nil
 }
 
@@ -554,12 +592,12 @@ func (c *Reader) Read(in isolates.FunctionArgs, this Readable) error {
 			var err error
 
 			c.mutex.Lock()
-			backlog := this.Backlog()
+			buffer := this.Buffer()
 
-			if len(backlog) > 0 {
-				chunk := backlog[0]
-				backlog = backlog[1:]
-				this.SetBacklog(backlog)
+			if len(buffer) > 0 {
+				chunk := buffer[0]
+				buffer = buffer[1:]
+				this.SetBuffer(buffer)
 
 				if arrayBuffer, err := chunk.Get(in.ExecutionContext, "buffer"); err != nil {
 					this.EmitError(in.ExecutionContext, err)
@@ -574,7 +612,7 @@ func (c *Reader) Read(in isolates.FunctionArgs, this Readable) error {
 
 					if n < len(b) {
 						if surplus, err := in.Context.Create(in.ExecutionContext, b[n:]); err != nil {
-							this.SetBacklog(append([]*isolates.Value{surplus}, backlog...))
+							this.SetBuffer(append([]*isolates.Value{surplus}, buffer...))
 						}
 					}
 				}

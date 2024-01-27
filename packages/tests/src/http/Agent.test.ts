@@ -1,5 +1,5 @@
 import { Agent } from 'http';
-import { Socket } from 'net';
+import { Socket, createServer } from 'net';
 import { expect } from 'chai';
 
 describe('http.Agent', () => {
@@ -26,7 +26,7 @@ describe('http.Agent', () => {
             localAddress: '127.0.0.1',
             family: 4
         });
-        expect(name).to.equal('localhost:3000:127.0.0.1');
+        expect(name).to.equal('localhost:3000:127.0.0.1:4');
     })
 
     it('should return a canonical name for ipv6', () => {
@@ -40,12 +40,44 @@ describe('http.Agent', () => {
         expect(name).to.equal('localhost:3000:::0:6');
     })
 
-    it('should create a connection', () => {
+    it('should create a connection', async () => {
+        const server = createServer();
+
+        await new Promise<void>((resolve, reject) => {
+            server.once('error', reject);
+
+            server.listen(0, 'localhost', () => {
+                resolve();
+            });
+        });
+
+        server.on('connection', (conn) => {
+            conn.write('');
+            conn.end();
+        });
+
         const agent = new Agent();
         const conn = agent.createConnection({
-            port: 3030,
+            port: (server.address() as any).port,
             host: 'localhost',
+            family: 4,
         });
         expect(conn).to.be.instanceOf(Socket);
+
+        await new Promise<void>((resolve) => conn.on('close', () => {
+            resolve();
+        }))
+
+        await new Promise<void>((resolve, reject) => {
+            server.once('error', (err) => {
+                reject(err)
+            });
+
+            server.once('close', () => {
+                resolve();
+            });
+            
+            server.close();
+        });
     })
 });

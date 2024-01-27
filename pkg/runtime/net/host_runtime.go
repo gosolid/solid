@@ -3,9 +3,9 @@
 package net
 
 import (
+  stream "github.com/gosolid/solid/pkg/runtime/stream"
   reflect "reflect"
   isolates "github.com/grexie/isolates"
-  stream "github.com/gosolid/solid/pkg/runtime/stream"
 )
 
 var _ = isolates.RegisterRuntime("net", "host.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
