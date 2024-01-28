@@ -145,6 +145,7 @@ describe.only('stream.Writable', () => {
     expect(writableStream.write('data0')).to.be.true;
 
     // Write data exceeding the highWaterMark
+    expect(writableStream.writableLength).to.equal(5);
     expect(writableStream.write('data1')).to.be.false;
 
     // Listen for 'drain' event to check if the stream is ready to receive more data

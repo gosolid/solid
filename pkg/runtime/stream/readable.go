@@ -467,7 +467,7 @@ func (r *ReadableBase) ReadableHighWaterMark() int {
 	return r.highWaterMark
 }
 
-//js:set
+//js:set readableHighWaterMark
 func (r *ReadableBase) SetReadableHighWaterMark(value int) {
 	r.highWaterMark = value
 }

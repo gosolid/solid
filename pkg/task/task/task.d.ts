@@ -14,7 +14,7 @@
 declare module "task" {
   import type { Counter } from "util";
   import type { EventEmitter } from "events";
-  import type { Writable, Readable } from "stream";
+  import type { Readable, Writable } from "stream";
 
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 30 @column 0 */
   class Task {
@@ -29,11 +29,11 @@ declare module "task" {
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 391 @column 0 */
   clearInterval(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 30 @column 0 */
+    exitCode: number;
+  /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 30 @column 0 */
     readonly timeCounter: Counter;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 30 @column 0 */
     readonly stats: any;
-  /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 30 @column 0 */
-    exitCode: number;
   }
   export { Task };
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
@@ -47,17 +47,17 @@ declare module "task" {
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
     readonly args: string[];
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
-    readonly platform: string;
+    readonly versions: Task;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
     readonly task: Task;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
-    readonly stdin: Readable;
-  /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
     readonly version: string;
+  /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
+    readonly stdin: Readable;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
     readonly env: Record<string, string>;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
-    readonly versions: Task;
+    readonly platform: string;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
     readonly stdout: Writable;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */

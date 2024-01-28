@@ -3,9 +3,9 @@
 package crypto
 
 import (
+  buffer "github.com/gosolid/solid/pkg/runtime/buffer"
   reflect "reflect"
   isolates "github.com/grexie/isolates"
-  buffer "github.com/gosolid/solid/pkg/runtime/buffer"
 )
 
 var _ = isolates.RegisterRuntime("crypto", "crypto.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {

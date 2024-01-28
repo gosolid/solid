@@ -12,7 +12,7 @@
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 3 @column 0 */
 declare module "http" {
-  import type { Writable, Readable } from "stream";
+  import type { Readable, Writable } from "stream";
   import type { EventEmitter } from "events";
   import type { Socket } from "net";
 
@@ -21,14 +21,6 @@ declare module "http" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 498 @column 0 */
   setTimeout(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 114 @column 0 */
-    readonly headers: Record<string, any>;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 114 @column 0 */
-    readonly headersDistinct: Record<string, string[]>;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 114 @column 0 */
-    readonly httpVersion: string;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 114 @column 0 */
-    readonly rawHeaders: string[];
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 114 @column 0 */
     readonly rawTrailers: string[];
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 114 @column 0 */
     readonly trailers: Record<string, string[]>;
@@ -36,6 +28,14 @@ declare module "http" {
     readonly trailersDistinct: Record<string, string[]>;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 114 @column 0 */
     readonly complete: boolean;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 114 @column 0 */
+    readonly headers: Record<string, any>;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 114 @column 0 */
+    readonly headersDistinct: Record<string, string[]>;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 114 @column 0 */
+    readonly httpVersion: string;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 114 @column 0 */
+    readonly rawHeaders: string[];
   }
   export { IncomingMessage };
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 246 @column 0 */
@@ -117,14 +117,6 @@ setTimeout(timeout: number, listener: () => void): void  /** @filename Users/tim
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 698 @column 0 */
   wait(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 345 @column 0 */
-    readonly destroyed: boolean;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 345 @column 0 */
-    readonly finished: boolean;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 345 @column 0 */
-    readonly headers: Record<string, any>;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 345 @column 0 */
-    readonly headersSent: boolean;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 345 @column 0 */
     readonly writableEnded: boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 345 @column 0 */
     readonly writableFinished: boolean;
@@ -132,6 +124,14 @@ setTimeout(timeout: number, listener: () => void): void  /** @filename Users/tim
     sendDate: boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 345 @column 0 */
     strictContentLength: boolean;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 345 @column 0 */
+    readonly destroyed: boolean;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 345 @column 0 */
+    readonly finished: boolean;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 345 @column 0 */
+    readonly headers: Record<string, any>;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 345 @column 0 */
+    readonly headersSent: boolean;
   }
   export { OutgoingMessage };
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 402 @column 0 */
@@ -157,10 +157,6 @@ setTimeout(timeout: number, listener: () => void): void  /** @filename Users/tim
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 923 @column 0 */
   setSocketKeepAlive(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 428 @column 0 */
-    method: string;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 428 @column 0 */
-    path: string;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 428 @column 0 */
     protocol: string;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 428 @column 0 */
     readonly reusedSocket: boolean;
@@ -170,6 +166,10 @@ setTimeout(timeout: number, listener: () => void): void  /** @filename Users/tim
     host: string;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 428 @column 0 */
     maxHeadersCount: number;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 428 @column 0 */
+    method: string;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/messages.go @line 428 @column 0 */
+    path: string;
   }
   export { ClientRequest };
 }

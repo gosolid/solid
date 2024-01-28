@@ -26,9 +26,9 @@ declare module "net" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 181 @column 0 */
   class HostSocketOptions {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 203 @column 0 */
-  localAddress(  ): SocketAddress;
+  localAddress(  ): Socket;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 212 @column 0 */
-  remoteAddress(  ): Socket;
+  remoteAddress(  ): SocketAddress;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 221 @column 0 */
   final(  ): void;
   }

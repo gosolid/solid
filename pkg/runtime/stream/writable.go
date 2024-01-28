@@ -50,6 +50,13 @@ type Writable interface {
 
 type WritableBase struct {
 	*StreamBase
+	objectMode bool
+	buffer []*isolates.Value
+	encodings []*BufferEncoding
+	callbacks []*isolates.Value
+	waterMark int
+	highWaterMark int
+	draining bool
 }
 
 type Writer struct {
@@ -106,6 +113,26 @@ func NewWritableWithStream(in isolates.FunctionArgs, StreamBase *StreamBase) (*W
 				if err := in.This.Set(in.ExecutionContext, "_final", final); err != nil {
 					return nil, err
 				}
+			}
+		}
+
+		if highWaterMarkv, err := options.Get(in.ExecutionContext, "highWaterMark"); err != nil {
+			return nil, err
+		} else if !highWaterMarkv.IsNil() {
+			if highWaterMark, err := highWaterMarkv.Int64(in.ExecutionContext); err != nil {
+				return nil, err
+			} else {
+				writable.highWaterMark = int(highWaterMark)
+			}
+		}
+
+		if objectModev, err := options.Get(in.ExecutionContext, "objectMode"); err != nil {
+			return nil, err
+		} else if !objectModev.IsNil() {
+			if objectMode, err := objectModev.Bool(in.ExecutionContext); err != nil {
+				return nil, err
+			} else {
+				writable.objectMode = objectMode
 			}
 		}
 	}
@@ -273,22 +300,27 @@ func (w *WritableBase) WritableFinished() bool {
 
 //js:get
 func (w *WritableBase) WritableHighWaterMark() int {
-	return 0
+	return w.highWaterMark
+}
+
+//js:set writableHighWaterMark
+func (w *WritableBase) SetWritableHighWaterMark(value int) {
+	w.highWaterMark = value
 }
 
 //js:get
 func (w *WritableBase) WritableLength() int {
-	return 0
+	return w.waterMark
 }
 
 //js:get
 func (w *WritableBase) WritableNeedDrain() bool {
-	return false
+	return w.WritableLength() >= w.WritableHighWaterMark()
 }
 
 //js:get
 func (w *WritableBase) WritableObjectMode() bool {
-	return false
+	return w.objectMode
 }
 
 func (c *WritableBase) Write(b []byte) (int, error) {
@@ -363,25 +395,113 @@ func (w *WritableBase) WritableWrite(ctx context.Context, args ...any) (bool, er
 		if callback, err = isolates.For(ctx).Context().Create(ctx, args[len(args)-1]); err != nil {
 			return false, err
 		}
-	} else {
+	}
+
+	w.mutex.Lock()
+	w.buffer = append(w.buffer, chunk)
+	length := 1
+	if !w.WritableObjectMode() {
+		if chunk.IsKind(isolates.KindString) {
+			if s, err := chunk.StringValue(ctx); err != nil {
+				return false, err
+			} else {
+				length = len(s)
+			}
+		} else {
+			if l, err := chunk.GetByteLength(ctx); err != nil {
+				return false, err
+			} else {
+				length = l
+			}
+		}
+	}
+	w.waterMark += length
+	w.callbacks = append(w.callbacks, callback)
+	w.encodings = append(w.encodings, &encoding)
+	if !w.draining {
+		w.draining = true
+		isolates.For(ctx).Context().AddMicrotask(ctx, func(in isolates.FunctionArgs) error {
+			return w.drain(in.ExecutionContext)
+		})
+	}
+	w.mutex.Unlock()
+	return w.WritableLength() < w.WritableHighWaterMark(), nil
+}
+
+func (w *WritableBase) drain(ctx context.Context) error {
+	var next func(ctx context.Context) error
+
+	next = func(ctx context.Context) error {
+		var err error
+		var chunk *isolates.Value
+		var encoding *BufferEncoding
+		var callback *isolates.Value
+		var userCallback *isolates.Value
+
+		w.mutex.Lock()
+		if len(w.buffer) == 0 {
+			w.draining = false
+			w.mutex.Unlock()
+			return w.Emit(ctx, "drain")
+		} else {
+			chunk = w.buffer[0]
+			length := 1
+			if !w.WritableObjectMode() {
+				if chunk.IsKind(isolates.KindString) {
+					if s, err := chunk.StringValue(ctx); err != nil {
+						return err
+					} else {
+						length = len(s)
+					}
+				} else {
+					if l, err := chunk.GetByteLength(ctx); err != nil {
+						return err
+					} else {
+						length = l
+					}
+				}
+			}
+			w.waterMark -= length
+			w.buffer = w.buffer[1:]
+			encoding = w.encodings[0]
+			w.encodings = w.encodings[1:]
+			userCallback = w.callbacks[0]
+			w.callbacks = w.callbacks[1:]
+			w.mutex.Unlock()
+		}
+
 		if callback, err = isolates.For(ctx).Context().Create(ctx, func(in isolates.FunctionArgs) (*isolates.Value, error) {
 			err := in.Arg(in.ExecutionContext, 0)
 
 			if !err.IsNil() {
-				return nil, w.EmitErrorValue(in.ExecutionContext, err)
+				if !userCallback.IsNil() {
+					if _, err := userCallback.Call(in.ExecutionContext, nil, err); err != nil {
+						return nil, err
+					}
+				} else {
+					return nil, w.EmitErrorValue(in.ExecutionContext, err)
+				}
+			} else if !userCallback.IsNil() {
+				if _, err := userCallback.Call(in.ExecutionContext, nil); err != nil {
+					return nil, err
+				}
 			}
 
-			return nil, nil
+			return nil, isolates.For(ctx).Context().AddMicrotask(in.ExecutionContext, func(in isolates.FunctionArgs) error {
+				return next(in.ExecutionContext)
+			})
 		}); err != nil {
-			return false, err
+			return err
+		}
+
+		if _, err := w.This.CallMethod(ctx, "_write", chunk, encoding, callback); err != nil {
+			return err
+		} else {
+			return nil
 		}
 	}
-
-	if _, err := w.This.CallMethod(ctx, "_write", chunk, encoding, callback); err != nil {
-		return false, err
-	} else {
-		return false, nil
-	}
+	
+	return next(ctx)
 }
 
 //js:method

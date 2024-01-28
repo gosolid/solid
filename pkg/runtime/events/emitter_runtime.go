@@ -3,8 +3,8 @@
 package events
 
 import (
-  reflect "reflect"
   isolates "github.com/grexie/isolates"
+  reflect "reflect"
 )
 
 var _ = isolates.RegisterRuntime("events", "emitter.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
