@@ -58,6 +58,7 @@ type WritableBase struct {
 	highWaterMark int
 	draining bool
 	corked bool
+	writeClosed bool
 }
 
 type Writer struct {
@@ -247,9 +248,7 @@ func (w *WritableBase) End(ctx context.Context, args ...any) error {
 		}
 	}()
 
-	w.SetState(StreamStateClosed)
-
-	
+	w.writeClosed = true
 
 	if callback != nil {
 		if _, err = callback.Call(ctx, w.This, errv); err != nil {
@@ -370,7 +369,7 @@ func (w *WritableBase) WritableWrite(ctx context.Context, args ...any) (bool, er
 	var encoding BufferEncoding
 	var callback *isolates.Value
 
-	if w.Closed() {
+	if w.writeClosed {
 		return false, w.EmitError(ctx, fmt.Errorf("write after end"))
 	}
 

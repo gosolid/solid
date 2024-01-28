@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 import { expect } from 'chai';
 
 describe.only('stream.Duplex', () => {
-  it.only('should correctly handle data flow through the Duplex stream', done => {
+  it('should correctly handle data flow through the Duplex stream', done => {
     const duplexStream = new Duplex({
       read(size) {
         // Implement read logic, for example, pushing data to the readable side
@@ -21,14 +21,16 @@ describe.only('stream.Duplex', () => {
     let receivedData = '';
 
     duplexStream.on('data', chunk => {
-      console.info('data', chunk.toString());
       receivedData += chunk.toString();
     });
 
     duplexStream.on('end', () => {
-      console.info('end', receivedData);
-      expect(receivedData).to.equal('Hello, world!');
-      done();
+      try {
+        expect(receivedData).to.equal('Hello, world!');
+        done();
+      } catch (err) {
+        done(err);
+      }
     });
 
     duplexStream.write('Received data');
@@ -105,12 +107,22 @@ describe.only('stream.Duplex', () => {
 
   it('should handle multiple write and read operations', done => {
     const events = new EventEmitter();
+    let written = false;
 
     const duplexStream = new Duplex({
       read(size) {
-        events.on('data', (chunk: any) => this.push(chunk));
-        dataToWrite.forEach(data => duplexStream.write(data));
-        duplexStream.end();
+        if (!written) {
+          written = true;
+          let i = 0;
+          events.on('data', (chunk: any) => {
+            i++;
+            this.push(chunk);
+            if (i == dataToWrite.length) {
+              this.push(null);
+            }
+          });
+          dataToWrite.forEach(data => duplexStream.write(data));
+        }
       },
       write(chunk, encoding, callback) {
         // Implement write logic
@@ -140,13 +152,23 @@ describe.only('stream.Duplex', () => {
 
   it('should handle object mode in both readable and writable sides', done => {
     const events = new EventEmitter();
+    let written = false;
 
     const duplexStream = new Duplex({
       objectMode: true,
       read(size) {
-        events.on('data', (chunk: any) => this.push(chunk));
-        dataToWrite.forEach(data => duplexStream.write(data));
-        duplexStream.end();
+        if (!written) {
+          written = true;
+          let i = 0;
+          events.on('data', (chunk: any) => {
+            i++;
+            this.push(chunk);
+            if (i === dataToWrite.length) {
+              this.push(null);
+            }
+          });
+          dataToWrite.forEach(data => duplexStream.write(data));
+        }
       },
       write(chunk, encoding, callback) {
         // Implement write logic
@@ -171,8 +193,12 @@ describe.only('stream.Duplex', () => {
     });
 
     duplexStream.on('end', () => {
-      expect(receivedData).to.deep.equal(dataToWrite);
-      done();
+      try {
+        expect(receivedData).to.deep.equal(dataToWrite);
+        done();
+      } catch (err) {
+        done(err);
+      }
     });
 
     duplexStream.resume();
