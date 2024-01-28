@@ -304,10 +304,9 @@ describe.only('stream.Readable', () => {
     let i = 0;
     const readableStream = new Readable({
       read() {
-        console.info('calling read');
         // Push the large data in chunks
         for (; i < largeData.length; i += 1024) {
-          if (!this.push(largeData.slice(i, i + 1024))) {
+          if (!this.push(largeData.subarray(i, i + 1024))) {
             i += 1024;
             return;
           }

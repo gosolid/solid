@@ -393,10 +393,8 @@ func (r *ReadableBase) ReadV8(ctx context.Context, size int) error {
 	isolates.For(ctx).Context().AddMicrotask(ctx, func(in isolates.FunctionArgs) error {
 		r.mutex.Lock()
 		if len(r.buffer) > 0 && !r.draining {
-			// in.Background(func(in isolates.FunctionArgs) {
-				r.mutex.Unlock()
-				r.drainReadableBuffer(in.ExecutionContext)
-			// })
+			r.mutex.Unlock()
+			r.drainReadableBuffer(in.ExecutionContext)
 			return nil
 		} else {
 			r.mutex.Unlock()
@@ -442,7 +440,7 @@ func (r *ReadableBase) ReadableFlowing() bool {
 
 //js:get
 func (r *ReadableBase) ReadableHighWaterMark() int {
-	return 5
+	return 1024
 }
 
 //js:get
@@ -656,6 +654,7 @@ func (r *ReadableBase) Push(ctx context.Context, chunk *isolates.Value, encoding
 			r.Emit(ctx, "readable")
 		}
 	}
+
 	return !r.Closed() && !r.Destroyed() && !r.IsPaused() && r.Errored() == nil && len(r.buffer) < r.ReadableHighWaterMark(), nil
 }
 
