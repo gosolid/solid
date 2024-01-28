@@ -390,9 +390,19 @@ func (r *ReadableBase) ReadV8(ctx context.Context, size int) error {
 		return err
 	}
 
-	// isolates.For(ctx).Background(func(ctx context.Context) {
-	// 	r.drainReadableBuffer(ctx)
-	// })
+	isolates.For(ctx).Context().AddMicrotask(ctx, func(in isolates.FunctionArgs) error {
+		r.mutex.Lock()
+		if len(r.buffer) > 0 && !r.draining {
+			// in.Background(func(in isolates.FunctionArgs) {
+				r.mutex.Unlock()
+				r.drainReadableBuffer(in.ExecutionContext)
+			// })
+			return nil
+		} else {
+			r.mutex.Unlock()
+			return nil
+		}
+	})
 
 	return nil
 }
@@ -607,14 +617,20 @@ func (r *ReadableBase) drainReadableBuffer(ctx context.Context) error {
 		r.Emit(ctx, "data", chunk)
 	}
 
+
 	r.mutex.Lock()
 	if len(r.buffer) == 0 && !r.IsPaused() && !r.Closed() {
 		r.mutex.Unlock()
-		isolates.For(ctx).Background(func(ctx context.Context) {
-			r.ReadV8(ctx, 1024)
+		isolates.For(ctx).Context().AddMicrotask(ctx, func(in isolates.FunctionArgs) error {
+			return r.ReadV8(ctx, 1024)
 		})
-	} else {
+	} else if !r.emittedEnd {
+		r.emittedEnd = true
 		r.mutex.Unlock()
+		if r.IsPaused() {
+			r.Emit(ctx, "readable")
+		}
+		r.Emit(ctx, "end")
 	}
 
 	return nil
@@ -634,8 +650,6 @@ func (r *ReadableBase) Push(ctx context.Context, chunk *isolates.Value, encoding
 		if r.state == ReadableStreamStateResumed {
 			r.buffer = append(r.buffer, chunk)
 			r.mutex.Unlock()
-			// TODO call a microtask that drains the buffer, if the microtask doesn't exist
-			// TODO when the microtask buffer is depleted, call readv8 again
 		} else {
 			r.buffer = append(r.buffer, chunk)
 			r.mutex.Unlock()

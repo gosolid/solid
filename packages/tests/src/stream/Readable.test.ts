@@ -22,8 +22,12 @@ describe.only('stream.Readable', () => {
     });
 
     readableStream.on('end', () => {
-      expect(receivedData).to.equal(expectedData);
-      done();
+      try {
+        expect(receivedData).to.equal(expectedData);
+        done();
+      } catch (err) {
+        done(err);
+      }
     });
 
     readableStream.resume();
