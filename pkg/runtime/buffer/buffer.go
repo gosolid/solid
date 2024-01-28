@@ -133,15 +133,10 @@ func (b *Buffer) WriteUInt32BE(ctx context.Context, value uint32, offset int) (*
 func (s *bufferStatic) Concat(ctx context.Context, buffers []*isolates.Value) (*Buffer, error) {
 	bytes := make([]byte, 0)
 	for i := 0; i < len(buffers); i++ {
-		if b, err := buffers[i].Unmarshal(ctx, reflect.TypeOf(&Buffer{})); err != nil {
+		if b, err := buffers[i].Bytes(ctx); err != nil {
 			return nil, err
 		} else {
-			buffer := b.Interface().(*Buffer)
-			if bufferBytes, err := buffer.buffer.Bytes(ctx); err != nil {
-				return nil, err
-			} else {
-				bytes = append(bytes, bufferBytes...)
-			}
+			bytes = append(bytes, b...)
 		}
 	}
 

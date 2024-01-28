@@ -205,20 +205,23 @@ describe.only('stream.Duplex', () => {
   });
 
   it('should handle large amounts of data without memory issues', done => {
-    const largeDataSize = 1024 * 1024 * 1; // 1 MB
+    const largeDataSize = 1024 * 1024 * 10; // 10 MB
     const largeData = Buffer.alloc(largeDataSize, 'x');
 
     let i = 0;
     const duplexStream = new Duplex({
       read(size) {
         // Simulate reading data asynchronously
-        console.info('read', size);
-        setTimeout(() => {
-          const chunk = largeData.subarray(i, i + size);
-          i += size;
-          console.info('push', chunk.length);
-          this.push(chunk.length > 0 ? chunk : null);
-        }, 0);
+        const next = () => {
+          setImmediate(() => {
+            const chunk = largeData.subarray(i, i + size);
+            i += size;
+            if (this.push(chunk.length > 0 ? chunk : null)) {
+              next();
+            }
+          });
+        };
+        next();
       },
       write(chunk, encoding, callback) {
         // Simulate writing data asynchronously
@@ -231,7 +234,6 @@ describe.only('stream.Duplex', () => {
     let receivedData: Buffer[] = [];
 
     duplexStream.on('data', chunk => {
-      console.info('data', chunk.length);
       receivedData.push(chunk);
     });
 

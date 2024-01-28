@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { Readable } from 'stream';
 
-describe('stream.Readable', () => {
+describe.only('stream.Readable', () => {
   it('should emit data events with correct data', done => {
     const dataChunks = ['chunk1', 'chunk2', 'chunk3'];
     const expectedData = dataChunks.join('');

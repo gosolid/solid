@@ -2,7 +2,7 @@ import { Transform } from 'stream';
 import { expect } from 'chai';
 
 describe('Transform Stream Tests', () => {
-  it('should transform data correctly', (done) => {
+  it('should transform data correctly', done => {
     const transformStream = new Transform({
       transform(chunk, encoding, callback) {
         // Implement transformation logic
@@ -14,7 +14,7 @@ describe('Transform Stream Tests', () => {
 
     let receivedData = '';
 
-    transformStream.on('data', (chunk) => {
+    transformStream.on('data', chunk => {
       // Handle transformed data
       receivedData += chunk.toString();
     });
@@ -31,7 +31,7 @@ describe('Transform Stream Tests', () => {
     transformStream.end();
   });
 
-  it('should handle backpressure', (done) => {
+  it('should handle backpressure', done => {
     const transformStream = new Transform({
       transform(chunk, encoding, callback) {
         // Simulate a slow transformation process
@@ -45,38 +45,38 @@ describe('Transform Stream Tests', () => {
 
     let receivedData = '';
 
-    transformStream.on('data', (chunk) => {
+    transformStream.on('data', chunk => {
       // Handle transformed data
       receivedData += chunk.toString();
     });
 
     transformStream.on('end', () => {
       // Ensure data is transformed correctly
-      expect(receivedData).to.equal('x'.toUpperCase().repeat(100*100));
+      expect(receivedData).to.equal('x'.toUpperCase().repeat(100 * 100));
       done();
     });
 
     const largeData = 'x'.repeat(100);
     let i = 0;
     const next = () => {
-        for (; i < 100; i++) {
-          if(!transformStream.write(largeData)) {
-            i++;
-            return;
-          }
+      for (; i < 100; i++) {
+        if (!transformStream.write(largeData)) {
+          i++;
+          return;
         }
+      }
 
-        transformStream.end();
+      transformStream.end();
     };
 
     transformStream.on('drain', () => {
-        next();
+      next();
     });
 
     next();
   }).timeout(5000); // Adjust the timeout based on the expected completion time
 
-  it('should handle errors during transformation', (done) => {
+  it('should handle errors during transformation', done => {
     const transformStream = new Transform({
       transform(chunk, encoding, callback) {
         // Simulate an error during transformation
@@ -84,7 +84,7 @@ describe('Transform Stream Tests', () => {
       },
     });
 
-    transformStream.on('error', (error) => {
+    transformStream.on('error', error => {
       // Ensure error is handled correctly
       expect(error.message).to.equal('Transformation Error');
       done();
@@ -95,7 +95,7 @@ describe('Transform Stream Tests', () => {
     transformStream.end();
   });
 
-  it('should handle object mode', (done) => {
+  it('should handle object mode', done => {
     const transformStream = new Transform({
       objectMode: true,
       transform(chunk, encoding, callback) {
@@ -108,14 +108,17 @@ describe('Transform Stream Tests', () => {
 
     let receivedData: any[] = [];
 
-    transformStream.on('data', (chunk) => {
+    transformStream.on('data', chunk => {
       // Handle transformed data
       receivedData.push(chunk);
     });
 
     transformStream.on('end', () => {
       // Ensure object mode transformation is correct
-      expect(receivedData).to.deep.equal([{ message: 'HELLO' }, { message: 'WORLD' }]);
+      expect(receivedData).to.deep.equal([
+        { message: 'HELLO' },
+        { message: 'WORLD' },
+      ]);
       done();
     });
 
@@ -125,7 +128,7 @@ describe('Transform Stream Tests', () => {
     transformStream.end();
   });
 
-  it('should handle multiple transformations', (done) => {
+  it('should handle multiple transformations', done => {
     const transformStream = new Transform({
       transform(chunk, encoding, callback) {
         // Implement transformation logic
@@ -137,7 +140,7 @@ describe('Transform Stream Tests', () => {
 
     let receivedData = '';
 
-    transformStream.on('data', (chunk) => {
+    transformStream.on('data', chunk => {
       // Handle transformed data
       receivedData += chunk.toString();
     });
@@ -156,7 +159,7 @@ describe('Transform Stream Tests', () => {
     transformStream.end();
   });
 
-  it('should handle backpressure with object mode', (done) => {
+  it('should handle backpressure with object mode', done => {
     const transformStream = new Transform({
       objectMode: true,
       transform(chunk, encoding, callback) {
@@ -171,14 +174,18 @@ describe('Transform Stream Tests', () => {
 
     let receivedData: any[] = [];
 
-    transformStream.on('data', (chunk) => {
+    transformStream.on('data', chunk => {
       // Handle transformed data
       receivedData.push(chunk);
     });
 
     transformStream.on('end', () => {
       // Ensure object mode transformation is correct
-      expect(receivedData).to.deep.equal(Array.from({ length: 100 }, () => ({ message: 'x'.toUpperCase().repeat(100) })));
+      expect(receivedData).to.deep.equal(
+        Array.from({ length: 100 }, () => ({
+          message: 'x'.toUpperCase().repeat(100),
+        }))
+      );
       done();
     });
 
@@ -186,24 +193,24 @@ describe('Transform Stream Tests', () => {
     const largeData = { message: 'x'.repeat(100) };
     let i = 0;
     const next = () => {
-        for (; i < 100; i++) {
-          if(!transformStream.write(largeData)) {
-            i++;
-            return;
-          }
+      for (; i < 100; i++) {
+        if (!transformStream.write(largeData)) {
+          i++;
+          return;
         }
+      }
 
-        transformStream.end();
+      transformStream.end();
     };
 
     transformStream.on('drain', () => {
-        next();
+      next();
     });
 
     next();
   });
 
-  it('should handle errors during transformation in object mode', (done) => {
+  it('should handle errors during transformation in object mode', done => {
     const transformStream = new Transform({
       objectMode: true,
       transform(chunk, encoding, callback) {
@@ -212,7 +219,7 @@ describe('Transform Stream Tests', () => {
       },
     });
 
-    transformStream.on('error', (error) => {
+    transformStream.on('error', error => {
       // Ensure error is handled correctly
       expect(error.message).to.equal('Transformation Error');
       done();
@@ -224,7 +231,7 @@ describe('Transform Stream Tests', () => {
     transformStream.end();
   });
 
-  it('should handle empty input data', (done) => {
+  it('should handle empty input data', done => {
     const transformStream = new Transform({
       transform(chunk, encoding, callback) {
         // Handle empty input data
@@ -241,7 +248,7 @@ describe('Transform Stream Tests', () => {
 
     let receivedData = '';
 
-    transformStream.on('data', (chunk) => {
+    transformStream.on('data', chunk => {
       // Handle transformed data
       receivedData += chunk.toString();
     });
