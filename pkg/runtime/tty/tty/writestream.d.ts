@@ -21,11 +21,11 @@ declare module "tty" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/writestream.go @line 73 @column 0 */
   getWindowSize(  ): number[];
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/writestream.go @line 33 @column 0 */
-    readonly columns: number;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/writestream.go @line 33 @column 0 */
     readonly isTTY: boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/writestream.go @line 33 @column 0 */
     readonly rows: number;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/writestream.go @line 33 @column 0 */
+    readonly columns: number;
   }
   export { WriteStream };
 }

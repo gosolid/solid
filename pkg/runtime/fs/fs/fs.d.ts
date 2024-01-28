@@ -13,7 +13,7 @@
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 3 @column 0 */
 declare module "fs" {
   import type { Buffer } from "buffer";
-  import type { FileDescriptor } from "fs";
+  import type { Stats } from "fs";
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 28 @column 0 */
   class File {
@@ -50,13 +50,13 @@ declare module "fs" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 134 @column 0 */
   openSync(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 134 @column 0 */
-  open(  ): FileDescriptor;
+  open(  ): File;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 146 @column 0 */
   closeSync(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 146 @column 0 */
   close(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 151 @column 0 */
-  file(  ): File;
+  file(  ): Stats;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 157 @column 0 */
   existsSync(  ): boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/fs/fs.go @line 157 @column 0 */

@@ -14,7 +14,7 @@
 declare module "task" {
   import type { Counter } from "util";
   import type { EventEmitter } from "events";
-  import type { Readable, Writable } from "stream";
+  import type { Writable, Readable } from "stream";
 
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 30 @column 0 */
   class Task {
@@ -29,11 +29,11 @@ declare module "task" {
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 391 @column 0 */
   clearInterval(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 30 @column 0 */
+    readonly stats: any;
+  /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 30 @column 0 */
     exitCode: number;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 30 @column 0 */
     readonly timeCounter: Counter;
-  /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 30 @column 0 */
-    readonly stats: any;
   }
   export { Task };
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
@@ -45,7 +45,13 @@ declare module "task" {
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 504 @column 0 */
   exit(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
-    readonly args: string[];
+    readonly stdout: Writable;
+  /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
+    readonly argv: string[];
+  /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
+    readonly stdin: Readable;
+  /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
+    readonly env: Record<string, string>;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
     readonly versions: Task;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
@@ -53,17 +59,11 @@ declare module "task" {
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
     readonly version: string;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
-    readonly stdin: Readable;
-  /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
-    readonly env: Record<string, string>;
+    readonly args: string[];
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
     readonly platform: string;
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
-    readonly stdout: Writable;
-  /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
     readonly stderr: Writable;
-  /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 70 @column 0 */
-    readonly argv: string[];
   }
   export { Process };
   /** @filename Users/tim/src/grexie/solid/pkg/task/task.go @line 532 @column 0 */

@@ -3,8 +3,8 @@
 package buffer
 
 import (
-  reflect "reflect"
   isolates "github.com/grexie/isolates"
+  reflect "reflect"
 )
 
 var _ = isolates.RegisterRuntime("buffer", "buffer.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {

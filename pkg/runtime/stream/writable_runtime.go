@@ -3,8 +3,8 @@
 package stream
 
 import (
-  reflect "reflect"
   isolates "github.com/grexie/isolates"
+  reflect "reflect"
 )
 
 var _ = isolates.RegisterRuntime("stream", "writable.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {
@@ -20,11 +20,8 @@ var _ = isolates.RegisterRuntime("stream", "writable.go", func (in isolates.Func
 })
 
 func (w *WritableBase) V8FuncCork(in isolates.FunctionArgs) (*isolates.Value, error) {
-  if err := w.Cork(in.ExecutionContext); err != nil {
-    return nil, err
-  } else {
-    return nil, nil
-  }
+  w.Cork()
+  return nil, nil
 }
 
 func (w *WritableBase) V8FuncEnd(in isolates.FunctionArgs) (*isolates.Value, error) {
@@ -53,11 +50,8 @@ func (w *WritableBase) V8FuncSetDefaultEncoding(in isolates.FunctionArgs) (*isol
 }
 
 func (w *WritableBase) V8FuncUncork(in isolates.FunctionArgs) (*isolates.Value, error) {
-  if err := w.Uncork(in.ExecutionContext); err != nil {
-    return nil, err
-  } else {
-    return nil, nil
-  }
+  w.Uncork()
+  return nil, nil
 }
 
 func (w *WritableBase) V8GetWritable(in isolates.GetterArgs) (*isolates.Value, error) {

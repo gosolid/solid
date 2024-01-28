@@ -31,10 +31,10 @@ type Writable interface {
 	Stream
 	io.Writer
 
-	Cork(context.Context) error
+	Cork()
 	End(context.Context, ...any) error
 	SetDefaultEncoding(encoding BufferEncoding)
-	Uncork(context.Context) error
+	Uncork()
 	Writable() bool
 	WritableAborted() bool
 	WritableEnded() bool
@@ -57,6 +57,7 @@ type WritableBase struct {
 	waterMark int
 	highWaterMark int
 	draining bool
+	corked bool
 }
 
 type Writer struct {
@@ -163,8 +164,8 @@ func NewWriteCloser(in isolates.FunctionArgs) (*WriteCloser, error) {
 }
 
 //js:method
-func (w *WritableBase) Cork(context.Context) error {
-	return errors.New("not implemented")
+func (w *WritableBase) Cork() {
+	w.corked = true
 }
 
 //js:method
@@ -269,8 +270,8 @@ func (w *WritableBase) SetDefaultEncoding(encoding BufferEncoding) {
 }
 
 //js:method
-func (w *WritableBase) Uncork(context.Context) error {
-	return nil
+func (w *WritableBase) Uncork() {
+	w.corked = false
 }
 
 //js:get
@@ -418,7 +419,7 @@ func (w *WritableBase) WritableWrite(ctx context.Context, args ...any) (bool, er
 	w.waterMark += length
 	w.callbacks = append(w.callbacks, callback)
 	w.encodings = append(w.encodings, &encoding)
-	if !w.draining {
+	if !w.draining && !w.corked {
 		w.draining = true
 		isolates.For(ctx).Context().AddMicrotask(ctx, func(in isolates.FunctionArgs) error {
 			return w.drain(in.ExecutionContext)
@@ -430,6 +431,7 @@ func (w *WritableBase) WritableWrite(ctx context.Context, args ...any) (bool, er
 
 func (w *WritableBase) drain(ctx context.Context) error {
 	var next func(ctx context.Context) error
+	needsDrain := w.WritableNeedDrain()
 
 	next = func(ctx context.Context) error {
 		var err error
@@ -439,10 +441,15 @@ func (w *WritableBase) drain(ctx context.Context) error {
 		var userCallback *isolates.Value
 
 		w.mutex.Lock()
+		if w.corked {
+			return nil
+		}
 		if len(w.buffer) == 0 {
 			w.draining = false
 			w.mutex.Unlock()
-			return w.Emit(ctx, "drain")
+			if needsDrain {
+				return w.Emit(ctx, "drain")
+			}
 		} else {
 			chunk = w.buffer[0]
 			length := 1

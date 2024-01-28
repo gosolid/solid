@@ -67,21 +67,21 @@ declare module "stream" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/readable.go @line 116 @column 0 */
     readonly readableFlowing: boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/readable.go @line 116 @column 0 */
+    readableHighWaterMark: number;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/readable.go @line 116 @column 0 */
     readonly readableLength: number;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/readable.go @line 116 @column 0 */
-    readonly isPaused: boolean;
+    readonly readableObjectMode: boolean;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/readable.go @line 116 @column 0 */
+    readonly readableEncoding: string;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/readable.go @line 116 @column 0 */
     readonly readable: boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/readable.go @line 116 @column 0 */
     readonly readableAborted: boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/readable.go @line 116 @column 0 */
-    readonly readableObjectMode: boolean;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/readable.go @line 116 @column 0 */
     readonly readableDidRead: boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/readable.go @line 116 @column 0 */
-    readonly readableEncoding: string;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/stream/readable.go @line 116 @column 0 */
-    readableHighWaterMark: number;
+    readonly isPaused: boolean;
   }
   export { Readable };
 }

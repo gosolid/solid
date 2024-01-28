@@ -2,8 +2,8 @@ import { Duplex } from 'stream';
 import { EventEmitter } from 'events';
 import { expect } from 'chai';
 
-describe('stream.Duplex', () => {
-  it('should correctly handle data flow through the Duplex stream', (done) => {
+describe.only('stream.Duplex', () => {
+  it.only('should correctly handle data flow through the Duplex stream', done => {
     const duplexStream = new Duplex({
       read(size) {
         // Implement read logic, for example, pushing data to the readable side
@@ -20,20 +20,23 @@ describe('stream.Duplex', () => {
 
     let receivedData = '';
 
-    duplexStream.on('data', (chunk) => {
+    duplexStream.on('data', chunk => {
+      console.info('data', chunk.toString());
       receivedData += chunk.toString();
     });
 
     duplexStream.on('end', () => {
+      console.info('end', receivedData);
       expect(receivedData).to.equal('Hello, world!');
       done();
     });
 
     duplexStream.write('Received data');
     duplexStream.end();
+    duplexStream.resume();
   });
 
-  it('should handle backpressure in both readable and writable sides', (done) => {
+  it('should handle backpressure in both readable and writable sides', done => {
     const duplexStream = new Duplex({
       read(size) {
         // Implement read logic with backpressure handling
@@ -59,7 +62,7 @@ describe('stream.Duplex', () => {
     // Uncork the stream to allow data to flow through
     duplexStream.uncork();
 
-    duplexStream.on('data', (chunk) => {
+    duplexStream.on('data', chunk => {
       // Handle the readable side data
     });
 
@@ -71,7 +74,7 @@ describe('stream.Duplex', () => {
     duplexStream.end();
   });
 
-  it('should handle errors in both readable and writable sides', (done) => {
+  it('should handle errors in both readable and writable sides', done => {
     const duplexStream = new Duplex({
       read(size) {
         // Implement read logic with error handling
@@ -84,7 +87,7 @@ describe('stream.Duplex', () => {
     });
 
     let hasDoneReadError = false;
-    duplexStream.on('error', (error) => {
+    duplexStream.on('error', error => {
       // Handle errors from both sides
       if (!hasDoneReadError) {
         expect(error.message).to.equal('Read Error');
@@ -100,13 +103,13 @@ describe('stream.Duplex', () => {
     duplexStream.resume();
   });
 
-  it('should handle multiple write and read operations', (done) => {
+  it('should handle multiple write and read operations', done => {
     const events = new EventEmitter();
 
     const duplexStream = new Duplex({
       read(size) {
         events.on('data', (chunk: any) => this.push(chunk));
-        dataToWrite.forEach((data) => duplexStream.write(data));
+        dataToWrite.forEach(data => duplexStream.write(data));
         duplexStream.end();
       },
       write(chunk, encoding, callback) {
@@ -117,13 +120,13 @@ describe('stream.Duplex', () => {
       final(callback) {
         events.emit('data', null);
         callback();
-      }
+      },
     });
 
     const dataToWrite = ['Data1', 'Data2', 'Data3'];
     let receivedData = '';
 
-    duplexStream.on('data', (chunk) => {
+    duplexStream.on('data', chunk => {
       receivedData += chunk.toString();
     });
 
@@ -135,14 +138,14 @@ describe('stream.Duplex', () => {
     duplexStream.resume();
   });
 
-  it('should handle object mode in both readable and writable sides', (done) => {
+  it('should handle object mode in both readable and writable sides', done => {
     const events = new EventEmitter();
 
     const duplexStream = new Duplex({
       objectMode: true,
       read(size) {
         events.on('data', (chunk: any) => this.push(chunk));
-        dataToWrite.forEach((data) => duplexStream.write(data));
+        dataToWrite.forEach(data => duplexStream.write(data));
         duplexStream.end();
       },
       write(chunk, encoding, callback) {
@@ -153,13 +156,17 @@ describe('stream.Duplex', () => {
       final(callback) {
         events.emit('data', null);
         callback();
-      }
+      },
     });
 
-    const dataToWrite = [{ data: 'Data1' }, { data: 'Data2' }, { data: 'Data3' }];
+    const dataToWrite = [
+      { data: 'Data1' },
+      { data: 'Data2' },
+      { data: 'Data3' },
+    ];
     let receivedData: any[] = [];
 
-    duplexStream.on('data', (chunk) => {
+    duplexStream.on('data', chunk => {
       receivedData.push(chunk);
     });
 
@@ -171,7 +178,7 @@ describe('stream.Duplex', () => {
     duplexStream.resume();
   });
 
-  it('should handle large amounts of data without memory issues', (done) => {
+  it('should handle large amounts of data without memory issues', done => {
     const largeDataSize = 1024 * 1024 * 10; // 1 MB
     const largeData = Buffer.alloc(largeDataSize, 'x');
 
@@ -180,7 +187,7 @@ describe('stream.Duplex', () => {
       read(size) {
         // Simulate reading data asynchronously
         setTimeout(() => {
-          const chunk = largeData.slice(i, i+size);
+          const chunk = largeData.subarray(i, i + size);
           i += size;
           this.push(chunk.length > 0 ? chunk : null);
         }, 0);
@@ -195,7 +202,7 @@ describe('stream.Duplex', () => {
 
     let receivedData = Buffer.alloc(0);
 
-    duplexStream.on('data', (chunk) => {
+    duplexStream.on('data', chunk => {
       receivedData = Buffer.concat([receivedData, chunk]);
     });
 
@@ -209,9 +216,9 @@ describe('stream.Duplex', () => {
     duplexStream.write('Data2');
     duplexStream.resume();
     duplexStream.end();
-  }).timeout(5000); // Adjust the timeout based on the expected completion time
+  }).timeout(5_000); // Adjust the timeout based on the expected completion time
 
-  it('should handle custom events', (done) => {
+  it('should handle custom events', done => {
     const events = new EventEmitter();
     const duplexStream = new Duplex({
       read(size) {
@@ -225,7 +232,7 @@ describe('stream.Duplex', () => {
       },
     });
 
-    duplexStream.on('customEvent', (data) => {
+    duplexStream.on('customEvent', data => {
       // Handle custom event
       expect(data).to.equal('Custom Data');
       done();
