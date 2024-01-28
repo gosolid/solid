@@ -12,8 +12,8 @@
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/library.go @line 3 @column 0 */
 declare module "http" {
-  import type { AgentBase } from "http";
   import type { Socket } from "net";
+  import type { AgentBase } from "http";
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/http/library.go @line 30 @column 0 */
   class Http {

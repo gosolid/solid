@@ -3,9 +3,9 @@
 package fs
 
 import (
-  isolates "github.com/grexie/isolates"
   reflect "reflect"
   embed "embed"
+  isolates "github.com/grexie/isolates"
 )
 
 var _ = isolates.RegisterRuntime("fs", "embed.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {

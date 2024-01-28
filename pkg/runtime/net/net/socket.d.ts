@@ -24,6 +24,8 @@ declare module "net" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/socket.go @line 137 @column 0 */
   setNoDelay(  ): void;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/socket.go @line 19 @column 0 */
+    readonly remoteFamily: string;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/socket.go @line 19 @column 0 */
     readonly localAddress: string;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/socket.go @line 19 @column 0 */
     readonly localPort: number;
@@ -33,7 +35,5 @@ declare module "net" {
     readonly remoteAddress: string;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/socket.go @line 19 @column 0 */
     readonly remotePort: number;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/socket.go @line 19 @column 0 */
-    readonly remoteFamily: string;
   }
 }

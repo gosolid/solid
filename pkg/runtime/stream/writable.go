@@ -45,7 +45,7 @@ type Writable interface {
 	WritableLength() int
 	WritableNeedDrain() bool
 	WritableObjectMode() bool
-	WritableWrite(context.Context, ...any) error
+	WritableWrite(context.Context, ...any) (bool, error)
 }
 
 type WritableBase struct {
@@ -331,21 +331,21 @@ func (c *WritableBase) Write(b []byte) (int, error) {
 }
 
 //js:method write
-func (w *WritableBase) WritableWrite(ctx context.Context, args ...any) error {
+func (w *WritableBase) WritableWrite(ctx context.Context, args ...any) (bool, error) {
 	var err error
 	var chunk *isolates.Value
 	var encoding BufferEncoding
 	var callback *isolates.Value
 
 	if w.Closed() {
-		return w.EmitError(ctx, fmt.Errorf("write after end"))
+		return false, w.EmitError(ctx, fmt.Errorf("write after end"))
 	}
 
 	if len(args) >= 3 {
 		if encodingv, err := isolates.For(ctx).Context().Create(ctx, args[1]); err != nil {
-			return err
+			return false, err
 		} else if rv, err := encodingv.Unmarshal(ctx, reflect.TypeOf(encoding)); err != nil {
-			return err
+			return false, err
 		} else {
 			encoding = rv.Interface().(BufferEncoding)
 		}
@@ -355,13 +355,13 @@ func (w *WritableBase) WritableWrite(ctx context.Context, args ...any) error {
 
 	if len(args) >= 1 {
 		if chunk, err = isolates.For(ctx).Context().Create(ctx, args[0]); err != nil {
-			return err
+			return false, err
 		}
 	}
 
 	if len(args) >= 2 {
 		if callback, err = isolates.For(ctx).Context().Create(ctx, args[len(args)-1]); err != nil {
-			return err
+			return false, err
 		}
 	} else {
 		if callback, err = isolates.For(ctx).Context().Create(ctx, func(in isolates.FunctionArgs) (*isolates.Value, error) {
@@ -373,14 +373,14 @@ func (w *WritableBase) WritableWrite(ctx context.Context, args ...any) error {
 
 			return nil, nil
 		}); err != nil {
-			return err
+			return false, err
 		}
 	}
 
 	if _, err := w.This.CallMethod(ctx, "_write", chunk, encoding, callback); err != nil {
-		return err
+		return false, err
 	} else {
-		return nil
+		return false, nil
 	}
 }
 

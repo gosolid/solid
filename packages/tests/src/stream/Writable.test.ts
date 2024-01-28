@@ -142,7 +142,7 @@ describe.only('stream.Writable', () => {
       },
     });
 
-    writableStream.write('data0');
+    expect(writableStream.write('data0')).to.be.true;
 
     // Write data exceeding the highWaterMark
     expect(writableStream.write('data1')).to.be.false;

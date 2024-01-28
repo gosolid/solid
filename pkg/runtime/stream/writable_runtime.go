@@ -111,10 +111,10 @@ func (w *WritableBase) V8FuncWrite(in isolates.FunctionArgs) (*isolates.Value, e
     args[i] = arg
   }
 
-  if err := w.WritableWrite(in.ExecutionContext, args...); err != nil {
+  if result, err := w.WritableWrite(in.ExecutionContext, args...); err != nil {
     return nil, err
   } else {
-    return nil, nil
+    return in.Context.Create(in.ExecutionContext, result)
   }
 }
 

@@ -3,9 +3,9 @@
 package https
 
 import (
+  net "github.com/gosolid/solid/pkg/runtime/net"
   reflect "reflect"
   isolates "github.com/grexie/isolates"
-  net "github.com/gosolid/solid/pkg/runtime/net"
 )
 
 var _ = isolates.RegisterRuntime("https", "agent.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {

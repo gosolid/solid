@@ -78,108 +78,108 @@ declare module "tty" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 607 @column 0 */
   backgroundColor(  ): ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly underline: ANSI;
+    readonly strikethrough: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly black: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
     readonly backgroundBrightBlack: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
     readonly backgroundGreen: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly brightGreen: ANSI;
+    readonly dimReset: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly backgroundBrightGreen: ANSI;
+    readonly green: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly backgroundBlue: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
     readonly boldReset: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly yellow: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly backgroundRed: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly white: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly default: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly brightYellow: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly backgroundBrightCyan: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
     readonly brightBlack: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly backgroundYellow: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly magenta: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly cyan: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly backgroundBlack: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly black: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly blue: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly strikethrough: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly dim: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
     readonly italicReset: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly blink: ANSI;
+    readonly strikethroughReset: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly backgroundBrightWhite: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly underline: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly reverseReset: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
     readonly red: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly green: ANSI;
+    readonly backgroundBrightGreen: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly backgroundBrightYellow: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
     readonly brightMagenta: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
     readonly enabled: boolean;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly backgroundBlue: ANSI;
+    readonly reset: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly underlineReset: ANSI;
+    readonly backgroundMagenta: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly blink: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly blue: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly backgroundDefault: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly dim: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly italic: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
     readonly hidden: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
     readonly hiddenReset: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly backgroundBlack: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly brightGreen: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly brightYellow: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly white: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
     readonly brightBlue: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly backgroundBrightBlue: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly backgroundBrightWhite: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly italic: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly bold: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly blinkReset: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly backgroundBrightRed: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly backgroundBrightYellow: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly reset: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly backgroundCyan: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly brightRed: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly backgroundMagenta: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly backgroundBrightMagenta: ANSI;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly reverseReset: ANSI;
+    readonly backgroundBrightCyan: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
     readonly backgroundWhite: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly dimReset: ANSI;
+    readonly backgroundRed: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly bold: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly backgroundYellow: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly magenta: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly backgroundCyan: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly default: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly brightRed: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly backgroundBrightRed: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly yellow: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly blinkReset: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly backgroundBrightMagenta: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
     readonly brightWhite: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly backgroundDefault: ANSI;
+    readonly brightCyan: ANSI;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
+    readonly underlineReset: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
     readonly reverse: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly brightCyan: ANSI;
+    readonly backgroundBrightBlue: ANSI;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/tty/ansi.go @line 24 @column 0 */
-    readonly strikethroughReset: ANSI;
+    readonly cyan: ANSI;
   }
 }
