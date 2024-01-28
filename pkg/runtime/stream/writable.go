@@ -179,27 +179,37 @@ func (w *WritableBase) End(ctx context.Context, args ...any) error {
 		callback = nil
 	}
 
-	final := func() error {
+	final := func() *isolates.Value {
 		if final, err := w.This.Get(ctx, "_final"); err != nil {
 			return nil
 		} else if final.IsKind(isolates.KindFunction) {
-			if _, err := w.This.CallMethod(ctx, "_final", func(in isolates.FunctionArgs) (*isolates.Value, error) {
+			var err *isolates.Value
+			if w.This.CallMethod(ctx, "_final", func(in isolates.FunctionArgs) (*isolates.Value, error) {
+				err = in.Args[0]
 				return nil, nil
-			}); err != nil {
+			}); !err.IsNil() {
 				return err
 			} else {
 				return nil
 			}
+		} else if err := w.Emit(ctx, "finish"); err != nil {
+			err, _ := isolates.For(ctx).Context().Create(ctx, err)
+			return err
+		} else if err := w.Emit(ctx, "close"); err != nil {
+			err, _ := isolates.For(ctx).Context().Create(ctx, err)
+			return err
 		} else {
 			return nil
 		}
 	}
 
-	err = func() error {
+	errv := func() *isolates.Value {
 		if chunk != nil {
-			if _, err := w.This.CallMethod(ctx, "_write", chunk, encoding, func(in isolates.FunctionArgs) (*isolates.Value, error) {
-				return nil, final()
-			}); err != nil {
+			var err *isolates.Value
+			if w.This.CallMethod(ctx, "_write", chunk, encoding, func(in isolates.FunctionArgs) (*isolates.Value, error) {
+				err = final()
+				return nil, nil
+			}); !err.IsNil() {
 				return err
 			} else {
 				return nil
@@ -211,11 +221,19 @@ func (w *WritableBase) End(ctx context.Context, args ...any) error {
 
 	w.SetState(StreamStateClosed)
 
+	
+
 	if callback != nil {
-		_, err = callback.Call(ctx, w.This, err)
+		if _, err = callback.Call(ctx, w.This, errv); err != nil {
+			w.EmitError(ctx, err)
+		}
+	} else {
+		if !errv.IsNil() {
+			w.EmitErrorValue(ctx, errv)
+		}
 	}
 
-	return err
+	return nil
 }
 
 //js:method
@@ -319,6 +337,10 @@ func (w *WritableBase) WritableWrite(ctx context.Context, args ...any) error {
 	var encoding BufferEncoding
 	var callback *isolates.Value
 
+	if w.Closed() {
+		return w.EmitError(ctx, fmt.Errorf("write after end"))
+	}
+
 	if len(args) >= 3 {
 		if encodingv, err := isolates.For(ctx).Context().Create(ctx, args[1]); err != nil {
 			return err
@@ -342,7 +364,13 @@ func (w *WritableBase) WritableWrite(ctx context.Context, args ...any) error {
 			return err
 		}
 	} else {
-		if callback, err = isolates.For(ctx).Context().Create(ctx, func(isolates.FunctionArgs) (*isolates.Value, error) {
+		if callback, err = isolates.For(ctx).Context().Create(ctx, func(in isolates.FunctionArgs) (*isolates.Value, error) {
+			err := in.Arg(in.ExecutionContext, 0)
+
+			if !err.IsNil() {
+				return nil, w.EmitErrorValue(in.ExecutionContext, err)
+			}
+
 			return nil, nil
 		}); err != nil {
 			return err
