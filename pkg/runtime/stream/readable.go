@@ -85,6 +85,9 @@ type ReadableBase struct {
 	reading bool
 	draining bool
 	emittedEnd bool
+	highWaterMark int
+	waterMark int
+	objectMode bool
 }
 
 type Reader struct {
@@ -122,8 +125,9 @@ func NewReadable(in isolates.FunctionArgs) (*ReadableBase, error) {
 
 func NewReadableWithStream(in isolates.FunctionArgs, StreamBase *StreamBase) (*ReadableBase, error) {
 	readable := &ReadableBase{
-		StreamBase: StreamBase,
-		state:      ReadableStreamStatePaused,
+		StreamBase: 	 StreamBase,
+		state:      	 ReadableStreamStatePaused,
+		highWaterMark: 1024*32,
 	}
 
 	if len(in.Args) > 0 && !in.Args[0].IsNil() {
@@ -136,6 +140,26 @@ func NewReadableWithStream(in isolates.FunctionArgs, StreamBase *StreamBase) (*R
 				if err := in.This.Set(in.ExecutionContext, "_read", read); err != nil {
 					return nil, err
 				}
+			}
+		}
+
+		if highWaterMarkv, err := options.Get(in.ExecutionContext, "highWaterMark"); err != nil {
+			return nil, err
+		} else if !highWaterMarkv.IsNil() {
+			if highWaterMark, err := highWaterMarkv.Int64(in.ExecutionContext); err != nil {
+				return nil, err
+			} else {
+				readable.highWaterMark = int(highWaterMark)
+			}
+		}
+
+		if objectModev, err := options.Get(in.ExecutionContext, "objectMode"); err != nil {
+			return nil, err
+		} else if !objectModev.IsNil() {
+			if objectMode, err := objectModev.Bool(in.ExecutionContext); err != nil {
+				return nil, err
+			} else {
+				readable.objectMode = objectMode
 			}
 		}
 	}
@@ -440,17 +464,22 @@ func (r *ReadableBase) ReadableFlowing() bool {
 
 //js:get
 func (r *ReadableBase) ReadableHighWaterMark() int {
-	return 1024
+	return r.highWaterMark
+}
+
+//js:set
+func (r *ReadableBase) SetReadableHighWaterMark(value int) {
+	r.highWaterMark = value
 }
 
 //js:get
 func (r *ReadableBase) ReadableLength() int {
-	return 0
+	return r.waterMark
 }
 
 //js:get
 func (r *ReadableBase) ReadableObjectMode() bool {
-	return false
+	return r.objectMode
 }
 
 //js:method
@@ -504,6 +533,25 @@ func (r *ReadableBase) Unpipe(ctx context.Context, destination *isolates.Value) 
 func (r *ReadableBase) Unshift(ctx context.Context, chunk *isolates.Value, encoding *BufferEncoding) error {
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
+
+	length := 1
+
+	if !r.objectMode {
+		// if lengthv, err := chunk.Get(ctx, "length"); err != nil {
+		// 	return err
+		// } else if l, err := lengthv.Int64(ctx); err != nil {
+		// 	return err
+		// } else {
+		// 	length = int(l)
+		// }
+		if l, err := chunk.GetByteLength(ctx); err != nil {
+			return err
+		} else {
+			length = l
+		}
+	}
+
+	r.waterMark += length
 
 	r.buffer = append([]*isolates.Value{chunk}, r.buffer...)
 	return nil
@@ -611,6 +659,30 @@ func (r *ReadableBase) drainReadableBuffer(ctx context.Context) error {
 		r.mutex.Lock()
 		chunk := r.buffer[0]
 		r.buffer = r.buffer[1:]
+		length := 1
+		if !r.objectMode {
+			if chunk.IsKind(isolates.KindString) {
+				if s, err := chunk.StringValue(ctx); err != nil {
+					return err
+				} else {
+					length = len(s)
+				}
+			} else {
+				// if lengthv, err := chunk.Get(ctx, "length"); err != nil {
+				// 	return err
+				// } else if l, err := lengthv.Int64(ctx); err != nil {
+				// 	return err
+				// } else {
+				// 	length = int(l)
+				// }
+				if l, err := chunk.GetByteLength(ctx); err != nil {
+					return err
+				} else {
+					length = l
+				}
+			}
+		}
+		r.waterMark -= length
 		r.mutex.Unlock()
 		r.Emit(ctx, "data", chunk)
 	}
@@ -620,7 +692,7 @@ func (r *ReadableBase) drainReadableBuffer(ctx context.Context) error {
 	if len(r.buffer) == 0 && !r.IsPaused() && !r.Closed() {
 		r.mutex.Unlock()
 		isolates.For(ctx).Context().AddMicrotask(ctx, func(in isolates.FunctionArgs) error {
-			return r.ReadV8(ctx, 1024)
+			return r.ReadV8(in.ExecutionContext, 1024)
 		})
 	} else if !r.emittedEnd && !r.IsPaused() && r.StreamBase.state == StreamStateClosing {
 		r.emittedEnd = true
@@ -651,18 +723,45 @@ func (r *ReadableBase) Push(ctx context.Context, chunk *isolates.Value, encoding
 			r.Emit(ctx, "end")
 		}
 	} else {
+		length := 1
+
+		if !r.ReadableObjectMode() {
+			if chunk.IsKind(isolates.KindString) {
+				if s, err := chunk.StringValue(ctx); err != nil {
+					return false, err
+				} else {
+					length = len(s)
+				}
+			} else {
+				// if lengthv, err := chunk.Get(ctx, "length"); err != nil {
+				// 	return false, err
+				// } else if l, err := lengthv.Int64(ctx); err != nil {
+				// 	return false, err
+				// } else {
+				// 	length = int(l)
+				// }
+
+				if l, err := chunk.GetByteLength(ctx); err != nil {
+					return false, err
+				} else {
+					length = l
+				}
+			}
+		}
+
 		r.mutex.Lock()
+		r.waterMark += length
+		r.buffer = append(r.buffer, chunk)
+
 		if r.state == ReadableStreamStateResumed {
-			r.buffer = append(r.buffer, chunk)
 			r.mutex.Unlock()
-		} else {
-			r.buffer = append(r.buffer, chunk)
+		} else {	
 			r.mutex.Unlock()
 			r.Emit(ctx, "readable")
 		}
 	}
 
-	return !r.Closed() && !r.Destroyed() && !r.IsPaused() && r.Errored() == nil && len(r.buffer) < r.ReadableHighWaterMark(), nil
+	return !r.Closed() && !r.Destroyed() && !r.IsPaused() && r.Errored() == nil && r.ReadableLength() < r.ReadableHighWaterMark(), nil
 }
 
 /*********************

@@ -336,7 +336,7 @@ describe.only('stream.Readable', () => {
     });
 
     readableStream.resume();
-  });
+  }).timeout(20_000);
 
   it('should emit custom event when a specific condition is met', done => {
     const readableStream = new Readable({

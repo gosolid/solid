@@ -15,7 +15,7 @@ import (
 )
 
 var _daemon bool
-var _pprof bool
+var _pprof bool = true
 
 func newFlagSet(errorHandling flag.ErrorHandling) *flag.FlagSet {
 	flagSet := flag.NewFlagSet("main", errorHandling)
@@ -58,7 +58,7 @@ func main() {
 	}
 
 	flagSet := NewFlagSet()
-	flagSet.Parse(os.Args[1:])
+	flagSet.Parse(os.Args[0:])
 	if _daemon {
 		flagSet := daemon.NewFlagSet()
 		flagSet.Parse(os.Args[1:])
