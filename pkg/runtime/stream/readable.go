@@ -622,13 +622,17 @@ func (r *ReadableBase) drainReadableBuffer(ctx context.Context) error {
 		isolates.For(ctx).Context().AddMicrotask(ctx, func(in isolates.FunctionArgs) error {
 			return r.ReadV8(ctx, 1024)
 		})
-	} else if !r.emittedEnd {
+	} else if !r.emittedEnd && !r.IsPaused() && r.StreamBase.state == StreamStateClosing {
 		r.emittedEnd = true
+		r.SetStateConditional(StreamStateClosing, StreamStateClosed)
 		r.mutex.Unlock()
+
 		if r.IsPaused() {
 			r.Emit(ctx, "readable")
 		}
 		r.Emit(ctx, "end")
+	} else {
+		r.mutex.Unlock()
 	}
 
 	return nil
@@ -637,10 +641,13 @@ func (r *ReadableBase) drainReadableBuffer(ctx context.Context) error {
 //js:method
 func (r *ReadableBase) Push(ctx context.Context, chunk *isolates.Value, encoding *BufferEncoding) (bool, error) {
 	if chunk.IsNil() {
-		r.SetStateConditional(StreamStateReady, StreamStateClosed)
+		r.SetStateConditional(StreamStateReady, StreamStateClosing)
 		if len(r.buffer) == 0 && !r.emittedEnd {
 			r.emittedEnd = true
-			r.Emit(ctx, "readable")
+			r.SetStateConditional(StreamStateClosing, StreamStateClosed)
+			if r.IsPaused() {
+				r.Emit(ctx, "readable")
+			}
 			r.Emit(ctx, "end")
 		}
 	} else {
