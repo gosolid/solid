@@ -13,7 +13,7 @@
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/https/library.go @line 3 @column 0 */
 declare module "https" {
   import type { Socket } from "net";
-  import type { AgentBase } from "https";
+  import type { AgentBase, Https } from "https";
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/https/library.go @line 26 @column 0 */
   class Https {
@@ -27,11 +27,11 @@ declare module "https" {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/https/library.go @line 34 @column 0 */
   class Https {
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/https/library.go @line 34 @column 0 */
-    readonly globalAgent: Https;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/https/library.go @line 34 @column 0 */
     readonly net: Socket;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/https/library.go @line 34 @column 0 */
     readonly agent: any;
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/https/library.go @line 34 @column 0 */
+    readonly globalAgent: Https;
   }
   export { Https };
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/https/library.go @line 78 @column 0 */

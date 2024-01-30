@@ -3,9 +3,9 @@
 package task
 
 import (
-  isolates "github.com/grexie/isolates"
   time "time"
   reflect "reflect"
+  isolates "github.com/grexie/isolates"
 )
 
 var _ = isolates.RegisterRuntime("task", "task.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {

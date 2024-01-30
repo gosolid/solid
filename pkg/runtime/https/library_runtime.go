@@ -3,8 +3,8 @@
 package https
 
 import (
-  isolates "github.com/grexie/isolates"
   reflect "reflect"
+  isolates "github.com/grexie/isolates"
 )
 
 var _ = isolates.RegisterRuntime("https", "library.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {

@@ -3,8 +3,8 @@
 package tty
 
 import (
-  reflect "reflect"
   isolates "github.com/grexie/isolates"
+  reflect "reflect"
 )
 
 var _ = isolates.RegisterRuntime("tty", "readstream.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {

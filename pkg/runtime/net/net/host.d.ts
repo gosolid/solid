@@ -12,7 +12,7 @@
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 3 @column 0 */
 declare module "net" {
-  import type { Socket, Net } from "net";
+  import type { Net, Socket } from "net";
 
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/net/host.go @line 159 @column 0 */
   class HostNetOptions {

@@ -3,8 +3,8 @@
 package fs
 
 import (
-  reflect "reflect"
   isolates "github.com/grexie/isolates"
+  reflect "reflect"
 )
 
 var _ = isolates.RegisterRuntime("fs", "fs.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {

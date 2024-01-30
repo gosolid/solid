@@ -19,9 +19,9 @@ declare module "buffer" {
   readUInt32BE(  ): number;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 116 @column 0 */
   writeUInt32BE(  ): Buffer;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 158 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 153 @column 0 */
   slice(  ): Buffer;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 203 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 198 @column 0 */
   toString(  ): string;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 31 @column 0 */
     readonly buffer: any;
@@ -32,9 +32,9 @@ declare module "buffer" {
   readUInt32BE(  ): number;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 116 @column 0 */
   writeUInt32BE(  ): Buffer;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 158 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 153 @column 0 */
   slice(  ): Buffer;
-  /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 203 @column 0 */
+  /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 198 @column 0 */
   toString(  ): string;
   /** @filename Users/tim/src/grexie/solid/pkg/runtime/buffer/buffer.go @line 45 @column 0 */
     readonly buffer: any;

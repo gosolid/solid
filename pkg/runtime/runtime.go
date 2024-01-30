@@ -11,6 +11,7 @@ import (
 	"github.com/gosolid/solid/pkg/runtime/fs"
 	"github.com/gosolid/solid/pkg/runtime/http"
 	"github.com/gosolid/solid/pkg/runtime/https"
+	"github.com/gosolid/solid/pkg/runtime/keychain"
 	"github.com/gosolid/solid/pkg/runtime/net"
 	"github.com/gosolid/solid/pkg/runtime/os"
 	"github.com/gosolid/solid/pkg/runtime/punycode"
@@ -27,6 +28,7 @@ import (
 
 type Import interface{}
 
+var _ keychain.Import
 var _ https.Import
 var _ punycode.Import
 var _ tls.Import

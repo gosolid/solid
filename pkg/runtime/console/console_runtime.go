@@ -3,8 +3,8 @@
 package console
 
 import (
-  reflect "reflect"
   isolates "github.com/grexie/isolates"
+  reflect "reflect"
 )
 
 var _ = isolates.RegisterRuntime("console", "console.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {

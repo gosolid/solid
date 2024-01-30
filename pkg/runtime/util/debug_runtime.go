@@ -3,8 +3,8 @@
 package util
 
 import (
-  reflect "reflect"
   isolates "github.com/grexie/isolates"
+  reflect "reflect"
 )
 
 var _ = isolates.RegisterRuntime("util", "debug.go", func (in isolates.FunctionArgs) (*isolates.Value, error) {

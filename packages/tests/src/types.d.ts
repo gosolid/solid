@@ -1,1 +1,1 @@
-
+declare module 'keychain';
