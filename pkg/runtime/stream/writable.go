@@ -59,6 +59,7 @@ type WritableBase struct {
 	draining bool
 	corked bool
 	writeClosed bool
+	onDrain *isolates.Value
 }
 
 type Writer struct {
@@ -144,7 +145,7 @@ func NewWritableWithStream(in isolates.FunctionArgs, StreamBase *StreamBase) (*W
 
 func NewWriter(in isolates.FunctionArgs) (*Writer, error) {
 	if writer, ok := in.Arg(in.ExecutionContext, 0).Receiver(in.ExecutionContext).Interface().(io.Writer); !ok {
-		return nil, fmt.Errorf("not an io.Readable implementation: %s", in.Arg(in.ExecutionContext, 0).Receiver(in.ExecutionContext))
+		return nil, fmt.Errorf("not an io.Writer implementation: %s", in.Arg(in.ExecutionContext, 0).Receiver(in.ExecutionContext))
 	} else {
 		in.This.RebindMethod(in.ExecutionContext, "write")
 
@@ -208,13 +209,13 @@ func (w *WritableBase) End(ctx context.Context, args ...any) error {
 		callback = nil
 	}
 
-	final := func() *isolates.Value {
+	final := func(ctx context.Context) *isolates.Value {
 		if final, err := w.This.Get(ctx, "_final"); err != nil {
 			return nil
 		} else if final.IsKind(isolates.KindFunction) {
 			var err *isolates.Value
 			if w.This.CallMethod(ctx, "_final", func(in isolates.FunctionArgs) (*isolates.Value, error) {
-				err = in.Args[0]
+				err = in.Arg(in.ExecutionContext, 0)
 				return nil, nil
 			}); !err.IsNil() {
 				return err
@@ -232,32 +233,50 @@ func (w *WritableBase) End(ctx context.Context, args ...any) error {
 		}
 	}
 
-	errv := func() *isolates.Value {
-		if chunk != nil {
-			var err *isolates.Value
-			if w.This.CallMethod(ctx, "_write", chunk, encoding, func(in isolates.FunctionArgs) (*isolates.Value, error) {
-				err = final()
-				return nil, nil
-			}); !err.IsNil() {
-				return err
+	if next, err := isolates.For(ctx).Context().Create(ctx, func(in isolates.FunctionArgs) (*isolates.Value, error) {
+		errv := func() *isolates.Value {
+			if chunk != nil {
+				var err *isolates.Value
+				if w.This.CallMethod(in.ExecutionContext, "_write", chunk, encoding, func(in isolates.FunctionArgs) (*isolates.Value, error) {
+					err = final(in.ExecutionContext)
+					return nil, nil
+				}); !err.IsNil() {
+					return err
+				} else {
+					return nil
+				}
 			} else {
-				return nil
+				return final(in.ExecutionContext)
+			}
+		}()
+
+		w.writeClosed = true
+
+		if callback != nil {
+			if _, err = callback.Call(in.ExecutionContext, w.This, errv); err != nil {
+				return nil, w.EmitError(in.ExecutionContext, err)
 			}
 		} else {
-			return final()
+			if !errv.IsNil() {
+				return nil, w.EmitErrorValue(in.ExecutionContext, errv)
+			}
 		}
-	}()
 
-	w.writeClosed = true
-
-	if callback != nil {
-		if _, err = callback.Call(ctx, w.This, errv); err != nil {
-			w.EmitError(ctx, err)
-		}
+		return nil, nil
+	}); err != nil {
+		return err
 	} else {
-		if !errv.IsNil() {
-			w.EmitErrorValue(ctx, errv)
+		w.mutex.Lock()
+		if w.onDrain.IsNil() {
+			w.onDrain = next
+			if !w.draining && !w.corked {
+				w.draining = true
+				isolates.For(ctx).Context().AddMicrotask(ctx, func(in isolates.FunctionArgs) error {
+					return w.drain(in.ExecutionContext)
+				})
+			}
 		}
+		w.mutex.Unlock()
 	}
 
 	return nil
@@ -438,13 +457,20 @@ func (w *WritableBase) drain(ctx context.Context) error {
 		var encoding *BufferEncoding
 		var callback *isolates.Value
 		var userCallback *isolates.Value
-
 		w.mutex.Lock()
 		if w.corked {
 			return nil
 		}
 		if len(w.buffer) == 0 {
 			w.draining = false
+			if !w.onDrain.IsNil() {
+				w.mutex.Unlock()
+				if _, err := w.onDrain.Call(ctx, nil); err != nil {
+					return err
+				} else {
+					return nil
+				}
+			}
 			w.mutex.Unlock()
 			if needsDrain {
 				return w.Emit(ctx, "drain")

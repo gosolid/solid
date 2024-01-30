@@ -44,11 +44,12 @@ type Readable interface {
 	ReadableLength() int
 	ReadableObjectMode() bool
 	Resume(context.Context)
+	Drain(ctx context.Context) error
 	SetEncoding(BufferEncoding) (*isolates.Value, error)
 	Unpipe(context.Context, *isolates.Value) (*isolates.Value, error)
 	Unshift(context.Context, *isolates.Value, *BufferEncoding) error
-	Buffer() []*isolates.Value
-	SetBuffer(buffer []*isolates.Value)
+	UnshiftBuffer() []*isolates.Value
+	SetUnshiftBuffer(buffer []*isolates.Value)
 	Wrap(context.Context, *isolates.Value) (*isolates.Value, error)
 	Compose(context.Context, *isolates.Value, *isolates.Value) (*isolates.Value, error)
 	Iterator(context.Context, *isolates.Value) (*isolates.Value, error)
@@ -81,6 +82,7 @@ type ReadableBase struct {
 	state   ReadableStreamState
 	pipes   []Pipe
 	buffer []*isolates.Value
+	unshiftBuffer []*isolates.Value
 	readable bool
 	reading bool
 	draining bool
@@ -173,12 +175,13 @@ func NewReadableWithStream(in isolates.FunctionArgs, StreamBase *StreamBase) (*R
 
 func NewReader(in isolates.FunctionArgs) (*Reader, error) {
 	if reader, ok := in.Arg(in.ExecutionContext, 0).Receiver(in.ExecutionContext).Interface().(io.Reader); !ok {
-		return nil, fmt.Errorf("not an io.Readable implementation: %s", in.Arg(in.ExecutionContext, 0).Receiver(in.ExecutionContext))
+		return nil, fmt.Errorf("not an io.Reader implementation: %s", in.Arg(in.ExecutionContext, 0).Receiver(in.ExecutionContext))
 	} else {
 		in.This.RebindMethod(in.ExecutionContext, "construct")
 		in.This.RebindMethod(in.ExecutionContext, "read")
 
 		r := &Reader{Reader: reader}
+
 		r.mutex.Lock()
 		return r, nil
 	}
@@ -553,16 +556,16 @@ func (r *ReadableBase) Unshift(ctx context.Context, chunk *isolates.Value, encod
 
 	r.waterMark += length
 
-	r.buffer = append([]*isolates.Value{chunk}, r.buffer...)
+	r.unshiftBuffer = append([]*isolates.Value{chunk}, r.unshiftBuffer...)
 	return nil
 }
 
-func (r *ReadableBase) Buffer() []*isolates.Value {
-	return r.buffer
+func (r *ReadableBase) UnshiftBuffer() []*isolates.Value {
+	return r.unshiftBuffer
 }
 
-func (r *ReadableBase) SetBuffer(buffer []*isolates.Value) {
-	r.buffer = buffer
+func (r *ReadableBase) SetUnshiftBuffer(buffer []*isolates.Value) {
+	r.unshiftBuffer = buffer
 }
 
 //js:method
@@ -710,6 +713,20 @@ func (r *ReadableBase) drainReadableBuffer(ctx context.Context) error {
 	return nil
 }
 
+func (r *ReadableBase) Drain(ctx context.Context) (error) {
+	return isolates.For(ctx).Context().AddMicrotask(ctx, func(in isolates.FunctionArgs) error {
+		r.mutex.Lock()
+		if len(r.buffer) > 0 && !r.draining {
+			r.mutex.Unlock()
+			r.drainReadableBuffer(in.ExecutionContext)
+			return nil
+		} else {
+			r.mutex.Unlock()
+			return nil
+		}
+	})
+}
+
 //js:method
 func (r *ReadableBase) Push(ctx context.Context, chunk *isolates.Value, encoding *BufferEncoding) (bool, error) {
 	if chunk.IsNil() {
@@ -733,14 +750,6 @@ func (r *ReadableBase) Push(ctx context.Context, chunk *isolates.Value, encoding
 					length = len(s)
 				}
 			} else {
-				// if lengthv, err := chunk.Get(ctx, "length"); err != nil {
-				// 	return false, err
-				// } else if l, err := lengthv.Int64(ctx); err != nil {
-				// 	return false, err
-				// } else {
-				// 	length = int(l)
-				// }
-
 				if l, err := chunk.GetByteLength(ctx); err != nil {
 					return false, err
 				} else {
@@ -764,9 +773,9 @@ func (r *ReadableBase) Push(ctx context.Context, chunk *isolates.Value, encoding
 	return !r.Closed() && !r.Destroyed() && !r.IsPaused() && r.Errored() == nil && r.ReadableLength() < r.ReadableHighWaterMark(), nil
 }
 
-/*********************
+/*****************
  *** io.Reader ***
- *********************/
+ *****************/
 
 //js:method
 func (c *Reader) Construct(in isolates.FunctionArgs, this Stream, callback *isolates.Value) error {
@@ -795,12 +804,11 @@ func (c *Reader) Read(in isolates.FunctionArgs, this Readable) error {
 			var err error
 
 			c.mutex.Lock()
-			buffer := this.Buffer()
-
+			buffer := this.UnshiftBuffer()
 			if len(buffer) > 0 {
 				chunk := buffer[0]
 				buffer = buffer[1:]
-				this.SetBuffer(buffer)
+				this.SetUnshiftBuffer(buffer)
 
 				if arrayBuffer, err := chunk.Get(in.ExecutionContext, "buffer"); err != nil {
 					this.EmitError(in.ExecutionContext, err)
@@ -815,7 +823,11 @@ func (c *Reader) Read(in isolates.FunctionArgs, this Readable) error {
 
 					if n < len(b) {
 						if surplus, err := in.Context.Create(in.ExecutionContext, b[n:]); err != nil {
-							this.SetBuffer(append([]*isolates.Value{surplus}, buffer...))
+							this.EmitError(in.ExecutionContext, err)
+							c.mutex.Unlock()
+							break
+						} else {
+							this.SetUnshiftBuffer(append([]*isolates.Value{surplus}, buffer...))
 						}
 					}
 				}
@@ -848,6 +860,8 @@ func (c *Reader) Read(in isolates.FunctionArgs, this Readable) error {
 			} else if cont, err := in.Sync(func(in isolates.FunctionArgs) (any, error) {
 				if cont, err := this.Push(in.ExecutionContext, slice, nil); err != nil {
 					return false, this.EmitError(in.ExecutionContext, err)
+				} else if err := this.Drain(in.ExecutionContext); err != nil {
+					return false, err
 				} else {
 					return cont, nil
 				}

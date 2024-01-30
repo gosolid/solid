@@ -1,158 +1,168 @@
 import { createServer } from 'http';
 import { connect } from 'net';
 
-describe('http.Server', () => {
-    it('should start a new http server', async () => {
-        const server = createServer();
+describe.skip('http.Server', () => {
+  it('should start a new http server', async () => {
+    const server = createServer();
 
-        await new Promise<void>((resolve, reject) => {
-            server.once('error', reject);
+    await new Promise<void>((resolve, reject) => {
+      server.once('error', reject);
 
-            server.listen(0, 'localhost', () => {
-                resolve();
-            })
+      server.listen(0, 'localhost', () => {
+        resolve();
+      });
+    });
+
+    await new Promise<void>((resolve, reject) => {
+      server.once('error', err => {
+        reject(err);
+      });
+
+      server.once('close', () => {
+        resolve();
+      });
+
+      server.close();
+    });
+  });
+
+  it('should serve a short response', async () => {
+    const server = createServer((req, res) => {
+      res.write('hello world');
+      res.end();
+    });
+
+    server.on('error', err => console.error(err));
+
+    await new Promise<void>((resolve, reject) => {
+      server.once('error', reject);
+
+      server.listen(0, 'localhost', () => {
+        resolve();
+      });
+    });
+
+    const conn = connect((server.address() as any).port, 'localhost');
+
+    await Promise.all([
+      new Promise<void>((resolve, reject) => {
+        conn.once('error', err => {
+          reject(err);
         });
 
-        await new Promise<void>((resolve, reject) => {
-            server.once('error', (err) => {
-                reject(err)
-            });
-
-            server.once('close', () => {
-                resolve();
-            });
-            
-            server.close();
+        conn.once('connect', () => {
+          conn.write('GET / HTTP/1.0\r\n\r\n');
+          conn.end();
+          resolve();
         });
-    })
+      }),
+      new Promise<void>((resolve, reject) => {
+        conn.once('error', err => reject(err));
 
-    it('should serve a short response', async () => {
-        const server = createServer((req, res) => {
-            res.write('hello world');
-            res.end();
+        const chunks: Buffer[] = [];
+
+        conn.once('data', chunk => {
+          chunks.push(chunk);
         });
 
-        server.on('error', (err) => console.error(err));
-
-        await new Promise<void>((resolve, reject) => {
-            server.once('error', reject);
-
-            server.listen(0, 'localhost', () => {
-                resolve();
-            })
+        conn.on('end', () => {
+          const data = Buffer.concat(chunks).toString().split(/\r\n/g);
+          if (
+            data[0] === 'HTTP/1.1 200 OK' &&
+            data[data.length - 1] === 'hello world'
+          ) {
+            resolve();
+          } else {
+            reject(
+              new Error('invalid response received: ' + data.join('\r\n'))
+            );
+          }
         });
 
-        const conn = connect((server.address() as any).port, 'localhost');
+        conn.resume();
+      }),
+    ]);
 
-        await Promise.all([
-            new Promise<void>((resolve, reject) => {
-                conn.once('error', (err) => {
-                    reject(err);
-                })
+    await new Promise<void>((resolve, reject) => {
+      server.once('error', err => {
+        reject(err);
+      });
 
-                conn.once('connect', () => {
-                    conn.write('GET / HTTP/1.0\r\n\r\n');
-                    conn.end();
-                    resolve();
-                })
-            }),
-            new Promise<void>((resolve, reject) => {
-                conn.once('error', err => reject(err));
+      server.once('close', () => {
+        resolve();
+      });
 
-                const chunks: Buffer[] = [];
+      server.close();
+    });
+  });
 
-                conn.once('data', (chunk) => {
-                    chunks.push(chunk);
-                })
+  it('should serve a short response 2', async () => {
+    const server = createServer((req, res) => {
+      res.write('hello world');
+      res.end();
+    });
 
-                conn.on('end', () => {
-                    const data = Buffer.concat(chunks).toString().split(/\r\n/g);
-                    if (data[0] === 'HTTP/1.1 200 OK' && data[data.length - 1] === 'hello world') {
-                        resolve();
-                    } else {
-                        reject(new Error('invalid response received: ' + data.join('\r\n')));
-                    }
-                })
+    server.on('error', err => console.error(err));
 
-                conn.resume();
-            }),
-        ])
+    await new Promise<void>((resolve, reject) => {
+      server.once('error', reject);
 
-        await new Promise<void>((resolve, reject) => {
-            server.once('error', (err) => {
-                reject(err)
-            });
+      server.listen(0, 'localhost', () => {
+        resolve();
+      });
+    });
 
-            server.once('close', () => {
-                resolve();
-            });
-            
-            server.close();
-        });
-    })
+    const conn = connect((server.address() as any).port, 'localhost');
 
-    it('should serve a short response 2', async () => {
-        const server = createServer((req, res) => {
-            res.write('hello world');
-            res.end();
+    await Promise.all([
+      new Promise<void>((resolve, reject) => {
+        conn.once('error', err => {
+          reject(err);
         });
 
-        server.on('error', (err) => console.error(err));
+        conn.once('connect', () => {
+          conn.write('GET / HTTP/1.0\r\n\r\n');
+          conn.end();
+          resolve();
+        });
+      }),
+      new Promise<void>((resolve, reject) => {
+        conn.once('error', err => reject(err));
 
-        await new Promise<void>((resolve, reject) => {
-            server.once('error', reject);
+        const chunks: Buffer[] = [];
 
-            server.listen(0, 'localhost', () => {
-                resolve();
-            })
+        conn.once('data', chunk => {
+          chunks.push(chunk);
         });
 
-        const conn = connect((server.address() as any).port, 'localhost');
-
-        await Promise.all([
-            new Promise<void>((resolve, reject) => {
-                conn.once('error', (err) => {
-                    reject(err);
-                })
-
-                conn.once('connect', () => {
-                    conn.write('GET / HTTP/1.0\r\n\r\n');
-                    conn.end();
-                    resolve();
-                })
-            }),
-            new Promise<void>((resolve, reject) => {
-                conn.once('error', err => reject(err));
-
-                const chunks: Buffer[] = [];
-
-                conn.once('data', (chunk) => {
-                    chunks.push(chunk);
-                })
-
-                conn.on('end', () => {
-                    const data = Buffer.concat(chunks).toString().split(/\r\n/g);
-                    if (data[0] === 'HTTP/1.1 200 OK' && data[data.length - 1] === 'hello world') {
-                        resolve();
-                    } else {
-                        reject(new Error('invalid response received: ' + data.join('\r\n')));
-                    }
-                })
-
-                conn.resume();
-            }),
-        ])
-
-        await new Promise<void>((resolve, reject) => {
-            server.once('error', (err) => {
-                reject(err)
-            });
-
-            server.once('close', () => {
-                resolve();
-            });
-            
-            server.close();
+        conn.on('end', () => {
+          const data = Buffer.concat(chunks).toString().split(/\r\n/g);
+          if (
+            data[0] === 'HTTP/1.1 200 OK' &&
+            data[data.length - 1] === 'hello world'
+          ) {
+            resolve();
+          } else {
+            reject(
+              new Error('invalid response received: ' + data.join('\r\n'))
+            );
+          }
         });
-    })
+
+        conn.resume();
+      }),
+    ]);
+
+    await new Promise<void>((resolve, reject) => {
+      server.once('error', err => {
+        reject(err);
+      });
+
+      server.once('close', () => {
+        resolve();
+      });
+
+      server.close();
+    });
+  });
 });

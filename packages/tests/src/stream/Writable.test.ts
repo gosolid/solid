@@ -1,7 +1,7 @@
 import { Writable } from 'stream';
 import { expect } from 'chai';
 
-describe.only('stream.Writable', () => {
+describe('stream.Writable', () => {
   it('should receive data correctly', done => {
     const chunks: Buffer[] = [];
 

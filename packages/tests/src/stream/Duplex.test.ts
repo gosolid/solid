@@ -2,7 +2,7 @@ import { Duplex } from 'stream';
 import { EventEmitter } from 'events';
 import { expect } from 'chai';
 
-describe.only('stream.Duplex', () => {
+describe('stream.Duplex', () => {
   it('should correctly handle data flow through the Duplex stream', done => {
     const duplexStream = new Duplex({
       read(size) {
